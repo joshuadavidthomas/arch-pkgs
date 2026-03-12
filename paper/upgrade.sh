@@ -26,4 +26,6 @@ sed -i "s/^pkgver=.*/pkgver=$upstream_version/" PKGBUILD
 sed -i "s/^pkgrel=.*/pkgrel=1/" PKGBUILD
 sed -i "s/^sha256sums=.*/sha256sums=('$new_sha256')/" PKGBUILD
 
+makepkg --printsrcinfo > .SRCINFO
+
 echo "Updated. Build with: makepkg -sf"
