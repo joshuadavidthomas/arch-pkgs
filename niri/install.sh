@@ -10,7 +10,7 @@ fi
 
 # Check if the patch is still needed
 echo "Checking niri upstream for buffer size fix..."
-if curl -sf "https://raw.githubusercontent.com/YaLTeR/niri/main/src/main.rs" \
+if curl -sf "https://raw.githubusercontent.com/niri-wm/niri/main/src/main.rs" \
     | grep -q 'max_buffer_size'; then
   echo "Fix appears to be upstream! You can switch back to the official Arch package:"
   echo "  sudo pacman -S niri"
