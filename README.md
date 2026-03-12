@@ -11,11 +11,10 @@ Patches the Wayland compositor [niri](https://github.com/YaLTeR/niri) to increas
 
 ```bash
 cd niri
-makepkg -sf --nocheck
-sudo pacman -U niri-*.pkg.tar.zst
+./install.sh
 ```
 
-When a new version is released, check if the fix has been merged upstream with `./check-upstream.sh`. If not yet upstream, update `pkgver` in `PKGBUILD`, rebuild, and reinstall.
+Checks if the upstream fix has landed (and tells you to switch back to the official package if so), updates the PKGBUILD to the latest repo version if needed, builds, and installs. If already up to date, it exits early. Use `./install.sh --force` to reinstall.
 
 ## paper-desktop
 
