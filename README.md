@@ -18,7 +18,7 @@ Checks if the upstream fix has landed (and tells you to switch back to the offic
 
 ## paper-design
 
-Packages the [Paper](https://paper.design) desktop application — the connected canvas for teams shipping with agents — from the upstream `.deb` release for Arch Linux.
+Packages the [Paper](https://paper.design) desktop application from the upstream `.deb` release for Arch Linux. Paper is a collaborative design tool built on web standards that connects teams, agents, code, and data on a single canvas. Think Figma, but designed around agent workflows.
 
 ```bash
 cd paper
