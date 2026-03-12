@@ -11,7 +11,13 @@ Patches the Wayland compositor [niri](https://github.com/YaLTeR/niri) to increas
 - **Upstream issue:** https://github.com/YaLTeR/niri/issues/2437
 - **Fix based on:** [Sway PR #8532](https://github.com/swaywm/sway/pull/8532)
 
+### paper-desktop
+
+Packages the [Paper](https://paper.design) desktop application (a Figma-like design tool for agent integration) from the upstream `.deb` release for Arch Linux.
+
 ## Usage
+
+### niri
 
 ```bash
 cd niri
@@ -19,13 +25,23 @@ makepkg -sf --nocheck
 sudo pacman -U niri-*.pkg.tar.zst
 ```
 
-## Upgrading
-
-When a new niri version is released, check if the fix has been merged upstream:
+When a new version is released, check if the fix has been merged upstream:
 
 ```bash
-cd niri
 ./check-upstream.sh
 ```
 
-If the fix is not yet upstream, update the `pkgver` in `niri/PKGBUILD`, rebuild, and reinstall.
+If not yet upstream, update `pkgver` in `PKGBUILD`, rebuild, and reinstall.
+
+### paper-desktop
+
+```bash
+cd paper
+./install.sh
+```
+
+This checks the latest upstream version, updates the PKGBUILD if needed, builds, and installs. If already up to date, it exits early. To force a reinstall:
+
+```bash
+./install.sh --force
+```
