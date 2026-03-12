@@ -12,6 +12,13 @@ current_version=$(sed -n 's/^pkgver=//p' PKGBUILD)
 echo "Current: $current_version"
 echo "Upstream: $upstream_version"
 
+installed_version=$(pacman -Q paper-desktop 2>/dev/null | awk '{print $2}' | sed 's/-.*//' || true)
+
+if [[ "$upstream_version" == "$installed_version" ]]; then
+  echo "Already installed and up to date."
+  exit 0
+fi
+
 if [[ "$upstream_version" != "$current_version" ]]; then
   echo "Updating PKGBUILD to $upstream_version..."
 
