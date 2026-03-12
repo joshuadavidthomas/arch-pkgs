@@ -17,30 +17,31 @@ Packages the [Paper](https://paper.design) desktop application (a Figma-like des
 
 ## Usage
 
-```bash
-cd <package>
-makepkg -sf --nocheck
-sudo pacman -U <package>-*.pkg.tar.zst
-```
-
-## Upgrading
-
 ### niri
-
-When a new niri version is released, check if the fix has been merged upstream:
 
 ```bash
 cd niri
+makepkg -sf --nocheck
+sudo pacman -U niri-*.pkg.tar.zst
+```
+
+When a new version is released, check if the fix has been merged upstream:
+
+```bash
 ./check-upstream.sh
 ```
 
-If the fix is not yet upstream, update the `pkgver` in `niri/PKGBUILD`, rebuild, and reinstall.
+If not yet upstream, update `pkgver` in `PKGBUILD`, rebuild, and reinstall.
 
 ### paper-desktop
 
 ```bash
 cd paper
-./upgrade.sh
-makepkg -sf
-sudo pacman -U paper-desktop-*.pkg.tar.zst
+./install.sh
+```
+
+This checks the latest upstream version, updates the PKGBUILD if needed, builds, and installs. If already up to date, it exits early. To force a reinstall:
+
+```bash
+./install.sh --force
 ```
