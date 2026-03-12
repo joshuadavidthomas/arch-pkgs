@@ -1,5 +1,5 @@
 pkgbase = paper-design
-	pkgdesc = The connected canvas for teams shipping with agents
+	pkgdesc = A collaborative design tool built on web standards with agent integration
 	pkgver = 0.1.8
 	pkgrel = 1
 	url = https://paper.design

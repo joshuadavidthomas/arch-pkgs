@@ -3,7 +3,7 @@
 pkgname=paper-design
 pkgver=0.1.8
 pkgrel=1
-pkgdesc="The connected canvas for teams shipping with agents"
+pkgdesc="A collaborative design tool built on web standards with agent integration"
 arch=(x86_64)
 url="https://paper.design"
 license=(custom:Proprietary)
