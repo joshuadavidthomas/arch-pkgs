@@ -3,6 +3,11 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+force=false
+if [[ "${1:-}" == "--force" || "${1:-}" == "--reinstall" ]]; then
+  force=true
+fi
+
 echo "Checking for latest Paper version..."
 upstream_version=$(curl -sr 0-0 https://download.paper.design/linux/deb \
   -D - -o /dev/null 2>/dev/null \
@@ -14,7 +19,7 @@ echo "Upstream: $upstream_version"
 
 installed_version=$(pacman -Q paper-desktop 2>/dev/null | awk '{print $2}' | sed 's/-.*//' || true)
 
-if [[ "$upstream_version" == "$installed_version" ]]; then
+if [[ "$upstream_version" == "$installed_version" ]] && ! $force; then
   echo "Already installed and up to date."
   exit 0
 fi
