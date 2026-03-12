@@ -1,5 +1,5 @@
-pkgbase = paper-desktop
-	pkgdesc = A Figma-like design application designed for integration with agents
+pkgbase = paper-design
+	pkgdesc = The connected canvas for teams shipping with agents
 	pkgver = 0.1.8
 	pkgrel = 1
 	url = https://paper.design
@@ -18,7 +18,7 @@ pkgbase = paper-desktop
 	provides = paper-desktop
 	options = !strip
 	options = !debug
-	source = paper-desktop-0.1.8.deb::https://download.paper.design/linux/deb
+	source = paper-design-0.1.8.deb::https://download.paper.design/linux/deb
 	sha256sums = 014ae7fac7d5a6a2260bf50fb8babcff1132d33dad33ff88ebbc50f67351772c
 
-pkgname = paper-desktop
+pkgname = paper-design

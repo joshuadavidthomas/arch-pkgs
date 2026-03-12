@@ -16,9 +16,9 @@ cd niri
 
 Checks if the upstream fix has landed (and tells you to switch back to the official package if so), updates the PKGBUILD to the latest repo version if needed, builds, and installs. If already up to date, it exits early. Use `./install.sh --force` to reinstall.
 
-## paper-desktop
+## paper-design
 
-Packages the [Paper](https://paper.design) desktop application (a Figma-like design tool for agent integration) from the upstream `.deb` release for Arch Linux.
+Packages the [Paper](https://paper.design) desktop application — the connected canvas for teams shipping with agents — from the upstream `.deb` release for Arch Linux.
 
 ```bash
 cd paper
