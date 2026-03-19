@@ -38,5 +38,6 @@ if [[ "$upstream_version" != "$current_version" ]]; then
   makepkg --printsrcinfo > .SRCINFO
 fi
 
+rm -f paper-design-*.pkg.tar.zst
 makepkg -sf
 sudo pacman -U --noconfirm paper-design-*.pkg.tar.zst
