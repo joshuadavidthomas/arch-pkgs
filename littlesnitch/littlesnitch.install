@@ -1,0 +1,18 @@
+post_install() {
+    systemctl daemon-reload
+    systemctl enable littlesnitch.service
+    systemctl start littlesnitch.service
+}
+
+post_upgrade() {
+    systemctl daemon-reload
+    systemctl try-restart littlesnitch.service
+}
+
+pre_remove() {
+    systemctl disable --now littlesnitch.service || true
+}
+
+post_remove() {
+    systemctl daemon-reload
+}
