@@ -24,7 +24,7 @@ paru -S littlesnitch
 
 Packages from PKGBUILD repositories take priority over the AUR, so this repo can override stale or broken AUR packages.
 
-## niri-max-buffer-size
+## niri-patched
 
 Patches the Wayland compositor [niri](https://github.com/niri-wm/niri) to increase the default client buffer size from 4 KiB to 1 MiB, fixing "Data too big for buffer" errors that kill applications on multi-monitor setups.
 
@@ -34,10 +34,10 @@ Patches the Wayland compositor [niri](https://github.com/niri-wm/niri) to increa
 Install it through paru from this repo:
 
 ```bash
-paru -S niri-max-buffer-size
+paru -S niri-patched
 ```
 
-The package is named `niri-max-buffer-size` because official repo packages win for `paru -S niri`. This package `provides` and `conflicts` with `niri` so it can replace the official package cleanly.
+The package is named `niri-patched` because official repo packages win for `paru -S niri`. This package `provides` and `conflicts` with `niri` so it can replace the official package cleanly.
 
 To update the package metadata when a new upstream `niri` release lands:
 

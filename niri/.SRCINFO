@@ -1,4 +1,4 @@
-pkgbase = niri-max-buffer-size
+pkgbase = niri-patched
 	pkgdesc = A scrollable-tiling Wayland compositor with a larger default max buffer size
 	pkgver = 25.11
 	pkgrel = 1
@@ -43,4 +43,4 @@ pkgbase = niri-max-buffer-size
 	b2sums = 1ae432534044bbc4ab34d30d1c52e2f90e0391e5d04611c1b7ec60ccb1ba6fe87ff4c28f82de26d8eee2c839deb37c8096deec2ee7819884a23bfa4f3746c147
 	b2sums = SKIP
 
-pkgname = niri-max-buffer-size
+pkgname = niri-patched

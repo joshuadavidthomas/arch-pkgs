@@ -2,7 +2,7 @@
 # Based on the Arch package by David Runge <dvzrv@archlinux.org>
 # Based on the Arch package by Caleb Maclennan <caleb@alerque.com>
 
-pkgname=niri-max-buffer-size
+pkgname=niri-patched
 _upstream_pkgname=niri
 pkgver=25.11
 pkgrel=1
