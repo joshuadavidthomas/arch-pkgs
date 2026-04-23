@@ -1,20 +1,18 @@
 post_install() {
-  cat <<'EOF'
-Little Snitch has been installed.
-
-Enable and start the daemon with:
-  systemctl enable --now littlesnitch.service
-
-Then open the UI at:
-  http://localhost:3031/
-EOF
+  systemctl daemon-reload
+  echo ":: Little Snitch daemon installed. To start and enable it:"
+  echo "::   systemctl enable --now littlesnitch.service"
 }
 
 post_upgrade() {
-  cat <<'EOF'
-Little Snitch has been upgraded.
+  systemctl daemon-reload
+  systemctl try-restart littlesnitch.service || true
+}
 
-Restart the daemon to run the new version:
-  systemctl try-restart littlesnitch.service
-EOF
+pre_remove() {
+  systemctl disable --now littlesnitch.service || true
+}
+
+post_remove() {
+  systemctl daemon-reload
 }
