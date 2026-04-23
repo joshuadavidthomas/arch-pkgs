@@ -26,3 +26,16 @@ cd paper
 ```
 
 Checks the latest upstream version, updates the PKGBUILD if needed, builds, and installs. If already up to date, it exits early. Use `./install.sh --force` to reinstall.
+
+## littlesnitch
+
+Packages [Little Snitch for Linux](https://obdev.at/products/littlesnitch-linux/) from the upstream `.pkg.tar.zst` release. A network monitor that uses eBPF to show which applications are opening outgoing connections, with a local web UI at `http://localhost:3031/`. Requires Linux 6.12+ with BTF kernel support.
+
+```bash
+cd littlesnitch
+./install.sh
+```
+
+Checks the latest upstream version, updates the PKGBUILD if needed (pulling the SHA-256 from the upstream signed `hashes.txt`), builds, and installs. If already up to date, it exits early. Use `./install.sh --force` to reinstall.
+
+The AUR `littlesnitch-bin` package exists but lags upstream; this exists so I can stay current without waiting on it.
