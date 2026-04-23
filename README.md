@@ -11,7 +11,6 @@ Add this to `~/.config/paru/paru.conf`:
 ```ini
 [arch-pkgs]
 Url = https://github.com/joshuadavidthomas/arch-pkgs.git
-Depth = 1
 GenerateSrcinfo
 ```
 
