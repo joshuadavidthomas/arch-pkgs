@@ -36,21 +36,6 @@ paru -S littlesnitch
 
 The AUR `littlesnitch-bin` package exists but lags upstream; this package takes priority from this repo without waiting on the public AUR.
 
-### niri-patched
-
-Patches the Wayland compositor [niri](https://github.com/niri-wm/niri) to increase the default client buffer size from 4 KiB to 1 MiB, fixing "Data too big for buffer" errors that kill applications on multi-monitor setups.
-
-- **Upstream issue:** https://github.com/YaLTeR/niri/issues/2437
-- **Fix based on:** [Sway PR #8532](https://github.com/swaywm/sway/pull/8532)
-
-Install it through paru from this repo:
-
-```bash
-paru -S niri-patched
-```
-
-The package is named `niri-patched` because official repo packages win for `paru -S niri`. This package `provides` and `conflicts` with `niri` so it can replace the official package cleanly.
-
 ### paper-design
 
 Packages the [Paper](https://paper.design) desktop application from the upstream `.deb` release for Arch Linux. Paper is a collaborative design tool built on web standards that connects teams, agents, code, and data on a single canvas. Think Figma, but designed around agent workflows.
