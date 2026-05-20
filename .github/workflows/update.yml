@@ -14,7 +14,6 @@ permissions: {}
 defaults:
   run:
     shell: bash
-    working-directory: ${{ github.workspace }}
 
 jobs:
   update:
@@ -42,6 +41,7 @@ jobs:
         run: sudo -u builder ./update.sh
 
       - name: Create pull request
+        working-directory: ${{ github.workspace }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_NAME: automated/update-packages
