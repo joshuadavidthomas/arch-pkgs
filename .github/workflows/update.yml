@@ -1,0 +1,43 @@
+name: update
+
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux@sha256:1047e6e7878d58e4ee47e1cd6459a32fab41246b0efc4109e11b7ef16f50b14d
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+
+      - name: Install workflow dependencies
+        run: pacman -Syu --noconfirm --needed base-devel curl git sudo
+
+      - name: Configure makepkg user
+        run: |
+          useradd -m builder
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+
+      - name: Run package update scripts
+        run: sudo -u builder ./update.sh
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update package metadata
+          title: Update package metadata
+          body: |
+            Automated package metadata update from `./update.sh`.
+          branch: automated/update-packages
+          delete-branch: true
