@@ -65,12 +65,12 @@ jobs:
             gh pr edit "$BRANCH_NAME" \
               --repo "$GITHUB_REPOSITORY" \
               --title "Update package metadata" \
-              --body 'Automated package metadata update from `./update.sh`.'
+              --body "Automated package metadata update from \`./update.sh\`."
           else
             gh pr create \
               --repo "$GITHUB_REPOSITORY" \
               --base "${GITHUB_REF_NAME}" \
               --head "$BRANCH_NAME" \
               --title "Update package metadata" \
-              --body 'Automated package metadata update from `./update.sh`.'
+              --body "Automated package metadata update from \`./update.sh\`."
           fi
