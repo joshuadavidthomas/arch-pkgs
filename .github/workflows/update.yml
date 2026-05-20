@@ -11,6 +11,11 @@ concurrency:
 
 permissions: {}
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ${{ github.workspace }}
+
 jobs:
   update:
     name: Update package metadata
@@ -41,12 +46,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_NAME: automated/update-packages
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
           if [[ -z "$(git status --porcelain)" ]]; then
             echo "No package metadata changes."
             exit 0
           fi
 
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$BRANCH_NAME"
