@@ -48,7 +48,8 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-          if [[ -z "$(git status --porcelain)" ]]; then
+          changes="$(git status --porcelain)"
+          if [[ -z "$changes" ]]; then
             echo "No package metadata changes."
             exit 0
           fi
