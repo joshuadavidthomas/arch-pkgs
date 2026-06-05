@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=paper-design
-pkgver=0.4.2
+pkgver=0.4.3
 pkgrel=1
 pkgdesc="A collaborative design tool built on web standards with agent integration"
 arch=(x86_64)
@@ -24,7 +24,7 @@ optdepends=(
 provides=(paper-desktop)
 options=(!strip !debug)
 source=("paper-design-${pkgver}.deb::https://download.paper.design/linux/deb")
-sha256sums=('2fa8461ed0b2a20924b01a9c017cde5cb1ca81704bbbc10851f82048b695dc95')
+sha256sums=('6f98b0d6930ace0ac01540b2cf788040f3367acb8cc85ce839b5fb552dda5551')
 
 package() {
   cd "$srcdir"
