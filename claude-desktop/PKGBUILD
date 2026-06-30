@@ -1,0 +1,57 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=claude-desktop
+pkgver=1.17377.0
+pkgrel=1
+pkgdesc="Desktop application for Claude.ai"
+arch=(x86_64)
+url="https://claude.ai/download"
+license=(custom:Proprietary)
+depends=(
+  gtk3
+  libnotify
+  nss
+  xdg-utils
+  at-spi2-core
+  libdrm
+  mesa
+  libxcb
+  libsecret
+  glibc
+  libxtst
+  util-linux-libs
+  xdg-desktop-portal
+  xdg-desktop-portal-impl
+  alsa-lib
+  glib2
+  ca-certificates
+)
+optdepends=(
+  'libayatana-appindicator: system tray support'
+  'gnome-keyring: GNOME secret storage'
+  'kwallet: KDE secret storage'
+  'qemu-system-x86: Claude Code VM support'
+  'edk2-ovmf: UEFI firmware for Claude Code VM support'
+  'virtiofsd: shared filesystem support for Claude Code VM support'
+)
+provides=(claude-desktop-bin)
+conflicts=(claude-desktop-bin)
+options=(!strip !debug)
+_deb_arch=amd64
+source=("${pkgname}-${pkgver}-${_deb_arch}.deb::https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_${pkgver}_${_deb_arch}.deb")
+sha256sums=('563c8df8ee3b957ca234115980386e960007ed8cfc8cc04c77d58a8d43f6c018')
+
+package() {
+  cd "$srcdir"
+
+  bsdtar -xf data.tar.* -C "$pkgdir/"
+
+  # fix permissions on chrome-sandbox
+  chmod 4755 "$pkgdir/usr/lib/claude-desktop/chrome-sandbox"
+
+  # keep the upstream copyright with Arch license files
+  install -Dm644 "$pkgdir/usr/share/doc/claude-desktop/copyright" "$pkgdir/usr/share/licenses/$pkgname/copyright"
+
+  # remove Debian-only packaging metadata
+  rm -rf "$pkgdir/usr/share/lintian"
+}

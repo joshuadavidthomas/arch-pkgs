@@ -24,6 +24,16 @@ Packages from PKGBUILD repositories take priority over the AUR, so this repo can
 
 ## Packages
 
+### claude-desktop
+
+Packages the [Claude Desktop](https://claude.ai/download) Linux beta from Anthropic's upstream `.deb` release for Arch Linux. The app includes Chat, Cowork, and Claude Code tabs on Linux.
+
+Install it through paru from this repo:
+
+```bash
+paru -S claude-desktop
+```
+
 ### littlesnitch
 
 Packages [Little Snitch for Linux](https://obdev.at/products/littlesnitch-linux/) from the upstream `.pkg.tar.zst` release. A network monitor that uses eBPF to show which applications are opening outgoing connections, with a local web UI at `http://localhost:3031/`. Requires Linux 6.12+ with BTF kernel support.
