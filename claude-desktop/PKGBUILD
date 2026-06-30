@@ -2,7 +2,7 @@
 
 pkgname=claude-desktop
 pkgver=1.17377.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Desktop application for Claude.ai"
 arch=(x86_64)
 url="https://claude.ai/download"
@@ -54,4 +54,18 @@ package() {
 
   # remove Debian-only packaging metadata
   rm -rf "$pkgdir/usr/share/lintian"
+
+  # Electron's safeStorage only tries the OS keyring (gnome-libsecret/kwallet)
+  # when it recognizes XDG_CURRENT_DESKTOP as GNOME/KDE/Unity; on other
+  # compositors (niri, Hyprland, Sway, ...) it silently falls back to no
+  # keyring. Replace the plain symlink with a wrapper that forces the
+  # gnome-libsecret backend via Chromium's --password-store switch, so it
+  # still uses the real session's gnome-keyring without touching desktop
+  # detection used elsewhere (theming, portals, etc).
+  rm -f "$pkgdir/usr/bin/claude-desktop"
+  cat > "$pkgdir/usr/bin/claude-desktop" <<'EOF'
+#!/bin/sh
+exec /usr/lib/claude-desktop/claude-desktop --password-store=gnome "$@"
+EOF
+  chmod 755 "$pkgdir/usr/bin/claude-desktop"
 }
