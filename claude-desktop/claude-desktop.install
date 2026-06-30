@@ -1,0 +1,13 @@
+post_install() {
+  systemd-tmpfiles --create usr/lib/tmpfiles.d/claude-desktop.conf
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  rm -f /usr/libexec/virtiofsd
+  rm -f /usr/share/OVMF/OVMF_CODE_4M.fd
+  rm -f /usr/share/OVMF/OVMF_VARS_4M.fd
+}
