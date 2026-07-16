@@ -3,7 +3,7 @@
 
 pkgname=codiff-bin
 pkgver=1.9.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing"
 arch=(x86_64)
 url="https://codiff.dev"
@@ -37,7 +37,13 @@ package() {
   # remove Debian-only packaging metadata
   rm -rf "$pkgdir/usr/share/lintian" "$pkgdir/usr/share/doc"
 
-  # pahole owns /usr/bin/codiff, so install the app under a distinct name
-  mv "$pkgdir/usr/bin/codiff" "$pkgdir/usr/bin/codiff-app"
+  # pahole owns /usr/bin/codiff, so install the app under a distinct name.
+  # The Ozone hint lets Electron select Wayland when X11 is unavailable.
+  rm -f "$pkgdir/usr/bin/codiff"
+  cat > "$pkgdir/usr/bin/codiff-app" <<'EOF'
+#!/bin/sh
+exec /usr/lib/codiff/codiff --ozone-platform-hint=auto "$@"
+EOF
+  chmod 755 "$pkgdir/usr/bin/codiff-app"
   sed -i 's/^Exec=codiff /Exec=codiff-app /' "$pkgdir/usr/share/applications/codiff.desktop"
 }
