@@ -3,7 +3,7 @@
 
 pkgname=codiff-bin
 pkgver=1.9.0
-pkgrel=3
+pkgrel=4
 pkgdesc="A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing"
 arch=(x86_64)
 url="https://codiff.dev"
@@ -38,11 +38,24 @@ package() {
   rm -rf "$pkgdir/usr/share/lintian" "$pkgdir/usr/share/doc"
 
   # pahole owns /usr/bin/codiff, so install the app under a distinct name.
-  # The Ozone hint lets Electron select Wayland when X11 is unavailable.
+  # Recover the graphical environment for long-lived terminal sessions, then
+  # explicitly select Wayland because Electron's auto detection sees a TTY.
   rm -f "$pkgdir/usr/bin/codiff"
   cat > "$pkgdir/usr/bin/codiff-app" <<'EOF'
 #!/bin/sh
-exec /usr/lib/codiff/codiff --ozone-platform-hint=auto "$@"
+if [ -z "${WAYLAND_DISPLAY:-}" ] && [ -z "${DISPLAY:-}" ]; then
+  user_environment=$(systemctl --user show-environment 2>/dev/null || true)
+  XDG_RUNTIME_DIR=$(printf '%s\n' "$user_environment" | sed -n 's/^XDG_RUNTIME_DIR=//p')
+  WAYLAND_DISPLAY=$(printf '%s\n' "$user_environment" | sed -n 's/^WAYLAND_DISPLAY=//p')
+  DISPLAY=$(printf '%s\n' "$user_environment" | sed -n 's/^DISPLAY=//p')
+  export XDG_RUNTIME_DIR WAYLAND_DISPLAY DISPLAY
+fi
+
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+  set -- --ozone-platform=wayland "$@"
+fi
+
+exec /usr/lib/codiff/codiff "$@"
 EOF
   chmod 755 "$pkgdir/usr/bin/codiff-app"
   sed -i 's/^Exec=codiff /Exec=codiff-app /' "$pkgdir/usr/share/applications/codiff.desktop"
