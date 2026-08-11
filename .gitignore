@@ -2,6 +2,10 @@
 *.pkg.tar.xz
 *.deb
 *.rpm
+*.tar.gz
+*.tar.xz
+*.zip
+*.gz
 src/
 pkg/
 *.log
