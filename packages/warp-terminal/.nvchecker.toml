@@ -1,0 +1,4 @@
+[warp-terminal]
+source = "regex"
+url = "https://app.warp.dev/get_warp?package=pacman"
+regex = "v(0\\.[0-9.]+\\.stable_[0-9]+)"

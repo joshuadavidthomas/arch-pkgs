@@ -1,0 +1,3 @@
+[whispering]
+source = "cmd"
+cmd = "gh api 'repos/epicenter-so/epicenter/releases?per_page=30' --jq '[.[] | select(.prerelease == false and .draft == false and any(.assets[]; .name | test(\"^Whispering-[0-9.]+-1\\\\.x86_64\\\\.rpm$\")))][0].tag_name' | sed 's/^v//'"

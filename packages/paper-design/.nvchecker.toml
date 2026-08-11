@@ -1,0 +1,5 @@
+[paper-design]
+source = "httpheader"
+url = "https://download.paper.design/linux/deb"
+header = "Content-Disposition"
+regex = 'paper-desktop-([\d.]+?)\.?amd64\.deb'

@@ -1,0 +1,5 @@
+[atuin-desktop]
+source = "github"
+github = "atuinsh/desktop"
+use_latest_release = true
+prefix = "v"

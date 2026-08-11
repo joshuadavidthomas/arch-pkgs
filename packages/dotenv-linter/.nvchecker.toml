@@ -1,0 +1,5 @@
+[dotenv-linter]
+source = "github"
+github = "dotenv-linter/dotenv-linter"
+use_latest_release = true
+prefix = "v"

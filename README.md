@@ -2,7 +2,7 @@
 
 Personal Arch Linux package overlay. The PKGBUILDs are public; the signed binary repository is private to my machines.
 
-Each directory under `packages/` contains a `PKGBUILD` and generated `.SRCINFO`. `nvchecker.toml` tracks upstream releases.
+Each directory under `packages/` contains a `PKGBUILD`, generated `.SRCINFO`, and package-local `.nvchecker.toml` for tracking upstream releases.
 
 ## Install
 
@@ -58,7 +58,7 @@ paru -S littlesnitch
 
 ### Update packages
 
-`update.py` checks every entry in `nvchecker.toml`, updates versions and checksums, and regenerates `.SRCINFO`:
+`update.py` checks each package's `.nvchecker.toml`, updates versions and checksums, and regenerates `.SRCINFO`:
 
 ```bash
 ./update.py

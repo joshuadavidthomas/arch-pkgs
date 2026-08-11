@@ -1,0 +1,5 @@
+[shellcheck]
+source = "github"
+github = "koalaman/shellcheck"
+use_latest_release = true
+prefix = "v"

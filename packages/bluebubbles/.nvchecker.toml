@@ -1,0 +1,3 @@
+[bluebubbles]
+source = "cmd"
+cmd = "gh api 'repos/BlueBubblesApp/bluebubbles-app/releases?per_page=30' --jq '[.[] | select(.prerelease == false and .draft == false and any(.assets[]; .name == \"bluebubbles-linux-x86_64.tar.gz\"))][0].tag_name' | sed 's/^v//'"

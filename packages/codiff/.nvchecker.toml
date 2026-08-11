@@ -1,0 +1,5 @@
+[codiff]
+source = "github"
+github = "nkzw-tech/codiff"
+use_latest_release = true
+prefix = "v"

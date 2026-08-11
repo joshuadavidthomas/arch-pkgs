@@ -1,0 +1,5 @@
+[heroic-games-launcher]
+source = "github"
+github = "Heroic-Games-Launcher/HeroicGamesLauncher"
+use_latest_release = true
+prefix = "v"

@@ -1,0 +1,5 @@
+[github-copilot-app]
+source = "github"
+github = "github/app"
+use_latest_release = true
+prefix = "v"

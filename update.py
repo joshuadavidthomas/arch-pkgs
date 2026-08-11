@@ -5,10 +5,9 @@
 # ///
 """Check upstream versions with nvchecker and update PKGBUILDs in place.
 
-Each directory under packages/ must have a matching section in nvchecker.toml
-(section name == directory name). New versions get pkgver bumped,
-pkgrel reset to 1, checksums refreshed via updpkgsums, and .SRCINFO
-regenerated.
+Each directory under packages/ must contain a .nvchecker.toml whose primary
+entry matches the package's pkgbase. New versions get pkgver bumped, pkgrel
+reset to 1, checksums refreshed via updpkgsums, and .SRCINFO regenerated.
 """
 
 from __future__ import annotations
@@ -20,6 +19,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -36,24 +36,55 @@ def current_pkgver(pkgbuild: Path) -> str | None:
     return m.group(1).strip() if m else None
 
 
+def pkgbase(directory: Path) -> str:
+    srcinfo = directory / ".SRCINFO"
+    match = re.search(r"^pkgbase = (.+)$", srcinfo.read_text(), re.MULTILINE)
+    if match is None:
+        raise ValueError(f"{srcinfo.relative_to(ROOT)} has no pkgbase")
+    return match.group(1)
+
+
+def validate_nvchecker_config(base: str, text: str, path: Path) -> set[str]:
+    entries = set(tomllib.loads(text))
+    if base not in entries:
+        raise ValueError(f"{path.relative_to(ROOT)} has no [{base}] entry")
+    invalid = [name for name in entries if name != base and not name.startswith(f"{base}:")]
+    if invalid:
+        names = ", ".join(sorted(invalid))
+        raise ValueError(f"{path.relative_to(ROOT)} has unscoped entries: {names}")
+    return entries
+
+
+def render_nvchecker_config(directories: list[Path]) -> str:
+    configs = []
+    known_entries: set[str] = set()
+    for directory in directories:
+        path = directory / ".nvchecker.toml"
+        text = path.read_text()
+        entries = validate_nvchecker_config(pkgbase(directory), text, path)
+        duplicates = known_entries & entries
+        if duplicates:
+            names = ", ".join(sorted(duplicates))
+            raise ValueError(f"duplicate nvchecker entries: {names}")
+        known_entries.update(entries)
+        configs.append(text.strip())
+    return "\n\n".join(configs) + "\n"
+
+
 def run_nvchecker() -> dict[str, str]:
-    cmd = ["nvchecker", "-c", str(ROOT / "nvchecker.toml"), "--logger", "json"]
-    keyfile = None
     token = os.environ.get("GITHUB_TOKEN")
-    try:
+    with tempfile.TemporaryDirectory() as temp_directory:
+        temp = Path(temp_directory)
+        config = temp / "nvchecker.toml"
+        config.write_text(render_nvchecker_config(pkg_dirs()))
+        cmd = ["nvchecker", "-c", str(config), "--logger", "json"]
         if token:
-            keyfile = tempfile.NamedTemporaryFile(
-                "w", suffix=".toml", delete=False
-            )
-            keyfile.write(f'[keys]\ngithub = "{token}"\n')
-            keyfile.close()
-            cmd += ["-k", keyfile.name]
+            keyfile = temp / "keyfile.toml"
+            keyfile.write_text(f'[keys]\ngithub = "{token}"\n')
+            cmd += ["-k", str(keyfile)]
         proc = subprocess.run(
             cmd, cwd=ROOT, check=True, capture_output=True, text=True
         )
-    finally:
-        if keyfile:
-            os.unlink(keyfile.name)
 
     results: dict[str, str] = {}
     for line in proc.stdout.splitlines():
@@ -131,7 +162,7 @@ def main() -> None:
     failures = []
     for d in pkg_dirs():
         name = d.name
-        newver = results.get(name)
+        newver = results.get(pkgbase(d))
         if newver is None:
             print(f":: {name}: no version from nvchecker", file=sys.stderr)
             failures.append(name)

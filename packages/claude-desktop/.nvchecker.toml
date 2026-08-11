@@ -1,0 +1,5 @@
+[claude-desktop]
+source = "apt"
+mirror = "https://downloads.claude.ai/claude-desktop/apt/stable"
+suite = "stable"
+pkg = "claude-desktop"

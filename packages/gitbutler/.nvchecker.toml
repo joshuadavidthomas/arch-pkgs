@@ -1,0 +1,6 @@
+[gitbutler]
+source = "regex"
+url = "https://app.gitbutler.com/releases/release?limit=1"
+regex = 'releases/release/([0-9.]+-[0-9]+)/linux/x86_64/'
+from_pattern = '^([0-9.]+)-([0-9]+)$'
+to_pattern = '\1.\2'

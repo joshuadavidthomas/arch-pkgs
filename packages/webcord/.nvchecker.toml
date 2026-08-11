@@ -1,0 +1,5 @@
+[webcord]
+source = "github"
+github = "SpacingBat3/WebCord"
+use_latest_release = true
+prefix = "v"

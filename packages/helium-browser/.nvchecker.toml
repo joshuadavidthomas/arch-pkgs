@@ -1,0 +1,4 @@
+[helium-browser]
+source = "github"
+github = "imputnet/helium-linux"
+use_latest_release = true

@@ -1,0 +1,5 @@
+[crush]
+source = "github"
+github = "charmbracelet/crush"
+use_latest_release = true
+prefix = "v"

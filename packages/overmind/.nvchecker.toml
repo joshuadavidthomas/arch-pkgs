@@ -1,0 +1,5 @@
+[overmind]
+source = "github"
+github = "DarthSim/overmind"
+use_latest_release = true
+prefix = "v"

@@ -1,0 +1,5 @@
+[teams-for-linux]
+source = "github"
+github = "IsmaelMartinez/teams-for-linux"
+use_latest_release = true
+prefix = "v"

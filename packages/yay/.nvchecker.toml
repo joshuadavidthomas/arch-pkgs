@@ -1,0 +1,5 @@
+[yay]
+source = "github"
+github = "Jguer/yay"
+use_latest_release = true
+prefix = "v"
