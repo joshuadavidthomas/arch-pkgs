@@ -130,8 +130,9 @@ use_latest_release = true
 prefix = "v"
 
 [warp-terminal]
-source = "cmd"
-cmd = "curl -sf 'https://aur.archlinux.org/rpc/v5/info?arg=warp-terminal-bin' | jq -r '.results[0].Version' | sed 's/-[^-]*$//'"
+source = "regex"
+url = "https://app.warp.dev/get_warp?package=pacman"
+regex = "v(0\\.[0-9.]+\\.stable_[0-9]+)"
 
 [webcord]
 source = "github"
