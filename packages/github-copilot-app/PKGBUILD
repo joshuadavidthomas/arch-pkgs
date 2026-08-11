@@ -1,8 +1,8 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=github-copilot-app
-pkgver=1.1.6
-pkgrel=2
+pkgver=1.1.7
+pkgrel=1
 pkgdesc="GitHub Copilot desktop application"
 arch=(x86_64)
 url="https://github.com/github/app"
@@ -16,7 +16,7 @@ options=(!strip !debug !emptydirs)
 source=("github-copilot-app-LICENSE-${pkgver}::https://raw.githubusercontent.com/github/app/v${pkgver}/License.md")
 source_x86_64=("github-copilot-app-${pkgver}.deb::https://github.com/github/app/releases/download/v${pkgver}/GitHub-Copilot-linux-x64.deb")
 sha256sums=('eabc2f07ec11338d4c6bd732b5975798ca98b3dd50abf6c520f2dc54215bc7d7')
-sha256sums_x86_64=('720f7eed7fd7a411c80a070eb38681b1158cc8589889ba20da06d4c66fa3dd90')
+sha256sums_x86_64=('2172c00abbda5835258e17862f4098c1c0349672d48cdbc6c35908a88cbddc36')
 
 package() {
   bsdtar -xf "$srcdir"/data.tar.* -C "$pkgdir"
