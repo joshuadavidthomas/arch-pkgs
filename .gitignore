@@ -10,3 +10,5 @@ src/
 pkg/
 *.log
 .wrangler/
+*.pacman
+handy-LICENSE-*
