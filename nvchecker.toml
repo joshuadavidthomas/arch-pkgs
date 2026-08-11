@@ -129,8 +129,24 @@ github = "abenz1267/walker"
 use_latest_release = true
 prefix = "v"
 
+[warp-terminal]
+source = "cmd"
+cmd = "curl -sf 'https://aur.archlinux.org/rpc/v5/info?arg=warp-terminal-bin' | jq -r '.results[0].Version' | sed 's/-[^-]*$//'"
+
 [webcord]
 source = "github"
 github = "SpacingBat3/WebCord"
+use_latest_release = true
+prefix = "v"
+
+[whispering]
+source = "github"
+github = "epicenter-so/epicenter"
+use_latest_release = true
+prefix = "v"
+
+[yay]
+source = "github"
+github = "Jguer/yay"
 use_latest_release = true
 prefix = "v"

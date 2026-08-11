@@ -1,0 +1,21 @@
+pkgbase = whispering
+	pkgdesc = Open-source global speech-to-text application
+	pkgver = 7.11.0
+	pkgrel = 1
+	url = https://epicenter.so
+	arch = x86_64
+	license = MIT
+	depends = alsa-lib
+	depends = gdk-pixbuf2
+	depends = gtk3
+	depends = webkit2gtk-4.1
+	conflicts = whispering-bin
+	replaces = whispering-bin
+	options = !strip
+	options = !debug
+	source = whispering-7.11.0.rpm::https://github.com/epicenter-so/epicenter/releases/download/v7.11.0/Whispering-7.11.0-1.x86_64.rpm
+	source = whispering-LICENSE-7.11.0::https://raw.githubusercontent.com/epicenter-so/epicenter/v7.11.0/LICENSE
+	sha256sums = d507fa31dc8f941f2350aab9169ed271ddb28c147a34a99e3da83d8bdeb6fd6e
+	sha256sums = 0b4eb79f55f8cb810c9b17fffa2c7823aed78b85d6d290e939e4c53511414c9d
+
+pkgname = whispering

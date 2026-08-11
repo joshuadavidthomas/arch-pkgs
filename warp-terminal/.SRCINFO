@@ -1,0 +1,24 @@
+pkgbase = warp-terminal
+	pkgdesc = Intelligent terminal with AI and team knowledge built in
+	pkgver = 0.2026.07.29.09.05.stable_02
+	pkgrel = 1
+	url = https://warp.dev
+	arch = x86_64
+	license = LicenseRef-Warp
+	depends = alsa-lib
+	depends = gtk3
+	depends = libxcb
+	depends = libxkbcommon-x11
+	depends = libxss
+	depends = nss
+	conflicts = warp-terminal-bin
+	replaces = warp-terminal-bin
+	noextract = warp-terminal-0.2026.07.29.09.05.stable_02-x86_64.pkg.tar.zst
+	options = !strip
+	options = !debug
+	source = warp-terminal-LICENSE-0.2026.07.29.09.05.stable_02::https://aur.archlinux.org/cgit/aur.git/plain/LICENSE.txt?h=warp-terminal-bin
+	sha256sums = e63485e6dff24dd507ff0caa59eace7cf899f4986d8ddd0c8a53389d6ecd3280
+	source_x86_64 = warp-terminal-0.2026.07.29.09.05.stable_02-x86_64.pkg.tar.zst::https://releases.warp.dev/stable/v0.2026.07.29.09.05.stable_02/warp-terminal-v0.2026.07.29.09.05.stable_02-1-x86_64.pkg.tar.zst
+	sha256sums_x86_64 = ca38148d7dfc3de082cfb19b6e85293882eed55bce69d4d93f207d52000abb33
+
+pkgname = warp-terminal

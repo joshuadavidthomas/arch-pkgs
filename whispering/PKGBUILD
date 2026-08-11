@@ -1,0 +1,35 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=whispering
+pkgver=7.11.0
+pkgrel=1
+pkgdesc="Open-source global speech-to-text application"
+arch=(x86_64)
+url="https://epicenter.so"
+license=(MIT)
+depends=(alsa-lib gdk-pixbuf2 gtk3 webkit2gtk-4.1)
+conflicts=(whispering-bin)
+replaces=(whispering-bin)
+options=(!strip !debug)
+source=("whispering-${pkgver}.rpm::https://github.com/epicenter-so/epicenter/releases/download/v${pkgver}/Whispering-${pkgver}-1.x86_64.rpm"
+        "whispering-LICENSE-${pkgver}::https://raw.githubusercontent.com/epicenter-so/epicenter/v${pkgver}/LICENSE")
+sha256sums=('d507fa31dc8f941f2350aab9169ed271ddb28c147a34a99e3da83d8bdeb6fd6e'
+            '0b4eb79f55f8cb810c9b17fffa2c7823aed78b85d6d290e939e4c53511414c9d')
+
+package() {
+  install -Dm755 "$srcdir/usr/bin/whispering" -t "$pkgdir/usr/bin"
+
+  local size
+  for size in 32x32 128x128 256x256@2; do
+    install -Dm644 "$srcdir/usr/share/icons/hicolor/$size/apps/whispering.png" \
+      "$pkgdir/usr/share/icons/hicolor/${size//@2/}/apps/whispering.png"
+  done
+
+  sed -e "3iComment=$pkgdesc" \
+      -e 's/Exec=app/Exec=whispering/' \
+      -e 's/Icon=app/Icon=whispering/' \
+      "$srcdir/usr/share/applications/Whispering.desktop" |
+    install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/whispering.desktop"
+  install -Dm644 "$srcdir/whispering-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
