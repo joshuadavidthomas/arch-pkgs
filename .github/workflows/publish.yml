@@ -1,0 +1,114 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: publish-packages
+  cancel-in-progress: false
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  PACMAN_REPO: josh
+  R2_REMOTE: "r2:pkgs/arch/josh/os/x86_64"
+
+jobs:
+  publish:
+    name: Build and publish packages
+    runs-on: ubuntu-latest
+    environment: publish
+    container:
+      image: archlinux@sha256:1047e6e7878d58e4ee47e1cd6459a32fab41246b0efc4109e11b7ef16f50b14d
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+    steps:
+      - name: Install workflow dependencies
+        run: pacman -Syu --noconfirm --needed base-devel git rclone sudo
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+
+      - name: Configure makepkg user
+        run: |
+          useradd -m builder
+          echo 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/builder
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+
+      - name: Download repo database
+        run: |
+          mkdir -p repo
+          rclone copy "$R2_REMOTE" repo \
+            --include "$PACMAN_REPO.db.tar.zst" \
+            --include "$PACMAN_REPO.files.tar.zst"
+          chown -R builder:builder repo
+
+      - name: Determine packages to build
+        id: plan
+        run: |
+          existing=""
+          if [[ -f "repo/$PACMAN_REPO.db.tar.zst" ]]; then
+            existing=$(bsdtar -tf "repo/$PACMAN_REPO.db.tar.zst" | cut -d/ -f1 | sort -u)
+          fi
+
+          to_build=()
+          for srcinfo in */.SRCINFO; do
+            dir=${srcinfo%/.SRCINFO}
+            pkgname=$(sed -n 's/^pkgname = //p' "$srcinfo")
+            pkgver=$(sed -n 's/^\tpkgver = //p' "$srcinfo")
+            pkgrel=$(sed -n 's/^\tpkgrel = //p' "$srcinfo")
+            epoch=$(sed -n 's/^\tepoch = //p' "$srcinfo")
+
+            fullver="$pkgver-$pkgrel"
+            [[ -n "$epoch" ]] && fullver="$epoch:$fullver"
+
+            if ! grep -qxF "$pkgname-$fullver" <<< "$existing"; then
+              echo "Will build: $pkgname $fullver ($dir)"
+              to_build+=("$dir")
+            else
+              echo "Up to date: $pkgname $fullver ($dir)"
+            fi
+          done
+
+          echo "dirs=${to_build[*]}" >> "$GITHUB_OUTPUT"
+
+      - name: Build packages
+        if: steps.plan.outputs.dirs != ''
+        env:
+          BUILD_DIRS: ${{ steps.plan.outputs.dirs }}
+        run: |
+          for dir in $BUILD_DIRS; do
+            echo "==> Building $dir..."
+            sudo -u builder \
+              env PKGDEST="$GITHUB_WORKSPACE/repo" \
+              bash -c "cd '$dir' && makepkg --syncdeps --noconfirm --clean"
+          done
+
+      - name: Update repo database
+        if: steps.plan.outputs.dirs != ''
+        run: |
+          cd repo
+          repo-add "$PACMAN_REPO.db.tar.zst" ./*.pkg.tar.zst
+
+      - name: Upload to R2
+        if: steps.plan.outputs.dirs != ''
+        run: |
+          cd repo
+          # Packages first so the db never references files that are not yet uploaded.
+          rclone copy . "$R2_REMOTE" --include "*.pkg.tar.zst"
+          rclone copyto "$PACMAN_REPO.db.tar.zst" "$R2_REMOTE/$PACMAN_REPO.db.tar.zst"
+          rclone copyto "$PACMAN_REPO.files.tar.zst" "$R2_REMOTE/$PACMAN_REPO.files.tar.zst"
+          rclone copyto "$PACMAN_REPO.db.tar.zst" "$R2_REMOTE/$PACMAN_REPO.db"
+          rclone copyto "$PACMAN_REPO.files.tar.zst" "$R2_REMOTE/$PACMAN_REPO.files"

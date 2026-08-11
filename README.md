@@ -4,7 +4,26 @@ Custom Arch Linux packages. Local overlay for fixes not yet upstream and repacka
 
 ## Usage
 
-This repo can be used as a custom PKGBUILD repository in paru, so packages here can be installed and upgraded without publishing them to the AUR.
+### Binary repo (recommended)
+
+Packages are built in CI and published to a pacman repo at `pkgs.joshthomas.dev`. Add this to `/etc/pacman.conf`:
+
+```ini
+[josh]
+SigLevel = Optional TrustAll
+Server = https://pkgs.joshthomas.dev/arch/$repo/os/$arch
+```
+
+Then install like any official package:
+
+```bash
+sudo pacman -Syu
+sudo pacman -S littlesnitch
+```
+
+### PKGBUILD repo via paru
+
+Alternatively, this repo can be used as a custom PKGBUILD repository in paru, so packages here can be installed and upgraded without publishing them to the AUR.
 
 Add this to `~/.config/paru/paru.conf`:
 
@@ -72,3 +91,5 @@ cd littlesnitch
 ```
 
 Each script updates package metadata and regenerates `.SRCINFO`. Review and commit the resulting changes.
+
+A scheduled workflow (`update.yml`) runs these scripts nightly and opens a PR when upstream releases a new version. On merge to `main`, the publish workflow (`publish.yml`) builds any package whose `.SRCINFO` version is missing from the published database and syncs it to the R2 bucket behind `pkgs.joshthomas.dev`. Old package versions are never deleted, so previous releases stay available for `pacman -U` rollbacks.
