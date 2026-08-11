@@ -1,0 +1,32 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=bluebubbles
+pkgver=2.0.0+89
+pkgrel=1
+pkgdesc="Cross-platform app ecosystem bringing iMessage to Android, PC, and Web"
+arch=(x86_64)
+url="https://bluebubbles.app"
+license=(Apache-2.0)
+depends=(ayatana-ido gdk-pixbuf2 gtk3 libayatana-appindicator libayatana-indicator
+         libdbusmenu-glib mpv webkit2gtk-4.1)
+conflicts=(bluebubbles-bin)
+replaces=(bluebubbles-bin)
+options=(!strip !debug !emptydirs)
+source=('bluebubbles.sh'
+        'bluebubbles.desktop'
+        "bluebubbles-LICENSE-${pkgver}::https://raw.githubusercontent.com/BlueBubblesApp/bluebubbles-app/v${pkgver}/LICENSE")
+source_x86_64=("bluebubbles-${pkgver}-x86_64.tar.gz::https://github.com/BlueBubblesApp/bluebubbles-app/releases/download/v${pkgver}/bluebubbles-linux-x86_64.tar.gz")
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+sha256sums_x86_64=('SKIP')
+
+package() {
+  install -Dm755 "$srcdir/bluebubbles.sh" "$pkgdir/usr/bin/bluebubbles"
+  install -Dm755 "$srcdir/bluebubbles" -t "$pkgdir/usr/lib/bluebubbles"
+  cp -a "$srcdir/"{data,lib} "$pkgdir/usr/lib/bluebubbles"
+  ln -sf /usr/lib/libmpv.so "$pkgdir/usr/lib/bluebubbles/lib/libmpv.so.1"
+  install -Dm644 "$srcdir/data/flutter_assets/assets/icon/icon.png" \
+    "$pkgdir/usr/share/pixmaps/bluebubbles.png"
+  install -Dm644 "$srcdir/bluebubbles.desktop" -t "$pkgdir/usr/share/applications"
+  install -Dm644 "$srcdir/bluebubbles-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

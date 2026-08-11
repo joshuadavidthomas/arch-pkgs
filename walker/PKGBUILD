@@ -1,0 +1,55 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=walker
+pkgver=2.17.0
+pkgrel=1
+pkgdesc="Wayland application runner"
+arch=(x86_64)
+url="https://github.com/abenz1267/walker"
+license=(GPL-3.0-only)
+depends=(cairo elephant gcc-libs glib2 glibc gtk4 gtk4-layer-shell poppler-glib)
+optdepends=('elephant-all: elephant + all official elephant providers')
+conflicts=(walker-bin)
+replaces=(walker-bin)
+backup=(etc/xdg/walker/config.toml)
+options=(!strip !debug)
+_raw="https://raw.githubusercontent.com/abenz1267/walker/v$pkgver"
+source=("walker-LICENSE-${pkgver}::$_raw/LICENSE"
+        "README-${pkgver}.md::$_raw/README.md"
+        "config-${pkgver}.toml::$_raw/resources/config.toml"
+        "item-${pkgver}.xml::$_raw/resources/themes/default/item.xml"
+        "item_actionsmenu-${pkgver}.xml::$_raw/resources/themes/default/item_actionsmenu.xml"
+        "item_aptpackages-${pkgver}.xml::$_raw/resources/themes/default/item_aptpackages.xml"
+        "item_archlinuxpkgs-${pkgver}.xml::$_raw/resources/themes/default/item_archlinuxpkgs.xml"
+        "item_bookmarks-${pkgver}.xml::$_raw/resources/themes/default/item_bookmarks.xml"
+        "item_calc-${pkgver}.xml::$_raw/resources/themes/default/item_calc.xml"
+        "item_clipboard-${pkgver}.xml::$_raw/resources/themes/default/item_clipboard.xml"
+        "item_dmenu-${pkgver}.xml::$_raw/resources/themes/default/item_dmenu.xml"
+        "item_dnfpackages-${pkgver}.xml::$_raw/resources/themes/default/item_dnfpackages.xml"
+        "item_files-${pkgver}.xml::$_raw/resources/themes/default/item_files.xml"
+        "item_providerlist-${pkgver}.xml::$_raw/resources/themes/default/item_providerlist.xml"
+        "item_symbols-${pkgver}.xml::$_raw/resources/themes/default/item_symbols.xml"
+        "item_symbols_grid-${pkgver}.xml::$_raw/resources/themes/default/item_symbols_grid.xml"
+        "item_todo-${pkgver}.xml::$_raw/resources/themes/default/item_todo.xml"
+        "item_unicode-${pkgver}.xml::$_raw/resources/themes/default/item_unicode.xml"
+        "keybind-${pkgver}.xml::$_raw/resources/themes/default/keybind.xml"
+        "layout-${pkgver}.xml::$_raw/resources/themes/default/layout.xml"
+        "preview-${pkgver}.xml::$_raw/resources/themes/default/preview.xml"
+        "style-${pkgver}.css::$_raw/resources/themes/default/style.css")
+source_x86_64=("walker-${pkgver}-x86_64.tar.gz::https://github.com/abenz1267/walker/releases/download/v${pkgver}/walker-v${pkgver}-x86_64-unknown-linux-gnu.tar.gz")
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP'
+            'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP'
+            'SKIP' 'SKIP')
+sha256sums_x86_64=('SKIP')
+
+package() {
+  install -Dm755 "$srcdir/walker" -t "$pkgdir/usr/bin"
+  install -Dm644 "$srcdir/config-${pkgver}.toml" "$pkgdir/etc/xdg/walker/config.toml"
+  local f base
+  for f in "$srcdir"/*-${pkgver}.xml "$srcdir"/*-${pkgver}.css; do
+    base=$(basename "$f")
+    install -Dm644 "$f" "$pkgdir/etc/xdg/walker/themes/default/${base/-${pkgver}/}"
+  done
+  install -Dm644 "$srcdir/README-${pkgver}.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 "$srcdir/walker-LICENSE-${pkgver}" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,0 +1,21 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=github-copilot-app
+pkgver=1.1.6
+pkgrel=1
+pkgdesc="GitHub Copilot desktop application"
+arch=(x86_64)
+url="https://github.com/github/app"
+license=(LicenseRef-proprietary)
+depends=(gtk3 webkit2gtk-4.1)
+optdepends=('libayatana-appindicator: system tray icon support'
+            'git: required for repository operations from the app')
+conflicts=(github-copilot-app-bin)
+replaces=(github-copilot-app-bin)
+options=(!strip !debug !emptydirs)
+source_x86_64=("github-copilot-app-${pkgver}.deb::https://github.com/github/app/releases/download/v${pkgver}/GitHub-Copilot-linux-x64.deb")
+sha256sums_x86_64=('720f7eed7fd7a411c80a070eb38681b1158cc8589889ba20da06d4c66fa3dd90')
+
+package() {
+  bsdtar -xf "$srcdir"/data.tar.* -C "$pkgdir"
+}

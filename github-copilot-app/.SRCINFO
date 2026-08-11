@@ -1,0 +1,20 @@
+pkgbase = github-copilot-app
+	pkgdesc = GitHub Copilot desktop application
+	pkgver = 1.1.6
+	pkgrel = 1
+	url = https://github.com/github/app
+	arch = x86_64
+	license = LicenseRef-proprietary
+	depends = gtk3
+	depends = webkit2gtk-4.1
+	optdepends = libayatana-appindicator: system tray icon support
+	optdepends = git: required for repository operations from the app
+	conflicts = github-copilot-app-bin
+	replaces = github-copilot-app-bin
+	options = !strip
+	options = !debug
+	options = !emptydirs
+	source_x86_64 = github-copilot-app-1.1.6.deb::https://github.com/github/app/releases/download/v1.1.6/GitHub-Copilot-linux-x64.deb
+	sha256sums_x86_64 = 720f7eed7fd7a411c80a070eb38681b1158cc8589889ba20da06d4c66fa3dd90
+
+pkgname = github-copilot-app

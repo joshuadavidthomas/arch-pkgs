@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=BlueBubbles
+Comment=Cross-platform app ecosystem bringing iMessage to Android, PC, and Web
+Exec=bluebubbles %U
+Icon=bluebubbles
+Categories=Network;

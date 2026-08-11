@@ -1,3 +1,13 @@
+[atuin-desktop]
+source = "github"
+github = "atuinsh/desktop"
+use_latest_release = true
+prefix = "v"
+
+[bluebubbles]
+source = "cmd"
+cmd = "gh api 'repos/BlueBubblesApp/bluebubbles-app/releases?per_page=30' --jq '[.[] | select(.prerelease == false and .draft == false and any(.assets[]; .name == \"bluebubbles-linux-x86_64.tar.gz\"))][0].tag_name' | sed 's/^v//'"
+
 [claude-desktop]
 source = "apt"
 mirror = "https://downloads.claude.ai/claude-desktop/apt/stable"
@@ -25,6 +35,12 @@ prefix = "v"
 [flyctl]
 source = "github"
 github = "superfly/flyctl"
+use_latest_release = true
+prefix = "v"
+
+[github-copilot-app]
+source = "github"
+github = "github/app"
 use_latest_release = true
 prefix = "v"
 
@@ -98,9 +114,20 @@ github = "IsmaelMartinez/teams-for-linux"
 use_latest_release = true
 prefix = "v"
 
+[visual-studio-code]
+source = "github"
+github = "microsoft/vscode"
+use_latest_release = true
+
 [voxtype-vulkan]
 source = "cmd"
 cmd = "gh api 'repos/peteonrails/voxtype/releases?per_page=30' --jq '[.[] | select(.prerelease == false and .draft == false and any(.assets[]; .name | test(\"linux-x86_64-vulkan$\")))][0].tag_name' | sed 's/^v//'"
+
+[walker]
+source = "github"
+github = "abenz1267/walker"
+use_latest_release = true
+prefix = "v"
 
 [webcord]
 source = "github"
