@@ -17,7 +17,7 @@ SPEC.loader.exec_module(UPDATE)
 def test_all_sources_have_checksums() -> None:
     skipped = [
         pkgbuild.relative_to(ROOT).as_posix()
-        for pkgbuild in ROOT.glob("*/PKGBUILD")
+        for pkgbuild in ROOT.glob("packages/*/PKGBUILD")
         if "'SKIP'" in pkgbuild.read_text()
     ]
 

@@ -14,7 +14,7 @@
 .venv/
 .wrangler/
 __pycache__/
+packages/voxtype-vulkan/*-[0-9]*.[0-9]*
+packages/walker/*-[0-9]*.[0-9]*
 pkg/
 src/
-voxtype-vulkan/*-[0-9]*.[0-9]*
-walker/*-[0-9]*.[0-9]*

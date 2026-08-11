@@ -2,7 +2,7 @@
 
 Personal Arch Linux package overlay. The PKGBUILDs are public; the signed binary repository is private to my machines.
 
-Each top-level package directory contains a `PKGBUILD` and generated `.SRCINFO`. `nvchecker.toml` tracks upstream releases.
+Each directory under `packages/` contains a `PKGBUILD` and generated `.SRCINFO`. `nvchecker.toml` tracks upstream releases.
 
 ## Install
 

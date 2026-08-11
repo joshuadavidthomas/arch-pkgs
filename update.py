@@ -5,7 +5,7 @@
 # ///
 """Check upstream versions with nvchecker and update PKGBUILDs in place.
 
-Each package directory must have a matching section in nvchecker.toml
+Each directory under packages/ must have a matching section in nvchecker.toml
 (section name == directory name). New versions get pkgver bumped,
 pkgrel reset to 1, checksums refreshed via updpkgsums, and .SRCINFO
 regenerated.
@@ -23,11 +23,12 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+PACKAGES = ROOT / "packages"
 VALID_PKGVER = re.compile(r"^[A-Za-z0-9._+]+$")
 
 
 def pkg_dirs() -> list[Path]:
-    return sorted(d for d in ROOT.iterdir() if (d / "PKGBUILD").is_file())
+    return sorted(d for d in PACKAGES.iterdir() if (d / "PKGBUILD").is_file())
 
 
 def current_pkgver(pkgbuild: Path) -> str | None:

@@ -120,7 +120,7 @@ jobs:
           fi
 
           to_build=()
-          for srcinfo in */.SRCINFO; do
+          for srcinfo in packages/*/.SRCINFO; do
             dir=${srcinfo%/.SRCINFO}
             pkgname=$(sed -n 's/^pkgname = //p' "$srcinfo")
             pkgver=$(sed -n 's/^\tpkgver = //p' "$srcinfo")
