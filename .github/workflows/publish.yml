@@ -137,14 +137,23 @@ jobs:
             exit 0
           fi
           # Packages first so the db never references files that are not yet uploaded.
-          rclone copy . "$R2_REMOTE" --include "*.pkg.tar.zst" --include "*.pkg.tar.zst.sig"
+          # Package filenames are unique per version, so cache them forever; the
+          # db/sig/key objects mutate in place and must never be CDN-cached.
+          rclone copy . "$R2_REMOTE" \
+            --include "*.pkg.tar.zst" --include "*.pkg.tar.zst.sig" \
+            --header-upload "Cache-Control: public, max-age=31536000, immutable"
           for f in db files; do
-            rclone copyto "$PACMAN_REPO.$f.tar.zst" "$R2_REMOTE/$PACMAN_REPO.$f.tar.zst"
-            rclone copyto "$PACMAN_REPO.$f.tar.zst.sig" "$R2_REMOTE/$PACMAN_REPO.$f.tar.zst.sig"
-            rclone copyto "$PACMAN_REPO.$f.tar.zst" "$R2_REMOTE/$PACMAN_REPO.$f"
-            rclone copyto "$PACMAN_REPO.$f.tar.zst.sig" "$R2_REMOTE/$PACMAN_REPO.$f.sig"
+            rclone copyto --header-upload "Cache-Control: no-cache" \
+              "$PACMAN_REPO.$f.tar.zst" "$R2_REMOTE/$PACMAN_REPO.$f.tar.zst"
+            rclone copyto --header-upload "Cache-Control: no-cache" \
+              "$PACMAN_REPO.$f.tar.zst.sig" "$R2_REMOTE/$PACMAN_REPO.$f.tar.zst.sig"
+            rclone copyto --header-upload "Cache-Control: no-cache" \
+              "$PACMAN_REPO.$f.tar.zst" "$R2_REMOTE/$PACMAN_REPO.$f"
+            rclone copyto --header-upload "Cache-Control: no-cache" \
+              "$PACMAN_REPO.$f.tar.zst.sig" "$R2_REMOTE/$PACMAN_REPO.$f.sig"
           done
-          rclone copyto "$GITHUB_WORKSPACE/josh.gpg" "r2:pkgs/josh.gpg"
+          rclone copyto --header-upload "Cache-Control: no-cache" \
+            "$GITHUB_WORKSPACE/josh.gpg" "r2:pkgs/josh.gpg"
 
       - name: Report build failures
         if: steps.build.outputs.failed != ''
