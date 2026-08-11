@@ -2,22 +2,31 @@
 
 pkgname=warp-terminal
 pkgver=0.2026.08.05.09.03.stable_01
-pkgrel=1
+pkgrel=2
 pkgdesc="Intelligent terminal with AI and team knowledge built in"
 arch=(x86_64)
 url="https://warp.dev"
-license=(LicenseRef-proprietary)
+license=('AGPL-3.0-only AND MIT')
 depends=(alsa-lib gtk3 libxcb libxkbcommon-x11 libxss nss)
 conflicts=(warp-terminal-bin)
 replaces=(warp-terminal-bin)
 options=(!strip !debug)
+_license_commit=80a203474d0627b203de28c878bdad07e22d98b0
+source=("warp-terminal-LICENSE-AGPL-${pkgver}::https://raw.githubusercontent.com/warpdotdev/Warp/${_license_commit}/LICENSE-AGPL"
+        "warp-terminal-LICENSE-MIT-${pkgver}::https://raw.githubusercontent.com/warpdotdev/Warp/${_license_commit}/LICENSE-MIT")
 source_x86_64=("warp-terminal-${pkgver}-x86_64.pkg.tar.zst::https://releases.warp.dev/stable/v${pkgver}/warp-terminal-v${pkgver}-1-x86_64.pkg.tar.zst")
 noextract=("warp-terminal-${pkgver}-x86_64.pkg.tar.zst")
+sha256sums=('16f8dac5fd5755d74ba05cb377c23f49e794252d200548fb3b227e1c5dcbfaec'
+            '0cb5f8a282734dd41844fc3bdc28bda274cc71db8de289a9959263b61210daa9')
 sha256sums_x86_64=('463f56d856e7cf739fce057838e988e2bcb20750cec8b06d0fa2f26791721a66')
 
 package() {
   bsdtar -xf "$srcdir/warp-terminal-${pkgver}-x86_64.pkg.tar.zst" -C "$pkgdir"
   rm -f "$pkgdir"/{.BUILDINFO,.INSTALL,.MTREE,.PKGINFO}
+  install -Dm644 "$srcdir/warp-terminal-LICENSE-AGPL-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-AGPL"
+  install -Dm644 "$srcdir/warp-terminal-LICENSE-MIT-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE-MIT"
 
   if [[ -f "$pkgdir/usr/bin/warp" && ! -e "$pkgdir/usr/bin/warp-terminal" ]]; then
     ln -s /usr/bin/warp "$pkgdir/usr/bin/warp-terminal"
