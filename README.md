@@ -6,19 +6,17 @@ Custom Arch Linux packages. Local overlay for fixes not yet upstream and repacka
 
 ### Binary repo (recommended)
 
-Packages whose upstream terms allow redistribution are built in CI and published to a pacman repo at `pkgs.joshthomas.dev`. Packages and the repo database are signed; trust the signing key once:
+All packages are built in CI and published to the private pacman repo at `pkgs.joshthomas.dev`. Packages and the repo database are signed; trust the committed signing key once:
 
 ```bash
-curl -fsSL https://pkgs.joshthomas.dev/josh.gpg | sudo pacman-key --add -
+sudo pacman-key --add ./josh.gpg
 sudo pacman-key --lsign-key 553F177AEECD8B668AAD3FA0A6D0CBC27AE90D91
 ```
 
-Add this to `/etc/pacman.conf`:
+The repository owner provides an authenticated pacman stanza in `/etc/pacman.d/josh.conf`. Include it in `/etc/pacman.conf` before the official repositories:
 
 ```ini
-[josh]
-SigLevel = Required DatabaseRequired
-Server = https://pkgs.joshthomas.dev/arch/$repo/os/$arch
+Include = /etc/pacman.d/josh.conf
 ```
 
 Then install like any official package:
@@ -30,7 +28,7 @@ sudo pacman -S littlesnitch
 
 Pacman gives the first configured repository priority when two repositories contain the same package name. Put `[josh]` before the official repositories to use this repo's `pandoc` and `shellcheck` builds; put it after them to prefer Arch's builds.
 
-`publish-exclude.txt` lists packages kept as PKGBUILDs but omitted from the public binary repo because their upstream terms do not grant redistribution rights.
+The R2 bucket has no public endpoint. An authenticated Cloudflare Worker at `pkgs.joshthomas.dev` handles package reads while GitHub Actions writes directly through R2's S3 API.
 
 ### PKGBUILD repo via paru
 
@@ -58,20 +56,20 @@ Packages from PKGBUILD repositories take priority over the AUR, so this repo can
 
 Packages the [Claude Desktop](https://claude.ai/download) Linux beta from Anthropic's upstream `.deb` release for Arch Linux. The app includes Chat, Cowork, and Claude Code tabs on Linux.
 
-Install it through paru from this repo:
+Install it from the binary repo:
 
 ```bash
-paru -S claude-desktop
+sudo pacman -S claude-desktop
 ```
 
 ### littlesnitch
 
 Packages [Little Snitch for Linux](https://obdev.at/products/littlesnitch-linux/) from the upstream `.pkg.tar.zst` release. A network monitor that uses eBPF to show which applications are opening outgoing connections, with a local web UI at `http://localhost:3031/`. Requires Linux 6.12+ with BTF kernel support.
 
-Install it through paru from this repo:
+Install it from the binary repo:
 
 ```bash
-paru -S littlesnitch
+sudo pacman -S littlesnitch
 ```
 
 The AUR `littlesnitch-bin` package exists but lags upstream; this package takes priority from this repo without waiting on the public AUR.
@@ -80,10 +78,10 @@ The AUR `littlesnitch-bin` package exists but lags upstream; this package takes 
 
 Packages the [Paper](https://paper.design) desktop application from the upstream `.deb` release for Arch Linux. Paper is a collaborative design tool built on web standards that connects teams, agents, code, and data on a single canvas. Think Figma, but designed around agent workflows.
 
-Install it through paru from this repo:
+Install it from the binary repo:
 
 ```bash
-paru -S paper-design
+sudo pacman -S paper-design
 ```
 
 ## Development
@@ -106,4 +104,10 @@ New versions get `pkgver` bumped, `pkgrel` reset, checksums refreshed via `updpk
 
 To add a package: create a directory with a `PKGBUILD` and add a section to `nvchecker.toml` named after the directory ([source reference](https://nvchecker.readthedocs.io/en/latest/usage.html#configuration-files)).
 
-A scheduled workflow (`update.yml`) runs these scripts nightly and opens a PR when upstream releases a new version. Successful updates still reach the PR when another upstream check fails; the failed workflow names packages that need attention. On merge to `main`, the publish workflow (`publish.yml`) builds any publishable package whose `.SRCINFO` version is missing from the published database and syncs it to the R2 bucket behind `pkgs.joshthomas.dev`. Old package versions are never deleted, so previous releases stay available for `pacman -U` rollbacks.
+A scheduled workflow (`update.yml`) runs these scripts nightly and opens a PR when upstream releases a new version. Successful updates still reach the PR when another upstream check fails; the failed workflow names packages that need attention. On merge to `main`, the publish workflow (`publish.yml`) builds each package whose `.SRCINFO` version is missing from the repository database and syncs it to R2. Old package versions are never deleted, so previous releases stay available for `pacman -U` rollbacks.
+
+The read-only Worker in `worker/index.mjs` requires HTTP Basic authentication, supports HEAD and byte-range requests, and disables shared caching. Deploy it with the personal Wrangler profile after setting `BASIC_AUTH_PASSWORD` as a Worker secret:
+
+```bash
+npx wrangler deploy --profile personal
+```

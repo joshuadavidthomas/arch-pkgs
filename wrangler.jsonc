@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "arch-pkgs",
+  "main": "worker/index.mjs",
+  "compatibility_date": "2026-08-10",
+  "preview_urls": false,
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "pkgs.joshthomas.dev",
+      "custom_domain": true
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "PACKAGES",
+      "bucket_name": "pkgs",
+      "remote": true
+    }
+  ],
+  "secrets": {
+    "required": ["BASIC_AUTH_PASSWORD"]
+  }
+}

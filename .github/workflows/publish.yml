@@ -34,25 +34,27 @@ jobs:
     environment: publish
     container:
       image: archlinux@sha256:1047e6e7878d58e4ee47e1cd6459a32fab41246b0efc4109e11b7ef16f50b14d
-    env:
-      RCLONE_CONFIG_R2_TYPE: s3
-      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
-      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
-      # Bucket-scoped R2 tokens cannot list/head buckets; without this rclone
-      # falls back to CreateBucket and gets a 403.
-      RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
     steps:
       - name: Install workflow dependencies
-        run: pacman -Syu --noconfirm --needed base-devel git rclone sudo uv
+        run: pacman -Syu --noconfirm --needed base-devel curl git nodejs rclone sudo uv
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
 
       - name: Validate repository metadata
-        run: uv run pytest
+        run: |
+          node --test worker/index.test.mjs
+          uv run pytest
+
+      - name: Require private package endpoint
+        run: |
+          status=$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            https://pkgs.joshthomas.dev/arch/josh/os/x86_64/josh.db || true)
+          if [[ "$status" != "401" ]]; then
+            echo "Private package endpoint returned $status without credentials; refusing to publish." >&2
+            exit 1
+          fi
 
       - name: Configure makepkg user
         run: |
@@ -78,6 +80,13 @@ jobs:
           fi
 
       - name: Download repo database
+        env:
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_TYPE: s3
         run: |
           mkdir -p repo
           rclone copy "$R2_REMOTE" repo \
@@ -110,10 +119,6 @@ jobs:
           to_build=()
           for srcinfo in */.SRCINFO; do
             dir=${srcinfo%/.SRCINFO}
-            if grep -qxF "$dir" publish-exclude.txt; then
-              echo "Not published: $dir (redistribution restricted)"
-              continue
-            fi
             pkgname=$(sed -n 's/^pkgname = //p' "$srcinfo")
             pkgver=$(sed -n 's/^\tpkgver = //p' "$srcinfo")
             pkgrel=$(sed -n 's/^\tpkgrel = //p' "$srcinfo")
@@ -172,24 +177,15 @@ jobs:
           sudo -H -u builder \
             repo-add --sign --key "$GPG_KEY_ID" "$PACMAN_REPO.db.tar.zst" "${pkgs[@]}"
 
-      - name: Remove packages without redistribution rights
-        id: exclusions
-        run: |
-          cd repo
-          changed=false
-          while IFS= read -r pkgname; do
-            [[ -n "$pkgname" ]] || continue
-            if bsdtar -tf "$PACMAN_REPO.db.tar.zst" 2>/dev/null |
-                cut -d/ -f1 | sed 's/-[0-9].*$//' | grep -qxF "$pkgname"; then
-              sudo -H -u builder repo-remove --sign --key "$GPG_KEY_ID" \
-                "$PACMAN_REPO.db.tar.zst" "$pkgname"
-              changed=true
-            fi
-          done < "$GITHUB_WORKSPACE/publish-exclude.txt"
-          echo "changed=$changed" >> "$GITHUB_OUTPUT"
-
       - name: Upload to R2
-        if: steps.build.outputs.built == 'true' || steps.exclusions.outputs.changed == 'true'
+        if: steps.build.outputs.built == 'true'
+        env:
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_TYPE: s3
         run: |
           cd repo
           shopt -s nullglob
@@ -200,7 +196,7 @@ jobs:
           if [[ ${#pkgs[@]} -gt 0 ]]; then
             rclone copy . "$R2_REMOTE" \
               --include "*.pkg.tar.zst" --include "*.pkg.tar.zst.sig" \
-              --header-upload "Cache-Control: public, max-age=31536000, immutable"
+              --header-upload "Cache-Control: private, max-age=31536000, immutable"
           fi
           for f in db files; do
             rclone copyto --header-upload "Cache-Control: no-cache" \
@@ -213,16 +209,14 @@ jobs:
               "$PACMAN_REPO.$f.tar.zst.sig" "$R2_REMOTE/$PACMAN_REPO.$f.sig"
           done
 
-      - name: Delete excluded package artifacts
-        run: |
-          while IFS= read -r pkgname; do
-            [[ -n "$pkgname" ]] || continue
-            rclone delete "$R2_REMOTE" \
-              --include "$pkgname-*.pkg.tar.zst" \
-              --include "$pkgname-*.pkg.tar.zst.sig"
-          done < publish-exclude.txt
-
       - name: Upload public key
+        env:
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_TYPE: s3
         run: |
           rclone copyto --header-upload "Cache-Control: no-cache" \
             josh.gpg "r2:pkgs/josh.gpg"

@@ -26,14 +26,10 @@ def test_all_sources_have_checksums() -> None:
 
 def test_package_lists_are_alphabetized() -> None:
     sections = list(tomllib.loads((ROOT / "nvchecker.toml").read_text()))
-    exclusions = (ROOT / "publish-exclude.txt").read_text().splitlines()
     ignore_patterns = (ROOT / ".gitignore").read_text().splitlines()
-    package_dirs = {path.parent.name for path in ROOT.glob("*/PKGBUILD")}
 
     assert sections == sorted(sections)
-    assert exclusions == sorted(exclusions)
     assert ignore_patterns == sorted(ignore_patterns)
-    assert set(exclusions) <= package_dirs
 
 
 def test_updates_version_and_resets_release() -> None:
