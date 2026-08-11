@@ -3,7 +3,7 @@
 
 pkgname=codiff-bin
 pkgver=1.9.0
-pkgrel=4
+pkgrel=5
 pkgdesc="A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing"
 arch=(x86_64)
 url="https://codiff.dev"

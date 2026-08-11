@@ -6,11 +6,18 @@ Custom Arch Linux packages. Local overlay for fixes not yet upstream and repacka
 
 ### Binary repo (recommended)
 
-Packages are built in CI and published to a pacman repo at `pkgs.joshthomas.dev`. Add this to `/etc/pacman.conf`:
+Packages are built in CI and published to a pacman repo at `pkgs.joshthomas.dev`. Packages and the repo database are signed; trust the signing key once:
+
+```bash
+curl -fsSL https://pkgs.joshthomas.dev/josh.gpg | sudo pacman-key --add -
+sudo pacman-key --lsign-key 553F177AEECD8B668AAD3FA0A6D0CBC27AE90D91
+```
+
+Add this to `/etc/pacman.conf`:
 
 ```ini
 [josh]
-SigLevel = Optional TrustAll
+SigLevel = Required DatabaseRequired
 Server = https://pkgs.joshthomas.dev/arch/$repo/os/$arch
 ```
 

@@ -1,7 +1,7 @@
 pkgbase = paper-design
 	pkgdesc = A collaborative design tool built on web standards with agent integration
 	pkgver = 0.5.3
-	pkgrel = 1
+	pkgrel = 2
 	url = https://paper.design
 	arch = x86_64
 	license = custom:Proprietary

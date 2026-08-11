@@ -1,8 +1,9 @@
 pkgbase = claude-desktop
 	pkgdesc = Desktop application for Claude.ai
 	pkgver = 1.17377.0
-	pkgrel = 1
+	pkgrel = 4
 	url = https://claude.ai/download
+	install = claude-desktop.install
 	arch = x86_64
 	license = custom:Proprietary
 	depends = gtk3

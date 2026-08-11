@@ -2,7 +2,7 @@
 
 pkgname=claude-desktop
 pkgver=1.17377.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Desktop application for Claude.ai"
 arch=(x86_64)
 url="https://claude.ai/download"

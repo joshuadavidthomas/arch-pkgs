@@ -1,7 +1,7 @@
 pkgbase = codiff-bin
 	pkgdesc = A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing
 	pkgver = 1.9.0
-	pkgrel = 4
+	pkgrel = 5
 	url = https://codiff.dev
 	arch = x86_64
 	license = MIT
