@@ -11,4 +11,4 @@ pkg/
 *.log
 .wrangler/
 *.pacman
-handy-LICENSE-*
+*-LICENSE-*

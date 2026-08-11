@@ -1,0 +1,34 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=webcord
+pkgver=4.14.0
+pkgrel=1
+pkgdesc="A Discord client implemented directly without Discord API"
+arch=(x86_64)
+url="https://github.com/SpacingBat3/WebCord"
+license=(MIT)
+depends=(alsa-lib at-spi2-core bash cairo dbus expat glib2 glibc gtk3 libcups
+         libx11 libxcb libxcomposite libxdamage libxext libxfixes libxkbcommon
+         libxrandr mesa nspr nss pango systemd-libs)
+conflicts=(webcord-bin)
+replaces=(webcord-bin)
+options=(!strip !debug !emptydirs)
+noextract=("webcord-${pkgver}-1.x86_64.rpm")
+source=('flags.sh'
+        "webcord-LICENSE-${pkgver}::https://raw.githubusercontent.com/SpacingBat3/WebCord/v${pkgver}/LICENSE")
+source_x86_64=("https://github.com/SpacingBat3/WebCord/releases/download/v${pkgver}/webcord-${pkgver}-1.x86_64.rpm")
+sha256sums=('d83693ffd8034c21030262ac00ce529c8da7b0196ea4b4eb2168861fc2657a2a'
+            '7a79d59a86aaa880fc0126f9ce516f7aa061a4009183d1e93197e850328c038a')
+sha256sums_x86_64=('e4e96656b3b0f5a6954022c47bbd4af48f49f0838f37ac290ff80ae4f76123ea')
+
+package() {
+  bsdtar -xf "$srcdir/webcord-${pkgver}-1.x86_64.rpm" -C "$pkgdir" \
+    --exclude="usr/lib/.build-id" \
+    --exclude="usr/bin" \
+    --exclude="usr/share/doc"
+  mv "$pkgdir/usr/lib" "$pkgdir/opt"
+  sed -e "s|@NAME@|webcord|;s|@EXEC@|/opt/webcord/webcord|" "$srcdir/flags.sh" |
+    install -Dm755 /dev/stdin "$pkgdir/usr/bin/webcord"
+  install -Dm644 "$srcdir/webcord-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

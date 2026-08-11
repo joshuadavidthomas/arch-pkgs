@@ -41,6 +41,11 @@ github = "cjpais/Handy"
 use_latest_release = true
 prefix = "v"
 
+[helium-browser]
+source = "github"
+github = "imputnet/helium-linux"
+use_latest_release = true
+
 [heroic-games-launcher]
 source = "github"
 github = "Heroic-Games-Launcher/HeroicGamesLauncher"
@@ -59,6 +64,10 @@ url = "https://obdev.at/products/littlesnitch-linux/download.html"
 regex = 'littlesnitch-([0-9]+\.[0-9]+\.[0-9]+-[0-9]+)-x86_64\.pkg\.tar\.zst'
 from_pattern = '^(.*)-([0-9]+)$'
 to_pattern = '\1_\2'
+
+[opencode-desktop]
+source = "cmd"
+cmd = "gh api 'repos/anomalyco/opencode/releases?per_page=50' --jq '[.[] | select(.prerelease == false and .draft == false and any(.assets[]; .name == \"opencode-desktop-linux-amd64.deb\"))][0].tag_name' | sed 's/^v//'"
 
 [overmind]
 source = "github"
@@ -80,5 +89,17 @@ regex = 'paper-desktop-([\d.]+?)\.?amd64\.deb'
 [shellcheck]
 source = "github"
 github = "koalaman/shellcheck"
+use_latest_release = true
+prefix = "v"
+
+[teams-for-linux]
+source = "github"
+github = "IsmaelMartinez/teams-for-linux"
+use_latest_release = true
+prefix = "v"
+
+[webcord]
+source = "github"
+github = "SpacingBat3/WebCord"
 use_latest_release = true
 prefix = "v"
