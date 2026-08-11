@@ -85,30 +85,54 @@ jobs:
           echo "dirs=${to_build[*]}" >> "$GITHUB_OUTPUT"
 
       - name: Build packages
+        id: build
         if: steps.plan.outputs.dirs != ''
         env:
           BUILD_DIRS: ${{ steps.plan.outputs.dirs }}
         run: |
+          failed=()
           for dir in $BUILD_DIRS; do
             echo "==> Building $dir..."
-            sudo -u builder \
+            if ! sudo -u builder \
               env PKGDEST="$GITHUB_WORKSPACE/repo" \
-              bash -c "cd '$dir' && makepkg --syncdeps --noconfirm --clean"
+              bash -c "cd '$dir' && makepkg --syncdeps --noconfirm --clean"; then
+              echo "::error::Build failed for $dir"
+              failed+=("$dir")
+            fi
           done
+          echo "failed=${failed[*]}" >> "$GITHUB_OUTPUT"
 
       - name: Update repo database
         if: steps.plan.outputs.dirs != ''
         run: |
           cd repo
-          repo-add "$PACMAN_REPO.db.tar.zst" ./*.pkg.tar.zst
+          shopt -s nullglob
+          pkgs=(*.pkg.tar.zst)
+          if [[ ${#pkgs[@]} -eq 0 ]]; then
+            echo "No packages built; skipping database update."
+            exit 0
+          fi
+          repo-add "$PACMAN_REPO.db.tar.zst" "${pkgs[@]}"
 
       - name: Upload to R2
         if: steps.plan.outputs.dirs != ''
         run: |
           cd repo
+          shopt -s nullglob
+          pkgs=(*.pkg.tar.zst)
+          if [[ ${#pkgs[@]} -eq 0 ]]; then
+            echo "No packages built; skipping upload."
+            exit 0
+          fi
           # Packages first so the db never references files that are not yet uploaded.
           rclone copy . "$R2_REMOTE" --include "*.pkg.tar.zst"
           rclone copyto "$PACMAN_REPO.db.tar.zst" "$R2_REMOTE/$PACMAN_REPO.db.tar.zst"
           rclone copyto "$PACMAN_REPO.files.tar.zst" "$R2_REMOTE/$PACMAN_REPO.files.tar.zst"
           rclone copyto "$PACMAN_REPO.db.tar.zst" "$R2_REMOTE/$PACMAN_REPO.db"
           rclone copyto "$PACMAN_REPO.files.tar.zst" "$R2_REMOTE/$PACMAN_REPO.files"
+
+      - name: Report build failures
+        if: steps.build.outputs.failed != ''
+        run: |
+          echo "Builds failed for: ${{ steps.build.outputs.failed }}"
+          exit 1
