@@ -25,12 +25,12 @@ jobs:
       contents: write # Push the automated update branch.
       pull-requests: write # Open or update the automated package update PR.
     steps:
+      - name: Install workflow dependencies
+        run: pacman -Syu --noconfirm --needed base-devel pacman-contrib python git github-cli sudo uv
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           persist-credentials: false
-
-      - name: Install workflow dependencies
-        run: pacman -Syu --noconfirm --needed base-devel pacman-contrib python git github-cli sudo uv
 
       - name: Configure makepkg user
         run: |
