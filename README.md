@@ -88,6 +88,14 @@ paru -S paper-design
 
 ## Development
 
+### Integrity model
+
+Every downloaded source and binary has a SHA-256 checksum; CI rejects `SKIP` entries. Automated update PRs replace those hashes when upstream publishes a new version, so review establishes trust in each new upstream artifact. The repository signature proves that a package passed this build pipeline and came from this repository; it does not add an upstream signature that the publisher did not provide.
+
+CI fixes `SOURCE_DATE_EPOCH` to the repository commit time, so retrying the same commit cannot change an immutable package URL merely because the build ran later.
+
+### Package updates
+
 Upstream version checks are declarative: each package directory has a matching section in `nvchecker.toml`. Check all upstreams and apply updates (requires `uv` and `pacman-contrib`):
 
 ```bash
