@@ -15,19 +15,21 @@ sudo pacman-key --add ./josh.gpg
 sudo pacman-key --lsign-key 553F177AEECD8B668AAD3FA0A6D0CBC27AE90D91
 ```
 
-Declare the repository in `/etc/pacman.conf` before the official repositories:
+Add the repository to `/etc/pacman.conf` before the official repositories:
 
 ```ini
 [josh]
 Include = /etc/pacman.d/josh.conf
 ```
 
-Keep the credentials in `/etc/pacman.d/josh.conf`. This included file has no repository header:
+Create `/etc/pacman.d/josh.conf`:
 
 ```ini
 SigLevel = Required DatabaseRequired
-Server = https://josh:<password>@pkgs.joshthomas.dev/arch/$repo/os/$arch
+Server = https://josh:<token>@pkgs.joshthomas.dev/arch/$repo/os/$arch
 ```
+
+The username is `josh`. Replace `<token>` with the repository read token, which is the value deployed to the Worker as `BASIC_AUTH_PASSWORD`. Percent-encode the token before putting it in the URL.
 
 Install and update packages through pacman:
 
