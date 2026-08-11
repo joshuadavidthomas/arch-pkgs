@@ -107,7 +107,7 @@ jobs:
             echo "==> Building $dir..."
             if ! sudo -H -u builder \
               env PKGDEST="$GITHUB_WORKSPACE/repo" \
-              bash -c "cd '$dir' && makepkg --syncdeps --noconfirm --clean --sign --key '$GPG_KEY_ID'"; then
+              bash -c "cd '$dir' && makepkg --nodeps --noconfirm --clean --sign --key '$GPG_KEY_ID'"; then
               echo "::error::Build failed for $dir"
               failed+=("$dir")
             fi
