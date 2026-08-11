@@ -10,6 +10,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from pathlib import PurePosixPath
@@ -31,14 +32,21 @@ def run(
     input_text: str | None = None,
     check: bool = True,
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+    result = subprocess.run(
         args,
         cwd=ROOT,
-        check=check,
+        check=False,
         capture_output=True,
         input=input_text,
         text=True,
     )
+    if check and result.returncode != 0:
+        if result.stdout:
+            print(result.stdout, end="")
+        if result.stderr:
+            print(result.stderr, end="", file=sys.stderr)
+        result.check_returncode()
+    return result
 
 
 def pkgver(pkgbuild: str) -> str:
