@@ -71,7 +71,7 @@ Run the repository checks with:
 ```bash
 node --test worker/index.test.mjs
 uv run pytest
-uv run ruff check update.py tests
+uv run ruff check scripts update.py tests
 actionlint
 ```
 
@@ -79,7 +79,7 @@ CI rejects missing source checksums and mismatched package metadata.
 
 ### Publish binaries
 
-`publish.yml` builds package versions missing from the repository database, signs each package and database, and uploads them to the private R2 bucket. The workflow refuses to publish unless `pkgs.joshthomas.dev` rejects an anonymous request.
+`publish.yml` builds package versions missing from the repository database, signs each package and database, and uploads them to the private R2 bucket. The workflow refuses to publish unless `pkgs.joshthomas.dev` rejects an anonymous request. Its run summary lists package results and records R2 storage growth.
 
 The Worker in `worker/index.mjs` authenticates reads from `pkgs.joshthomas.dev` and serves the R2 objects needed by pacman. R2 has no public domain or `r2.dev` endpoint.
 

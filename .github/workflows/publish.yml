@@ -48,6 +48,7 @@ jobs:
           uv run pytest
 
       - name: Require private package endpoint
+        id: privacy
         run: |
           status=$(curl --silent --output /dev/null --write-out '%{http_code}' \
             https://pkgs.joshthomas.dev/arch/josh/os/x86_64/josh.db || true)
@@ -120,6 +121,7 @@ jobs:
           fi
 
           to_build=()
+          : > "$RUNNER_TEMP/package-plan.tsv"
           for srcinfo in packages/*/.SRCINFO; do
             dir=${srcinfo%/.SRCINFO}
             pkgname=$(sed -n 's/^pkgname = //p' "$srcinfo")
@@ -132,6 +134,8 @@ jobs:
 
             if ! grep -qxF "$pkgname-$fullver" <<< "$existing"; then
               echo "Will build: $pkgname $fullver ($dir)"
+              printf '%s\t%s\t%s\n' "$dir" "$pkgname" "$fullver" >> \
+                "$RUNNER_TEMP/package-plan.tsv"
               to_build+=("$dir")
             else
               echo "Up to date: $pkgname $fullver ($dir)"
@@ -167,6 +171,7 @@ jobs:
           fi
 
       - name: Update repo database
+        id: database
         if: steps.plan.outputs.dirs != ''
         run: |
           cd repo
@@ -180,6 +185,7 @@ jobs:
             repo-add --sign --key "$GPG_KEY_ID" "$PACMAN_REPO.db.tar.zst" "${pkgs[@]}"
 
       - name: Upload to R2
+        id: upload
         if: steps.build.outputs.built == 'true'
         env:
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -222,6 +228,22 @@ jobs:
         run: |
           rclone copyto --header-upload "Cache-Control: no-cache" \
             josh.gpg "r2:pkgs/josh.gpg"
+
+      - name: Write workflow summary
+        if: always()
+        continue-on-error: true
+        env:
+          DATABASE_OUTCOME: ${{ steps.database.outcome }}
+          FAILED_DIRS: ${{ steps.build.outputs.failed }}
+          PRIVACY_OUTCOME: ${{ steps.privacy.outcome }}
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_TYPE: s3
+          UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
+        run: uv run --script scripts/publish_summary.py
 
       - name: Report build failures
         if: steps.build.outputs.failed != ''
