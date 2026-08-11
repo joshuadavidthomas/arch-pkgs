@@ -236,9 +236,7 @@ jobs:
         if: always()
         continue-on-error: true
         env:
-          DATABASE_OUTCOME: ${{ steps.database.outcome }}
           FAILED_DIRS: ${{ steps.build.outputs.failed }}
-          PRIVACY_OUTCOME: ${{ steps.privacy.outcome }}
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
           RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"

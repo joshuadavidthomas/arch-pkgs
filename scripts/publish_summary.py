@@ -236,16 +236,7 @@ def render_summary(
             ]
         )
 
-    lines.extend(
-        [
-            "",
-            f"- Anonymous access check: {os.environ.get('PRIVACY_OUTCOME', 'unknown')}",
-            f"- Database update: {os.environ.get('DATABASE_OUTCOME', 'unknown')}",
-            f"- R2 upload: {os.environ.get('UPLOAD_OUTCOME', 'unknown')}",
-            "",
-        ]
-    )
-    return "\n".join(lines)
+    return "\n".join(lines) + "\n"
 
 
 def main() -> None:

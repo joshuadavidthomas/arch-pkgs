@@ -45,14 +45,11 @@ def test_renders_package_results(tmp_path: Path) -> None:
 
 def test_renders_repository_summary(monkeypatch: pytest.MonkeyPatch) -> None:
     environment = {
-        "DATABASE_OUTCOME": "success",
         "GITHUB_REPOSITORY": "owner/repo",
         "GITHUB_RUN_ID": "123",
         "GITHUB_RUN_NUMBER": "7",
         "GITHUB_SERVER_URL": "https://github.com",
         "GITHUB_SHA": "1234567890abcdef",
-        "PRIVACY_OUTCOME": "success",
-        "UPLOAD_OUTCOME": "success",
     }
     for name, value in environment.items():
         monkeypatch.setenv(name, value)
@@ -65,4 +62,3 @@ def test_renders_repository_summary(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "| Packages in database | 27 | — |" in rendered
     assert "| R2 storage | 3 KiB | +1 KiB |" in rendered
     assert "| R2 objects | 12 | +2 |" in rendered
-    assert "- Anonymous access check: success" in rendered
