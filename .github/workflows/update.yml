@@ -49,49 +49,11 @@ jobs:
           sudo --preserve-env=GITHUB_TOKEN -u builder
           ./update.py --failure-file /tmp/update-failures
 
-      - name: Create pull request
-        working-directory: ${{ github.workspace }}
+      - name: Create package pull requests
         env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: automated/update-packages
-        run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
-          changes="$(git status --porcelain)"
-          if [[ -z "$changes" ]]; then
-            echo "No package metadata changes."
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B "$BRANCH_NAME"
-          git add .
-          git commit -m "Update package metadata"
-          gh auth setup-git
-          git fetch origin \
-            "+refs/heads/$BRANCH_NAME:refs/remotes/origin/$BRANCH_NAME" || true
-          git push --force-with-lease origin "$BRANCH_NAME"
-
-          open_pr=$(gh pr list \
-            --repo "$GITHUB_REPOSITORY" \
-            --head "$BRANCH_NAME" \
-            --state open \
-            --json number \
-            --jq '.[0].number // empty')
-          if [[ -n "$open_pr" ]]; then
-            gh pr edit "$open_pr" \
-              --repo "$GITHUB_REPOSITORY" \
-              --title "Update package metadata" \
-              --body "Automated package metadata update from \`./update.py\`."
-          else
-            gh pr create \
-              --repo "$GITHUB_REPOSITORY" \
-              --base "${GITHUB_REF_NAME}" \
-              --head "$BRANCH_NAME" \
-              --title "Update package metadata" \
-              --body "Automated package metadata update from \`./update.py\`."
-          fi
+        run: uv run --script scripts/update_pull_requests.py
 
       - name: Report update failures
         if: steps.updates.outcome == 'failure'
