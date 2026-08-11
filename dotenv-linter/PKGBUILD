@@ -2,7 +2,7 @@
 
 pkgname=dotenv-linter
 pkgver=4.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Lightning-fast linter for .env files"
 arch=(x86_64)
 url="https://dotenv-linter.github.io"
@@ -10,9 +10,13 @@ license=(MIT)
 conflicts=(dotenv-linter-bin dotenv-linter-git)
 replaces=(dotenv-linter-bin)
 options=(!strip !debug)
+source=("dotenv-linter-LICENSE-${pkgver}::https://raw.githubusercontent.com/dotenv-linter/dotenv-linter/v${pkgver}/LICENSE")
 source_x86_64=("dotenv-linter-${pkgver}-linux-x86_64.tar.gz::https://github.com/dotenv-linter/dotenv-linter/releases/download/v${pkgver}/dotenv-linter-linux-x86_64.tar.gz")
+sha256sums=('56880028a25c8329423a0ec2c62c834e8c39836cc38fc734c3643a973f7ee62d')
 sha256sums_x86_64=('9e2f1f6eb88a71ac15ef209f78f5a68644db82f132d2677112b4f80ec2bd2127')
 
 package() {
   install -Dm755 "$srcdir/dotenv-linter" "$pkgdir/usr/bin/dotenv-linter"
+  install -Dm644 "$srcdir/dotenv-linter-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

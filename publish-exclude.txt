@@ -1,0 +1,3 @@
+claude-desktop
+github-copilot-app
+visual-studio-code

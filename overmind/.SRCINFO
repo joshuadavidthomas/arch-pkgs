@@ -1,7 +1,7 @@
 pkgbase = overmind
 	pkgdesc = Process manager for Procfile-based applications and tmux
 	pkgver = 2.5.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/DarthSim/overmind
 	arch = x86_64
 	license = MIT
@@ -10,6 +10,8 @@ pkgbase = overmind
 	replaces = overmind-bin
 	options = !strip
 	options = !debug
+	source = overmind-LICENSE-2.5.1::https://raw.githubusercontent.com/DarthSim/overmind/v2.5.1/LICENSE
+	sha256sums = ebebb28b1266e11aa0ec15608f982545a2dbdb0c7348286a6f7e68aba798ea68
 	source_x86_64 = overmind-v2.5.1-linux-amd64.gz::https://github.com/DarthSim/overmind/releases/download/v2.5.1/overmind-v2.5.1-linux-amd64.gz
 	sha256sums_x86_64 = a17159b8e97d13f3679a4e8fbc9d4747f82d5af9f6d32597b72821378b5d0b6f
 

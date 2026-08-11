@@ -32,15 +32,22 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Validate repository metadata
+        run: uv run pytest
+
       - name: Configure makepkg user
         run: |
           useradd -m builder
           chown -R builder:builder "$GITHUB_WORKSPACE"
 
       - name: Run package updates
+        id: updates
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: sudo --preserve-env=GITHUB_TOKEN -u builder ./update.py
+        run: >-
+          sudo --preserve-env=GITHUB_TOKEN -u builder
+          ./update.py --failure-file /tmp/update-failures
 
       - name: Create pull request
         working-directory: ${{ github.workspace }}
@@ -62,10 +69,18 @@ jobs:
           git add .
           git commit -m "Update package metadata"
           gh auth setup-git
+          git fetch origin \
+            "+refs/heads/$BRANCH_NAME:refs/remotes/origin/$BRANCH_NAME" || true
           git push --force-with-lease origin "$BRANCH_NAME"
 
-          if gh pr view "$BRANCH_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh pr edit "$BRANCH_NAME" \
+          open_pr=$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --head "$BRANCH_NAME" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')
+          if [[ -n "$open_pr" ]]; then
+            gh pr edit "$open_pr" \
               --repo "$GITHUB_REPOSITORY" \
               --title "Update package metadata" \
               --body "Automated package metadata update from \`./update.py\`."
@@ -77,3 +92,10 @@ jobs:
               --title "Update package metadata" \
               --body "Automated package metadata update from \`./update.py\`."
           fi
+
+      - name: Report update failures
+        if: steps.updates.outcome == 'failure'
+        run: |
+          failures=$(cat /tmp/update-failures 2>/dev/null || printf 'unknown (see update logs)')
+          echo "Package update failures: $failures" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 1

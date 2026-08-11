@@ -3,7 +3,7 @@
 
 pkgname=codiff
 pkgver=1.10.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing"
 arch=(x86_64)
 url="https://codiff.dev"
@@ -23,7 +23,9 @@ depends=(
 conflicts=(codiff-bin)
 replaces=(codiff-bin)
 options=(!strip !debug)
+source=("codiff-LICENSE-${pkgver}::https://raw.githubusercontent.com/nkzw-tech/codiff/v${pkgver}/LICENSE")
 source_x86_64=("codiff_${pkgver}_amd64.deb::https://github.com/nkzw-tech/codiff/releases/download/v${pkgver}/codiff_${pkgver}_amd64.deb")
+sha256sums=('abfd51541fe9d678a59d39a26dc132b1a5a2432b072bf17e17769289873ea5aa')
 sha256sums_x86_64=('fbcb990102a2c2999112ed77559f2c5952ee1c12cad74f94c406f12c24898c01')
 
 package() {
@@ -36,6 +38,8 @@ package() {
 
   # remove Debian-only packaging metadata
   rm -rf "$pkgdir/usr/share/lintian" "$pkgdir/usr/share/doc"
+  install -Dm644 "$srcdir/codiff-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
   # pahole owns /usr/bin/codiff, so install the app under a distinct name.
   # Recover the graphical environment for long-lived terminal sessions, then

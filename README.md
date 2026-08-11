@@ -6,7 +6,7 @@ Custom Arch Linux packages. Local overlay for fixes not yet upstream and repacka
 
 ### Binary repo (recommended)
 
-Packages are built in CI and published to a pacman repo at `pkgs.joshthomas.dev`. Packages and the repo database are signed; trust the signing key once:
+Packages whose upstream terms allow redistribution are built in CI and published to a pacman repo at `pkgs.joshthomas.dev`. Packages and the repo database are signed; trust the signing key once:
 
 ```bash
 curl -fsSL https://pkgs.joshthomas.dev/josh.gpg | sudo pacman-key --add -
@@ -27,6 +27,10 @@ Then install like any official package:
 sudo pacman -Syu
 sudo pacman -S littlesnitch
 ```
+
+Pacman gives the first configured repository priority when two repositories contain the same package name. Put `[josh]` before the official repositories to use this repo's `pandoc` and `shellcheck` builds; put it after them to prefer Arch's builds.
+
+`publish-exclude.txt` lists packages kept as PKGBUILDs but omitted from the public binary repo because their upstream terms do not grant redistribution rights.
 
 ### PKGBUILD repo via paru
 
@@ -94,4 +98,4 @@ New versions get `pkgver` bumped, `pkgrel` reset, checksums refreshed via `updpk
 
 To add a package: create a directory with a `PKGBUILD` and add a section to `nvchecker.toml` named after the directory ([source reference](https://nvchecker.readthedocs.io/en/latest/usage.html#configuration-files)).
 
-A scheduled workflow (`update.yml`) runs these scripts nightly and opens a PR when upstream releases a new version. On merge to `main`, the publish workflow (`publish.yml`) builds any package whose `.SRCINFO` version is missing from the published database and syncs it to the R2 bucket behind `pkgs.joshthomas.dev`. Old package versions are never deleted, so previous releases stay available for `pacman -U` rollbacks.
+A scheduled workflow (`update.yml`) runs these scripts nightly and opens a PR when upstream releases a new version. Successful updates still reach the PR when another upstream check fails; the failed workflow names packages that need attention. On merge to `main`, the publish workflow (`publish.yml`) builds any publishable package whose `.SRCINFO` version is missing from the published database and syncs it to the R2 bucket behind `pkgs.joshthomas.dev`. Old package versions are never deleted, so previous releases stay available for `pacman -U` rollbacks.

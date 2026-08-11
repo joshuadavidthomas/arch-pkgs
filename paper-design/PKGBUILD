@@ -2,11 +2,11 @@
 
 pkgname=paper-design
 pkgver=0.5.3
-pkgrel=2
+pkgrel=3
 pkgdesc="A collaborative design tool built on web standards with agent integration"
 arch=(x86_64)
 url="https://paper.design"
-license=(custom:Proprietary)
+license=(LicenseRef-proprietary)
 depends=(
   gtk3
   libnotify
@@ -23,13 +23,28 @@ optdepends=(
 )
 provides=(paper-desktop)
 options=(!strip !debug)
-source=("paper-design-${pkgver}.deb::https://download.paper.design/linux/deb")
-sha256sums=('88a49383cd5e9ae00bb9832ddcdebcaddfe2d03451dfecc5361abe33005743ac')
+source=("paper-design-${pkgver}.deb::https://download.paper.design/linux/deb"
+        "paper-design-LICENSE-${pkgver}::https://paper.design/legal/tos")
+sha256sums=('88a49383cd5e9ae00bb9832ddcdebcaddfe2d03451dfecc5361abe33005743ac'
+            '731ddeeb1e226339de2c38c5182e8fe3669f8991ebc1331980b2e4ecbf85c91c')
+
+prepare() {
+  local control=("$srcdir"/control.tar.*)
+  local upstream_version
+  upstream_version=$(bsdtar -xOf "${control[0]}" ./control |
+    sed -n 's/^Version: //p')
+  if [[ "$upstream_version" != "$pkgver"-* ]]; then
+    echo "Downloaded Paper ${upstream_version:-<unknown>}, expected $pkgver" >&2
+    return 1
+  fi
+}
 
 package() {
   cd "$srcdir"
 
   bsdtar -xf data.tar.* -C "$pkgdir/"
+  install -Dm644 "$srcdir/paper-design-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/TERMS.html"
 
   # fix permissions on chrome-sandbox
   chmod 4755 "$pkgdir/opt/Paper/chrome-sandbox"

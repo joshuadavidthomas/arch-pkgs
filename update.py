@@ -11,6 +11,8 @@ pkgrel reset to 1, checksums refreshed via updpkgsums, and .SRCINFO
 regenerated.
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -21,6 +23,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+VALID_PKGVER = re.compile(r"^[A-Za-z0-9._+]+$")
 
 
 def pkg_dirs() -> list[Path]:
@@ -64,21 +67,47 @@ def run_nvchecker() -> dict[str, str]:
     return results
 
 
+def render_updated_pkgbuild(text: str, newver: str) -> str:
+    if not VALID_PKGVER.fullmatch(newver):
+        raise ValueError(f"unsafe pkgver: {newver!r}")
+
+    pkgver_pattern = r"^pkgver=.*$"
+    pkgrel_pattern = r"^pkgrel=.*$"
+    if len(re.findall(pkgver_pattern, text, re.M)) != 1 or len(
+        re.findall(pkgrel_pattern, text, re.M)
+    ) != 1:
+        raise ValueError("PKGBUILD must contain one pkgver and one pkgrel assignment")
+
+    text = re.sub(pkgver_pattern, lambda _: f"pkgver={newver}", text, flags=re.M)
+    return re.sub(pkgrel_pattern, lambda _: "pkgrel=1", text, flags=re.M)
+
+
 def update_package(d: Path, newver: str) -> None:
     pkgbuild = d / "PKGBUILD"
-    text = pkgbuild.read_text()
-    text = re.sub(r"^pkgver=.*$", f"pkgver={newver}", text, flags=re.M)
-    text = re.sub(r"^pkgrel=.*$", "pkgrel=1", text, flags=re.M)
-    pkgbuild.write_text(text)
-    subprocess.run(["updpkgsums"], cwd=d, check=True)
-    srcinfo = subprocess.run(
-        ["makepkg", "--printsrcinfo"],
-        cwd=d,
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout
-    (d / ".SRCINFO").write_text(srcinfo)
+    srcinfo_path = d / ".SRCINFO"
+    original_pkgbuild = pkgbuild.read_text()
+    original_srcinfo = srcinfo_path.read_text() if srcinfo_path.exists() else None
+    clean_env = {k: v for k, v in os.environ.items() if k != "GITHUB_TOKEN"}
+
+    try:
+        pkgbuild.write_text(render_updated_pkgbuild(original_pkgbuild, newver))
+        subprocess.run(["updpkgsums"], cwd=d, check=True, env=clean_env)
+        srcinfo = subprocess.run(
+            ["makepkg", "--printsrcinfo"],
+            cwd=d,
+            check=True,
+            capture_output=True,
+            text=True,
+            env=clean_env,
+        ).stdout
+        srcinfo_path.write_text(srcinfo)
+    except Exception:
+        pkgbuild.write_text(original_pkgbuild)
+        if original_srcinfo is None:
+            srcinfo_path.unlink(missing_ok=True)
+        else:
+            srcinfo_path.write_text(original_srcinfo)
+        raise
 
 
 def main() -> None:
@@ -88,7 +117,14 @@ def main() -> None:
         action="store_true",
         help="refresh checksums and .SRCINFO even when versions match",
     )
+    parser.add_argument(
+        "--failure-file",
+        type=Path,
+        help="write failed package names here before exiting nonzero",
+    )
     args = parser.parse_args()
+    if args.failure_file:
+        args.failure_file.unlink(missing_ok=True)
 
     results = run_nvchecker()
     failures = []
@@ -106,12 +142,15 @@ def main() -> None:
         print(f"=> {name}: {cur} -> {newver}")
         try:
             update_package(d, newver)
-        except subprocess.CalledProcessError as exc:
+        except (OSError, subprocess.CalledProcessError, ValueError) as exc:
             print(f":: {name}: update failed: {exc}", file=sys.stderr)
             failures.append(name)
 
     if failures:
-        print(f"Update failed for: {' '.join(failures)}", file=sys.stderr)
+        failure_text = " ".join(failures)
+        if args.failure_file:
+            args.failure_file.write_text(failure_text + "\n")
+        print(f"Update failed for: {failure_text}", file=sys.stderr)
         sys.exit(1)
 
 

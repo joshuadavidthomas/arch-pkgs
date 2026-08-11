@@ -1,7 +1,7 @@
 pkgbase = dotenv-linter
 	pkgdesc = Lightning-fast linter for .env files
 	pkgver = 4.0.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://dotenv-linter.github.io
 	arch = x86_64
 	license = MIT
@@ -10,6 +10,8 @@ pkgbase = dotenv-linter
 	replaces = dotenv-linter-bin
 	options = !strip
 	options = !debug
+	source = dotenv-linter-LICENSE-4.0.0::https://raw.githubusercontent.com/dotenv-linter/dotenv-linter/v4.0.0/LICENSE
+	sha256sums = 56880028a25c8329423a0ec2c62c834e8c39836cc38fc734c3643a973f7ee62d
 	source_x86_64 = dotenv-linter-4.0.0-linux-x86_64.tar.gz::https://github.com/dotenv-linter/dotenv-linter/releases/download/v4.0.0/dotenv-linter-linux-x86_64.tar.gz
 	sha256sums_x86_64 = 9e2f1f6eb88a71ac15ef209f78f5a68644db82f132d2677112b4f80ec2bd2127
 

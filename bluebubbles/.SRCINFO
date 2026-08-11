@@ -1,7 +1,7 @@
 pkgbase = bluebubbles
 	pkgdesc = Cross-platform app ecosystem bringing iMessage to Android, PC, and Web
 	pkgver = 2.0.0+89
-	pkgrel = 1
+	pkgrel = 2
 	url = https://bluebubbles.app
 	arch = x86_64
 	license = Apache-2.0
@@ -21,10 +21,10 @@ pkgbase = bluebubbles
 	source = bluebubbles.sh
 	source = bluebubbles.desktop
 	source = bluebubbles-LICENSE-2.0.0+89::https://raw.githubusercontent.com/BlueBubblesApp/bluebubbles-app/v2.0.0+89/LICENSE
-	sha256sums = SKIP
-	sha256sums = SKIP
-	sha256sums = SKIP
+	sha256sums = 33d08df0540c7cfd8d0a7f2541dbf8f3b6759ce096acbbeba1d54887823f5bbb
+	sha256sums = e05f70b3f7174006f96f15ba4d80b610dc9948e199a7849d57e978ce95036046
+	sha256sums = c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4
 	source_x86_64 = bluebubbles-2.0.0+89-x86_64.tar.gz::https://github.com/BlueBubblesApp/bluebubbles-app/releases/download/v2.0.0+89/bluebubbles-linux-x86_64.tar.gz
-	sha256sums_x86_64 = SKIP
+	sha256sums_x86_64 = 75f6d31ba798f7c2c3de1ab94818b7ef3be8a14b8e014b0c9728f07b1018076a
 
 pkgname = bluebubbles

@@ -2,7 +2,7 @@
 
 pkgname=jjui
 pkgver=0.10.9
-pkgrel=1
+pkgrel=2
 pkgdesc="Terminal user interface for the Jujutsu version control system"
 arch=(x86_64)
 url="https://github.com/idursun/jjui"
@@ -11,9 +11,13 @@ depends=(jujutsu)
 conflicts=(jjui-bin)
 replaces=(jjui-bin)
 options=(!strip !debug)
+source=("jjui-LICENSE-${pkgver}::https://raw.githubusercontent.com/idursun/jjui/v${pkgver}/LICENSE")
 source_x86_64=("jjui-${pkgver}-linux-amd64.zip::https://github.com/idursun/jjui/releases/download/v${pkgver}/jjui-${pkgver}-linux-amd64.zip")
+sha256sums=('287dc795228e18d40fe378a70b577d9fd019b638841af5f3d26c1170cb1ed4df')
 sha256sums_x86_64=('625732e25be958d21fc740b71b378524cd11b8b64bd705872b6dc5a77ea531e3')
 
 package() {
   install -Dm755 "$srcdir/jjui-${pkgver}-linux-amd64" "$pkgdir/usr/bin/jjui"
+  install -Dm644 "$srcdir/jjui-LICENSE-${pkgver}" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

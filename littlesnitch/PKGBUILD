@@ -2,11 +2,11 @@
 
 pkgname=littlesnitch
 pkgver=1.1.0_1
-pkgrel=2
+pkgrel=3
 pkgdesc="Monitors and controls outgoing network connections using eBPF"
 arch=(x86_64)
 url="https://obdev.at/products/littlesnitch-linux/"
-license=('GPL-2.0-only' 'LicenseRef-proprietary')
+license=('GPL-2.0-only AND LicenseRef-Obdev-Freeware')
 depends=(systemd)
 conflicts=(littlesnitch-bin)
 install=littlesnitch.install
@@ -17,4 +17,6 @@ sha256sums=('618f41e8ab7f7a3ff5b50d53240bd4eed3c16aff3fdab4ebc0a308cdf17b2088')
 
 package() {
   cp -a "$srcdir/usr" "$pkgdir/usr"
+  install -Dm644 "$pkgdir/usr/share/doc/littlesnitch/copyright" \
+    "$pkgdir/usr/share/licenses/$pkgname/copyright"
 }

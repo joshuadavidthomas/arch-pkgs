@@ -1,7 +1,7 @@
 pkgbase = atuin-desktop
 	pkgdesc = Runbooks that run: a local-first, executable runbook editor
 	pkgver = 0.2.20
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/atuinsh/desktop
 	arch = x86_64
 	license = Apache-2.0
@@ -24,8 +24,8 @@ pkgbase = atuin-desktop
 	options = !strip
 	options = !debug
 	source = atuin-desktop-LICENSE-0.2.20::https://raw.githubusercontent.com/atuinsh/desktop/v0.2.20/LICENSE
-	sha256sums = SKIP
+	sha256sums = c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4
 	source_x86_64 = atuin-desktop-0.2.20.rpm::https://github.com/atuinsh/desktop/releases/download/v0.2.20/Atuin_Desktop-0.2.20-1.x86_64.rpm
-	sha256sums_x86_64 = SKIP
+	sha256sums_x86_64 = 2b67a3635e3db476cb7e7457b3164759a7c4938d0f68a4152296cb425591f254
 
 pkgname = atuin-desktop

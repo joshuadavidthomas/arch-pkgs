@@ -1,12 +1,11 @@
 pkgbase = littlesnitch
 	pkgdesc = Monitors and controls outgoing network connections using eBPF
 	pkgver = 1.1.0_1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://obdev.at/products/littlesnitch-linux/
 	install = littlesnitch.install
 	arch = x86_64
-	license = GPL-2.0-only
-	license = LicenseRef-proprietary
+	license = GPL-2.0-only AND LicenseRef-Obdev-Freeware
 	depends = systemd
 	conflicts = littlesnitch-bin
 	options = !strip

@@ -2,11 +2,11 @@
 
 pkgname=claude-desktop
 pkgver=1.26832.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Desktop application for Claude.ai"
 arch=(x86_64)
 url="https://claude.ai/download"
-license=(custom:Proprietary)
+license=(LicenseRef-proprietary)
 depends=(
   gtk3
   libnotify
@@ -34,8 +34,8 @@ optdepends=(
   'edk2-ovmf: UEFI firmware for Claude Code VM support'
   'virtiofsd: shared filesystem support for Claude Code VM support'
 )
-provides=(claude-desktop-bin)
 conflicts=(claude-desktop-bin)
+replaces=(claude-desktop-bin)
 options=(!strip !debug)
 install=claude-desktop.install
 _deb_arch=amd64

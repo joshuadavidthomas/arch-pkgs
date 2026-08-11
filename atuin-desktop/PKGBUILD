@@ -2,7 +2,7 @@
 
 pkgname=atuin-desktop
 pkgver=0.2.20
-pkgrel=1
+pkgrel=2
 pkgdesc="Runbooks that run: a local-first, executable runbook editor"
 arch=(x86_64)
 url="https://github.com/atuinsh/desktop"
@@ -15,8 +15,8 @@ options=(!strip !debug)
 source=("atuin-desktop-LICENSE-${pkgver}::https://raw.githubusercontent.com/atuinsh/desktop/v${pkgver}/LICENSE")
 source_x86_64=("atuin-desktop-${pkgver}.rpm::https://github.com/atuinsh/desktop/releases/download/v${pkgver}/Atuin_Desktop-${pkgver}-1.x86_64.rpm")
 noextract=("atuin-desktop-${pkgver}.rpm")
-sha256sums=('SKIP')
-sha256sums_x86_64=('SKIP')
+sha256sums=('c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4')
+sha256sums_x86_64=('2b67a3635e3db476cb7e7457b3164759a7c4938d0f68a4152296cb425591f254')
 
 package() {
   bsdtar -xf "$srcdir/atuin-desktop-${pkgver}.rpm" -C "$pkgdir"
