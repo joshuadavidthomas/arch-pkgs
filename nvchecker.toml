@@ -40,7 +40,7 @@ source = "github"
 github = "jgm/pandoc"
 use_latest_release = true
 
-[paper]
+[paper-design]
 source = "httpheader"
 url = "https://download.paper.design/linux/deb"
 header = "Content-Disposition"

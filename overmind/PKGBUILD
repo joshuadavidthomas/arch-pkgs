@@ -1,6 +1,6 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
-pkgname=overmind-bin
+pkgname=overmind
 pkgver=2.5.1
 pkgrel=1
 pkgdesc="Process manager for Procfile-based applications and tmux"
@@ -8,8 +8,8 @@ arch=(x86_64)
 url="https://github.com/DarthSim/overmind"
 license=(MIT)
 depends=(tmux)
-provides=(overmind)
-conflicts=(overmind)
+conflicts=(overmind-bin)
+replaces=(overmind-bin)
 options=(!strip !debug)
 source_x86_64=("overmind-v${pkgver}-linux-amd64.gz::https://github.com/DarthSim/overmind/releases/download/v${pkgver}/overmind-v${pkgver}-linux-amd64.gz")
 sha256sums_x86_64=('a17159b8e97d13f3679a4e8fbc9d4747f82d5af9f6d32597b72821378b5d0b6f')

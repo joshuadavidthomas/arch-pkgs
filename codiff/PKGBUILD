@@ -1,7 +1,7 @@
 # Maintainer: czyt <czytcn@gmail.com>
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
-pkgname=codiff-bin
+pkgname=codiff
 pkgver=1.10.1
 pkgrel=1
 pkgdesc="A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing"
@@ -20,8 +20,8 @@ depends=(
   libxkbcommon
   libxrandr
 )
-provides=(codiff)
-conflicts=(codiff)
+conflicts=(codiff-bin)
+replaces=(codiff-bin)
 options=(!strip !debug)
 source_x86_64=("codiff_${pkgver}_amd64.deb::https://github.com/nkzw-tech/codiff/releases/download/v${pkgver}/codiff_${pkgver}_amd64.deb")
 sha256sums_x86_64=('fbcb990102a2c2999112ed77559f2c5952ee1c12cad74f94c406f12c24898c01')
