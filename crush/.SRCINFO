@@ -1,0 +1,15 @@
+pkgbase = crush
+	pkgdesc = Glamourous AI coding agent for your favourite terminal
+	pkgver = 0.88.1
+	pkgrel = 1
+	url = https://github.com/charmbracelet/crush
+	arch = x86_64
+	license = FSL-1.1-MIT
+	conflicts = crush-bin
+	replaces = crush-bin
+	options = !strip
+	options = !debug
+	source_x86_64 = crush_0.88.1_Linux_x86_64.tar.gz::https://github.com/charmbracelet/crush/releases/download/v0.88.1/crush_0.88.1_Linux_x86_64.tar.gz
+	sha256sums_x86_64 = 83374b4fa6c6e1f98f04ac62e11e5c698e05a2da85a793d28c1064e2697dedf4
+
+pkgname = crush

@@ -49,6 +49,7 @@ jobs:
         run: |
           useradd -m builder
           echo 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/builder
+          echo 'PACKAGER="Josh Thomas <josh@joshthomas.dev>"' >> /etc/makepkg.conf
           chown -R builder:builder "$GITHUB_WORKSPACE"
 
       - name: Import signing key

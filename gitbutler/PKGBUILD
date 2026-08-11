@@ -1,0 +1,22 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=gitbutler
+# upstream versions releases as <semver>-<build>; encoded here as <semver>.<build>
+pkgver=0.22.0.3180
+pkgrel=1
+pkgdesc="Version control client, backed by Git, powered by Tauri/Rust/Svelte"
+arch=(x86_64)
+url="https://gitbutler.com"
+license=(FSL-1.1-MIT)
+depends=(gtk3 libayatana-appindicator webkit2gtk-4.1)
+conflicts=(gitbutler-bin)
+replaces=(gitbutler-bin)
+options=(!strip !debug)
+_ver=${pkgver%.*}
+_build=${pkgver##*.}
+source_x86_64=("gitbutler-${pkgver}.deb::https://releases.gitbutler.com/releases/release/${_ver}-${_build}/linux/x86_64/GitButler_${_ver}_amd64.deb")
+sha256sums_x86_64=('470beafa2dc1e448bfb0c53794adb36cd48c6de3e760c6f03bb2838582b97a03')
+
+package() {
+  bsdtar -xf "$srcdir/data.tar.gz" -C "$pkgdir"
+}

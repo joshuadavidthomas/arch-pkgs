@@ -1,0 +1,25 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=handy
+pkgver=0.9.5
+pkgrel=1
+pkgdesc="Free, open source, cross-platform speech-to-text application"
+arch=(x86_64)
+url="https://handy.computer"
+license=(MIT)
+depends=(alsa-lib cairo gcc-libs gdk-pixbuf2 glib2 glibc gtk3 gtk-layer-shell
+         hicolor-icon-theme libappindicator-gtk3 libsoup3 openblas openssl
+         vulkan-icd-loader webkit2gtk-4.1)
+conflicts=(handy-bin)
+replaces=(handy-bin)
+options=(!strip !debug)
+source_x86_64=("handy-${pkgver}.deb::https://github.com/cjpais/Handy/releases/download/v${pkgver}/Handy_${pkgver}_amd64.deb"
+               "handy-LICENSE-${pkgver}::https://raw.githubusercontent.com/cjpais/Handy/refs/tags/v${pkgver}/LICENSE")
+sha256sums_x86_64=('e315105a78387525d205365f496a92e24f5578c4bdb1d609c03a955072870b29'
+                   '3564e8ec14055ed54f896e8660a62627ea4fc3a1b64f72b798593df00e1f4edc')
+
+package() {
+  bsdtar -xf "$srcdir/data.tar.gz" -C "$pkgdir"
+  install -Dm644 "$srcdir/handy-LICENSE-${pkgver}" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  sed -i 's/Categories=/Categories=Utility;/g' "$pkgdir/usr/share/applications/Handy.desktop"
+}
