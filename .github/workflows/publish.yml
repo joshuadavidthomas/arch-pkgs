@@ -58,7 +58,10 @@ jobs:
           fi
 
       - name: Record source epoch
-        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+        run: |
+          source_date_epoch=$(git -c safe.directory="$GITHUB_WORKSPACE" \
+            show -s --format=%ct HEAD)
+          echo "SOURCE_DATE_EPOCH=$source_date_epoch" >> "$GITHUB_ENV"
 
       - name: Configure makepkg user
         run: |
