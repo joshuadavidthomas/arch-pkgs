@@ -40,14 +40,14 @@ source = "github"
 github = "jgm/pandoc"
 use_latest_release = true
 
-[shellcheck]
-source = "github"
-github = "koalaman/shellcheck"
-use_latest_release = true
-prefix = "v"
-
 [paper]
 source = "httpheader"
 url = "https://download.paper.design/linux/deb"
 header = "Content-Disposition"
 regex = 'paper-desktop-([\d.]+?)\.?amd64\.deb'
+
+[shellcheck]
+source = "github"
+github = "koalaman/shellcheck"
+use_latest_release = true
+prefix = "v"
