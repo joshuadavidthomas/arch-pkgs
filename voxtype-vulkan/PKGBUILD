@@ -1,0 +1,85 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=voxtype-vulkan
+pkgver=0.7.5
+pkgrel=1
+pkgdesc="Push-to-talk voice-to-text for Linux (Vulkan GPU acceleration)"
+arch=(x86_64)
+url="https://voxtype.io"
+license=(MIT)
+depends=(alsa-lib curl gcc-libs glibc vulkan-icd-loader)
+optdepends=('wtype: keyboard simulation for Wayland (recommended, best CJK support)'
+            'dotool: keyboard simulation with layout support (KDE/GNOME compatible)'
+            'ydotool: keyboard simulation fallback (X11/TTY support)'
+            'wl-clipboard: clipboard support'
+            'libnotify: desktop notifications'
+            'pipewire: audio server (recommended)'
+            'pipewire-alsa: ALSA compatibility for PipeWire (required if using PipeWire)'
+            'pulseaudio: audio server (alternative to PipeWire)'
+            'ollama: local AI summarization for meeting mode'
+            'gtk4-layer-shell: runtime for the GTK4 on-screen mic visualizer'
+            'quickshell: Quickshell-based OSD frontend')
+provides=(voxtype)
+conflicts=(voxtype voxtype-bin)
+replaces=(voxtype-bin)
+backup=(etc/voxtype/config.toml)
+options=(!strip !debug)
+_github="https://github.com/peteonrails/voxtype/releases/download/v$pkgver"
+_raw="https://raw.githubusercontent.com/peteonrails/voxtype/v$pkgver"
+source=("voxtype-$pkgver-vulkan::$_github/voxtype-$pkgver-linux-x86_64-vulkan"
+        "voxtype-$pkgver-osd::$_github/voxtype-$pkgver-linux-x86_64-osd"
+        "voxtype-$pkgver-osd-gtk4::$_github/voxtype-$pkgver-linux-x86_64-osd-gtk4"
+        "voxtype-$pkgver-osd-quickshell::$_github/voxtype-$pkgver-linux-x86_64-osd-quickshell"
+        "voxtype-$pkgver-audio-bridge::$_github/voxtype-$pkgver-linux-x86_64-audio-bridge"
+        "config-$pkgver.toml::$_raw/config/default.toml"
+        "voxtype-$pkgver.service::$_raw/packaging/systemd/voxtype.service"
+        "voxtype-$pkgver.bash::$_raw/packaging/completions/voxtype.bash"
+        "voxtype-$pkgver.zsh::$_raw/packaging/completions/voxtype.zsh"
+        "voxtype-$pkgver.fish::$_raw/packaging/completions/voxtype.fish"
+        "voxtype-LICENSE-$pkgver::$_raw/LICENSE"
+        "README-$pkgver.md::$_raw/README.md"
+        "voxtype-configure-$pkgver.desktop::$_raw/packaging/voxtype-configure.desktop"
+        "voxtype-configure-launcher-$pkgver::$_raw/packaging/scripts/voxtype-configure-launcher"
+        "quickshell-shell-$pkgver.qml::$_raw/quickshell/shell.qml"
+        "quickshell-OsdSurface-$pkgver.qml::$_raw/quickshell/OsdSurface.qml"
+        "quickshell-EnginePicker-$pkgver.qml::$_raw/quickshell/EnginePicker.qml"
+        "quickshell-MeetingControls-$pkgver.qml::$_raw/quickshell/MeetingControls.qml"
+        "quickshell-voxtype-shared-Theme-$pkgver.qml::$_raw/quickshell/voxtype-shared/Theme.qml"
+        "quickshell-voxtype-shared-StateReader-$pkgver.qml::$_raw/quickshell/voxtype-shared/StateReader.qml"
+        "quickshell-voxtype-shared-AudioBridge-$pkgver.qml::$_raw/quickshell/voxtype-shared/AudioBridge.qml"
+        "quickshell-voxtype-shared-qmldir-$pkgver::$_raw/quickshell/voxtype-shared/qmldir")
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP'
+            'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP'
+            'SKIP' 'SKIP')
+
+package() {
+  install -Dm755 "$srcdir/voxtype-$pkgver-vulkan" "$pkgdir/usr/lib/voxtype/voxtype-vulkan"
+  install -Dm755 "$srcdir/voxtype-$pkgver-osd" "$pkgdir/usr/lib/voxtype/voxtype-osd"
+  install -Dm755 "$srcdir/voxtype-$pkgver-osd-gtk4" "$pkgdir/usr/lib/voxtype/voxtype-osd-gtk4"
+  install -Dm755 "$srcdir/voxtype-$pkgver-osd-quickshell" "$pkgdir/usr/lib/voxtype/voxtype-osd-quickshell"
+
+  install -d "$pkgdir/usr/bin"
+  ln -sf /usr/lib/voxtype/voxtype-vulkan "$pkgdir/usr/bin/voxtype"
+  ln -sf /usr/lib/voxtype/voxtype-osd "$pkgdir/usr/bin/voxtype-osd"
+  install -Dm755 "$srcdir/voxtype-$pkgver-audio-bridge" "$pkgdir/usr/bin/voxtype-audio-bridge"
+  install -Dm755 "$srcdir/voxtype-configure-launcher-$pkgver" "$pkgdir/usr/bin/voxtype-configure-launcher"
+
+  install -Dm644 "$srcdir/config-$pkgver.toml" "$pkgdir/etc/voxtype/config.toml"
+  install -Dm644 "$srcdir/voxtype-$pkgver.service" "$pkgdir/usr/lib/systemd/user/voxtype.service"
+  install -Dm644 "$srcdir/voxtype-configure-$pkgver.desktop" "$pkgdir/usr/share/applications/voxtype-configure.desktop"
+
+  install -Dm644 "$srcdir/quickshell-shell-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/shell.qml"
+  install -Dm644 "$srcdir/quickshell-OsdSurface-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/OsdSurface.qml"
+  install -Dm644 "$srcdir/quickshell-EnginePicker-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/EnginePicker.qml"
+  install -Dm644 "$srcdir/quickshell-MeetingControls-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/MeetingControls.qml"
+  install -Dm644 "$srcdir/quickshell-voxtype-shared-Theme-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/voxtype-shared/Theme.qml"
+  install -Dm644 "$srcdir/quickshell-voxtype-shared-StateReader-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/voxtype-shared/StateReader.qml"
+  install -Dm644 "$srcdir/quickshell-voxtype-shared-AudioBridge-$pkgver.qml" "$pkgdir/usr/share/voxtype/quickshell/voxtype-shared/AudioBridge.qml"
+  install -Dm644 "$srcdir/quickshell-voxtype-shared-qmldir-$pkgver" "$pkgdir/usr/share/voxtype/quickshell/voxtype-shared/qmldir"
+
+  install -Dm644 "$srcdir/voxtype-$pkgver.bash" "$pkgdir/usr/share/bash-completion/completions/voxtype"
+  install -Dm644 "$srcdir/voxtype-$pkgver.zsh" "$pkgdir/usr/share/zsh/site-functions/_voxtype"
+  install -Dm644 "$srcdir/voxtype-$pkgver.fish" "$pkgdir/usr/share/fish/vendor_completions.d/voxtype.fish"
+  install -Dm644 "$srcdir/README-$pkgver.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 "$srcdir/voxtype-LICENSE-$pkgver" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -98,6 +98,10 @@ github = "IsmaelMartinez/teams-for-linux"
 use_latest_release = true
 prefix = "v"
 
+[voxtype-vulkan]
+source = "cmd"
+cmd = "gh api 'repos/peteonrails/voxtype/releases?per_page=30' --jq '[.[] | select(.prerelease == false and .draft == false and any(.assets[]; .name | test(\"linux-x86_64-vulkan$\")))][0].tag_name' | sed 's/^v//'"
+
 [webcord]
 source = "github"
 github = "SpacingBat3/WebCord"
