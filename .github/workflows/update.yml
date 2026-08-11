@@ -30,15 +30,17 @@ jobs:
           persist-credentials: false
 
       - name: Install workflow dependencies
-        run: pacman -Syu --noconfirm --needed base-devel curl git github-cli sudo
+        run: pacman -Syu --noconfirm --needed base-devel pacman-contrib python git github-cli sudo uv
 
       - name: Configure makepkg user
         run: |
           useradd -m builder
           chown -R builder:builder "$GITHUB_WORKSPACE"
 
-      - name: Run package update scripts
-        run: sudo -u builder ./update.sh
+      - name: Run package updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: sudo --preserve-env=GITHUB_TOKEN -u builder ./update.py
 
       - name: Create pull request
         working-directory: ${{ github.workspace }}
@@ -66,12 +68,12 @@ jobs:
             gh pr edit "$BRANCH_NAME" \
               --repo "$GITHUB_REPOSITORY" \
               --title "Update package metadata" \
-              --body "Automated package metadata update from \`./update.sh\`."
+              --body "Automated package metadata update from \`./update.py\`."
           else
             gh pr create \
               --repo "$GITHUB_REPOSITORY" \
               --base "${GITHUB_REF_NAME}" \
               --head "$BRANCH_NAME" \
               --title "Update package metadata" \
-              --body "Automated package metadata update from \`./update.sh\`."
+              --body "Automated package metadata update from \`./update.py\`."
           fi

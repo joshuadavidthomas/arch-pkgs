@@ -1,0 +1,24 @@
+[claude-desktop]
+source = "apt"
+mirror = "https://downloads.claude.ai/claude-desktop/apt/stable"
+suite = "stable"
+pkg = "claude-desktop"
+
+[codiff]
+source = "github"
+github = "nkzw-tech/codiff"
+use_latest_release = true
+prefix = "v"
+
+[littlesnitch]
+source = "regex"
+url = "https://obdev.at/products/littlesnitch-linux/download.html"
+regex = 'littlesnitch-([0-9]+\.[0-9]+\.[0-9]+-[0-9]+)-x86_64\.pkg\.tar\.zst'
+from_pattern = '^(.*)-([0-9]+)$'
+to_pattern = '\1_\2'
+
+[paper]
+source = "httpheader"
+url = "https://download.paper.design/linux/deb"
+header = "Content-Disposition"
+regex = 'paper-desktop-([\d.]+?)\.?amd64\.deb'

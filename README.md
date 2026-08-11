@@ -84,19 +84,14 @@ paru -S paper-design
 
 ## Development
 
-Update all packages from the repo root:
+Upstream version checks are declarative: each package directory has a matching section in `nvchecker.toml`. Check all upstreams and apply updates (requires `uv` and `pacman-contrib`):
 
 ```bash
-./update.sh
+./update.py
 ```
 
-Or run a package update script directly:
+New versions get `pkgver` bumped, `pkgrel` reset, checksums refreshed via `updpkgsums`, and `.SRCINFO` regenerated. Review and commit the resulting changes.
 
-```bash
-cd littlesnitch
-./update.sh
-```
-
-Each script updates package metadata and regenerates `.SRCINFO`. Review and commit the resulting changes.
+To add a package: create a directory with a `PKGBUILD` and add a section to `nvchecker.toml` named after the directory ([source reference](https://nvchecker.readthedocs.io/en/latest/usage.html#configuration-files)).
 
 A scheduled workflow (`update.yml`) runs these scripts nightly and opens a PR when upstream releases a new version. On merge to `main`, the publish workflow (`publish.yml`) builds any package whose `.SRCINFO` version is missing from the published database and syncs it to the R2 bucket behind `pkgs.joshthomas.dev`. Old package versions are never deleted, so previous releases stay available for `pacman -U` rollbacks.
