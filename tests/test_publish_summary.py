@@ -16,17 +16,17 @@ def test_formats_bytes_and_deltas() -> None:
 
 def test_reads_package_plan(tmp_path: Path) -> None:
     plan = tmp_path / "package-plan.tsv"
-    plan.write_text("packages/example\texample\t2.0-1\n")
+    plan.write_text("packages/example\texample\t1.0-1\t2.0-1\n")
 
     assert summary.read_plan(plan) == [
-        summary.PackagePlan("packages/example", "example", "2.0-1")
+        summary.PackagePlan("packages/example", "example", "1.0-1", "2.0-1")
     ]
 
 
 def test_renders_package_results(tmp_path: Path) -> None:
     plans = [
-        summary.PackagePlan("packages/broken", "broken", "1.0-1"),
-        summary.PackagePlan("packages/example", "example", "2.0-1"),
+        summary.PackagePlan("packages/broken", "broken", "0.9-1", "1.0-1"),
+        summary.PackagePlan("packages/example", "example", "1.0-1", "2.0-1"),
     ]
     (tmp_path / "example-2.0-1-x86_64.pkg.tar.zst").write_bytes(b"x" * 1536)
 
@@ -38,8 +38,8 @@ def test_renders_package_results(tmp_path: Path) -> None:
     )
 
     assert rows == [
-        "| `broken` | `1.0-1` | Build failed | — |",
-        "| `example` | `2.0-1` | Published | 1.5 KiB |",
+        "| `broken` | `0.9-1` | `1.0-1` | Build failed | — |",
+        "| `example` | `1.0-1` | `2.0-1` | Published | 1.5 KiB |",
     ]
 
 

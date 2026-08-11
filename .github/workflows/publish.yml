@@ -136,8 +136,10 @@ jobs:
             [[ -n "$epoch" ]] && fullver="$epoch:$fullver"
 
             if ! grep -qxF "$pkgname-$fullver" <<< "$existing"; then
-              echo "Will build: $pkgname $fullver ($dir)"
-              printf '%s\t%s\t%s\n' "$dir" "$pkgname" "$fullver" >> \
+              previous=$(sed -n "s/^$pkgname-//p" <<< "$existing")
+              echo "Will build: $pkgname ${previous:-new} -> $fullver ($dir)"
+              printf '%s\t%s\t%s\t%s\n' \
+                "$dir" "$pkgname" "$previous" "$fullver" >> \
                 "$RUNNER_TEMP/package-plan.tsv"
               to_build+=("$dir")
             else

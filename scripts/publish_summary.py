@@ -20,6 +20,7 @@ from pathlib import Path
 class PackagePlan:
     directory: str
     name: str
+    previous_version: str
     version: str
 
 
@@ -58,8 +59,8 @@ def read_plan(path: Path) -> list[PackagePlan]:
         return []
     plans = []
     for line in path.read_text().splitlines():
-        directory, name, version = line.split("\t")
-        plans.append(PackagePlan(directory, name, version))
+        directory, name, previous_version, version = line.split("\t")
+        plans.append(PackagePlan(directory, name, previous_version, version))
     return plans
 
 
@@ -92,8 +93,10 @@ def package_rows(
         else:
             result = "Built; upload incomplete"
             rendered_size = format_bytes(size)
+        previous = f"`{plan.previous_version}`" if plan.previous_version else "New"
         rows.append(
-            f"| `{plan.name}` | `{plan.version}` | {result} | {rendered_size} |"
+            f"| `{plan.name}` | {previous} | `{plan.version}` | {result} | "
+            f"{rendered_size} |"
         )
     return rows
 
@@ -195,8 +198,8 @@ def render_summary(
     if plans:
         lines.extend(
             [
-                "| Package | Version | Result | Size |",
-                "| --- | --- | --- | ---: |",
+                "| Package | Previous | Updated | Result | Size |",
+                "| --- | --- | --- | --- | ---: |",
                 *rows,
             ]
         )
