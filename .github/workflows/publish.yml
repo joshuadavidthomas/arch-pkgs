@@ -33,6 +33,9 @@ jobs:
       RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      # Bucket-scoped R2 tokens cannot list/head buckets; without this rclone
+      # falls back to CreateBucket and gets a 403.
+      RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
     steps:
       - name: Install workflow dependencies
         run: pacman -Syu --noconfirm --needed base-devel git rclone sudo
