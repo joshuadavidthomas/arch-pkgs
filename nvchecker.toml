@@ -10,12 +10,41 @@ github = "nkzw-tech/codiff"
 use_latest_release = true
 prefix = "v"
 
+[flyctl]
+source = "github"
+github = "superfly/flyctl"
+use_latest_release = true
+prefix = "v"
+
+[jjui]
+source = "github"
+github = "idursun/jjui"
+use_latest_release = true
+prefix = "v"
+
 [littlesnitch]
 source = "regex"
 url = "https://obdev.at/products/littlesnitch-linux/download.html"
 regex = 'littlesnitch-([0-9]+\.[0-9]+\.[0-9]+-[0-9]+)-x86_64\.pkg\.tar\.zst'
 from_pattern = '^(.*)-([0-9]+)$'
 to_pattern = '\1_\2'
+
+[overmind]
+source = "github"
+github = "DarthSim/overmind"
+use_latest_release = true
+prefix = "v"
+
+[pandoc]
+source = "github"
+github = "jgm/pandoc"
+use_latest_release = true
+
+[shellcheck]
+source = "github"
+github = "koalaman/shellcheck"
+use_latest_release = true
+prefix = "v"
 
 [paper]
 source = "httpheader"

@@ -1,0 +1,19 @@
+# Maintainer: Josh Thomas <josh@joshthomas.dev>
+
+pkgname=jjui-bin
+pkgver=0.10.9
+pkgrel=1
+pkgdesc="Terminal user interface for the Jujutsu version control system"
+arch=(x86_64)
+url="https://github.com/idursun/jjui"
+license=(MIT)
+depends=(jujutsu)
+provides=(jjui)
+conflicts=(jjui)
+options=(!strip !debug)
+source_x86_64=("jjui-${pkgver}-linux-amd64.zip::https://github.com/idursun/jjui/releases/download/v${pkgver}/jjui-${pkgver}-linux-amd64.zip")
+sha256sums_x86_64=('625732e25be958d21fc740b71b378524cd11b8b64bd705872b6dc5a77ea531e3')
+
+package() {
+  install -Dm755 "$srcdir/jjui-${pkgver}-linux-amd64" "$pkgdir/usr/bin/jjui"
+}

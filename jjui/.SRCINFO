@@ -1,0 +1,16 @@
+pkgbase = jjui-bin
+	pkgdesc = Terminal user interface for the Jujutsu version control system
+	pkgver = 0.10.9
+	pkgrel = 1
+	url = https://github.com/idursun/jjui
+	arch = x86_64
+	license = MIT
+	depends = jujutsu
+	provides = jjui
+	conflicts = jjui
+	options = !strip
+	options = !debug
+	source_x86_64 = jjui-0.10.9-linux-amd64.zip::https://github.com/idursun/jjui/releases/download/v0.10.9/jjui-0.10.9-linux-amd64.zip
+	sha256sums_x86_64 = 625732e25be958d21fc740b71b378524cd11b8b64bd705872b6dc5a77ea531e3
+
+pkgname = jjui-bin
