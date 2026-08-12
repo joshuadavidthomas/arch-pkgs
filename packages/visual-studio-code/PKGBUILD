@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=visual-studio-code
-pkgver=1.132.0
+pkgver=1.133.0
 pkgrel=1
 pkgdesc="Visual Studio Code: editor for building and debugging modern web and cloud applications"
 arch=(x86_64)
@@ -19,7 +19,7 @@ options=(!strip !debug)
 source=('visual-studio-code.sh')
 source_x86_64=("code_${pkgver}_amd64.deb::https://update.code.visualstudio.com/${pkgver}/linux-deb-x64/stable")
 sha256sums=('c0cf4b0842cacd54b09c401999273f24197cf8879130a23343e98cec6207d98e')
-sha256sums_x86_64=('b73e01a1a371eb7d57f2c01712c43e9cedd15d6bad9a44261c4473db946532ef')
+sha256sums_x86_64=('d064e87e22f556b8a91e1354b5227e340597324e52886dbb288551596b00e34a')
 
 package() {
   bsdtar -xf "$srcdir"/data.tar.* -C "$pkgdir"
