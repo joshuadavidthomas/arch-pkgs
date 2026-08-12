@@ -22,8 +22,8 @@ jobs:
     container:
       image: archlinux@sha256:1047e6e7878d58e4ee47e1cd6459a32fab41246b0efc4109e11b7ef16f50b14d
     permissions:
-      contents: write # Push the automated update branch.
-      pull-requests: write # Open or update the automated package update PR.
+      contents: write # Push package updates to the default branch.
+      actions: write # Dispatch the publish workflow after pushing.
     steps:
       - name: Install workflow dependencies
         run: pacman -Syu --noconfirm --needed base-devel pacman-contrib python git github-cli sudo uv
@@ -49,11 +49,11 @@ jobs:
           sudo --preserve-env=GITHUB_TOKEN -u builder
           ./update.py --failure-file /tmp/update-failures
 
-      - name: Create package pull requests
+      - name: Push package updates
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: uv run --script scripts/update_pull_requests.py
+        run: uv run --script scripts/push_updates.py
 
       - name: Report update failures
         if: steps.updates.outcome == 'failure'

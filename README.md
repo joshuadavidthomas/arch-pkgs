@@ -66,7 +66,7 @@ paru -S littlesnitch
 ./update.py
 ```
 
-Review the resulting PKGBUILD changes before committing them. The nightly `update.yml` workflow runs the same update and opens one pull request per changed package.
+Review the resulting PKGBUILD changes before committing them. The nightly `update.yml` workflow runs the same update, commits each changed package to `main`, and triggers the publish workflow.
 
 Run the repository checks with:
 
