@@ -1,6 +1,6 @@
 pkgbase = pandoc
 	pkgdesc = Universal markup converter (prebuilt upstream binary)
-	pkgver = 3.10.1
+	pkgver = 3.10.2
 	pkgrel = 1
 	url = https://pandoc.org
 	arch = x86_64
@@ -11,7 +11,7 @@ pkgbase = pandoc
 	replaces = pandoc-bin
 	options = !strip
 	options = !debug
-	source_x86_64 = https://github.com/jgm/pandoc/releases/download/3.10.1/pandoc-3.10.1-linux-amd64.tar.gz
-	sha256sums_x86_64 = 72948bf5784f560d5ad1876709daca27e0667f262da727bb33f77b58e52df2f5
+	source_x86_64 = https://github.com/jgm/pandoc/releases/download/3.10.2/pandoc-3.10.2-linux-amd64.tar.gz
+	sha256sums_x86_64 = c7edd535941c48be6a362081a748272837de81ae11777202d9c341d3d8261c9a
 
 pkgname = pandoc
