@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=crush
-pkgver=0.88.1
+pkgver=0.89.0
 pkgrel=1
 pkgdesc="Glamourous AI coding agent for your favourite terminal"
 arch=(x86_64)
@@ -11,7 +11,7 @@ conflicts=(crush-bin)
 replaces=(crush-bin)
 options=(!strip !debug)
 source_x86_64=("crush_${pkgver}_Linux_x86_64.tar.gz::https://github.com/charmbracelet/crush/releases/download/v${pkgver}/crush_${pkgver}_Linux_x86_64.tar.gz")
-sha256sums_x86_64=('83374b4fa6c6e1f98f04ac62e11e5c698e05a2da85a793d28c1064e2697dedf4')
+sha256sums_x86_64=('d13c3ed810bb2ad4908a28b9f51a0ded0a0a86f124d9fb42a12ccf7fe9f26673')
 
 package() {
   cd "$srcdir/crush_${pkgver}_Linux_x86_64"
