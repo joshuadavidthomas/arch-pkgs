@@ -1,7 +1,7 @@
 pkgbase = paper-design
 	pkgdesc = A collaborative design tool built on web standards with agent integration
-	pkgver = 0.5.3
-	pkgrel = 3
+	pkgver = 0.5.4
+	pkgrel = 1
 	url = https://paper.design
 	arch = x86_64
 	license = LicenseRef-proprietary
@@ -18,9 +18,9 @@ pkgbase = paper-design
 	provides = paper-desktop
 	options = !strip
 	options = !debug
-	source = paper-design-0.5.3.deb::https://download.paper.design/linux/deb
-	source = paper-design-LICENSE-0.5.3::https://paper.design/legal/tos
-	sha256sums = 88a49383cd5e9ae00bb9832ddcdebcaddfe2d03451dfecc5361abe33005743ac
-	sha256sums = 731ddeeb1e226339de2c38c5182e8fe3669f8991ebc1331980b2e4ecbf85c91c
+	source = paper-design-0.5.4.deb::https://download.paper.design/linux/deb
+	source = paper-design-LICENSE-0.5.4::https://paper.design/legal/tos
+	sha256sums = d8bdc30cd4ce41a0a4d846f08f8b7d786384581a57c798a9b63b23374f1262fa
+	sha256sums = 91b3a4b45d3a3f366fab9f750e8bd39c8e23fdca87e9989b510cf003ee8ed62f
 
 pkgname = paper-design
