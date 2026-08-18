@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=flyctl
-pkgver=0.4.83
+pkgver=0.4.84
 pkgrel=1
 pkgdesc="Command line tools for fly.io services"
 arch=(x86_64)
@@ -11,7 +11,7 @@ conflicts=(flyctl-bin)
 replaces=(flyctl-bin)
 options=(!strip !debug)
 source_x86_64=("flyctl_${pkgver}_Linux_x86_64.tar.gz::https://github.com/superfly/flyctl/releases/download/v${pkgver}/flyctl_${pkgver}_Linux_x86_64.tar.gz")
-sha256sums_x86_64=('526edf5613aca64ecb55119cdf1192e41d29507737ab6208d568460e90f243fd')
+sha256sums_x86_64=('5faeeb6806b939540619518be530ad4cf9de090eff1e0e44795e3f09c113b5ce')
 
 package() {
   install -Dm755 "$srcdir/flyctl" "$pkgdir/usr/bin/flyctl"
