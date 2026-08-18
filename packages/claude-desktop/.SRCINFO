@@ -1,6 +1,6 @@
 pkgbase = claude-desktop
 	pkgdesc = Desktop application for Claude.ai
-	pkgver = 1.30096.1
+	pkgver = 1.32352.1
 	pkgrel = 1
 	url = https://claude.ai/download
 	install = claude-desktop.install
@@ -33,7 +33,7 @@ pkgbase = claude-desktop
 	replaces = claude-desktop-bin
 	options = !strip
 	options = !debug
-	source = claude-desktop-1.30096.1-amd64.deb::https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.30096.1_amd64.deb
-	sha256sums = 09e41a20a5b47ea0e5bc226d4fffa77af43ad450c7cbf5e66e56d6e4fd4ad2e9
+	source = claude-desktop-1.32352.1-amd64.deb::https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.32352.1_amd64.deb
+	sha256sums = 9d00c4ea86d037061e1ca1f1709f930ec4a4d7737d87b2f68b87bc3e87e38186
 
 pkgname = claude-desktop
