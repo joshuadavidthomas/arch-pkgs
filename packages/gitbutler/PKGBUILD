@@ -2,8 +2,8 @@
 
 pkgname=gitbutler
 # upstream versions releases as <semver>-<build>; encoded here as <semver>.<build>
-pkgver=0.22.0.3180
-pkgrel=2
+pkgver=0.22.1.3215
+pkgrel=1
 pkgdesc="Version control client, backed by Git, powered by Tauri/Rust/Svelte"
 arch=(x86_64)
 url="https://gitbutler.com"
@@ -17,7 +17,7 @@ _build=${pkgver##*.}
 source=("gitbutler-LICENSE-${pkgver}::https://raw.githubusercontent.com/gitbutlerapp/gitbutler/release/${_ver}/LICENSE.md")
 source_x86_64=("gitbutler-${pkgver}.deb::https://releases.gitbutler.com/releases/release/${_ver}-${_build}/linux/x86_64/GitButler_${_ver}_amd64.deb")
 sha256sums=('2a3154bf44e0b219014291b96249082f3305844a1d73796741468c8128c2829e')
-sha256sums_x86_64=('470beafa2dc1e448bfb0c53794adb36cd48c6de3e760c6f03bb2838582b97a03')
+sha256sums_x86_64=('eb477949fecd7f51f6fd32fe420c61f1a6adebc3bd95a58d40ed8dbc99499bd9')
 
 package() {
   bsdtar -xf "$srcdir/data.tar.gz" -C "$pkgdir"
