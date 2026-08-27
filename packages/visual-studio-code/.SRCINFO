@@ -1,6 +1,6 @@
 pkgbase = visual-studio-code
 	pkgdesc = Visual Studio Code: editor for building and debugging modern web and cloud applications
-	pkgver = 1.134.0
+	pkgver = 1.135.0
 	pkgrel = 1
 	url = https://code.visualstudio.com
 	arch = x86_64
@@ -30,7 +30,7 @@ pkgbase = visual-studio-code
 	options = !debug
 	source = visual-studio-code.sh
 	sha256sums = c0cf4b0842cacd54b09c401999273f24197cf8879130a23343e98cec6207d98e
-	source_x86_64 = code_1.134.0_amd64.deb::https://update.code.visualstudio.com/1.134.0/linux-deb-x64/stable
-	sha256sums_x86_64 = dcd3a2f52d53df079cd389662ff1fdbeb629938331d3a63655fed929f8d49f19
+	source_x86_64 = code_1.135.0_amd64.deb::https://update.code.visualstudio.com/1.135.0/linux-deb-x64/stable
+	sha256sums_x86_64 = e8101720f0a48f8e6ae5a4112d10ffea5f13d298e7d0a7012b4e36eebc53022c
 
 pkgname = visual-studio-code
