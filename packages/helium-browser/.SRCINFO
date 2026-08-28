@@ -1,6 +1,6 @@
 pkgbase = helium-browser
 	pkgdesc = Private, fast, and honest web browser based on Chromium
-	pkgver = 0.15.7.1
+	pkgver = 0.16.1.1
 	pkgrel = 1
 	url = https://helium.computer
 	arch = x86_64
@@ -29,11 +29,11 @@ pkgbase = helium-browser
 	options = !debug
 	source = 0001-update-wrapper-arch.patch
 	source = 0002-align-desktop-entry.patch
-	source = helium-browser-LICENSE-0.15.7.1::https://raw.githubusercontent.com/imputnet/helium-linux/0.15.7.1/LICENSE.ungoogled_chromium
+	source = helium-browser-LICENSE-0.16.1.1::https://raw.githubusercontent.com/imputnet/helium-linux/0.16.1.1/LICENSE.ungoogled_chromium
 	sha256sums = 333d913eeeceac57cc01dd8e26d06bcb265e4573dac85207d773594423f0e8ac
 	sha256sums = b20238ad4790a3b2544beb4e1553bd79388ecba9fa36f733b63f08937d122233
 	sha256sums = 9539b394e4179952698894bd62ef6566b6804ab0ff360dcf3a511cfaf7f78c4d
-	source_x86_64 = helium-0.15.7.1-x86_64_linux.tar.xz::https://github.com/imputnet/helium-linux/releases/download/0.15.7.1/helium-0.15.7.1-x86_64_linux.tar.xz
-	sha256sums_x86_64 = 3102892cdebdfe0d51e3a638e000e8d54bca017c52daf2acabf5e503004efb9f
+	source_x86_64 = helium-0.16.1.1-x86_64_linux.tar.xz::https://github.com/imputnet/helium-linux/releases/download/0.16.1.1/helium-0.16.1.1-x86_64_linux.tar.xz
+	sha256sums_x86_64 = bb52fbfe85e6493db801612dad28890d4c1dedb9bb7eaa758038f5ee42d666e1
 
 pkgname = helium-browser
