@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=helium-browser
-pkgver=0.16.2.1
+pkgver=0.16.3.1
 pkgrel=1
 pkgdesc="Private, fast, and honest web browser based on Chromium"
 arch=(x86_64)
@@ -25,7 +25,7 @@ source_x86_64=("helium-${pkgver}-x86_64_linux.tar.xz::https://github.com/imputne
 sha256sums=('333d913eeeceac57cc01dd8e26d06bcb265e4573dac85207d773594423f0e8ac'
             'b20238ad4790a3b2544beb4e1553bd79388ecba9fa36f733b63f08937d122233'
             '9539b394e4179952698894bd62ef6566b6804ab0ff360dcf3a511cfaf7f78c4d')
-sha256sums_x86_64=('800838069272870a6f4fc9eadf017c0819f7d89abf607117080b079d4bf7c017')
+sha256sums_x86_64=('634edfba4d02eab5048f3e8f1c644c2437c12fb4ccdb19608172ad1b8956cbeb')
 
 prepare() {
   cd "$srcdir/helium-${pkgver}-x86_64_linux"
