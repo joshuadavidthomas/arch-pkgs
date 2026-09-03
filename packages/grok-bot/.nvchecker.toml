@@ -1,0 +1,9 @@
+[grok-bot]
+source = "regex"
+url = "https://api2.cursor.sh/updates/api/update/linux-x64/sand/0.0.0/00000000-0000-0000-0000-000000000000/stable"
+regex = '"version"\s*:\s*"([0-9.]+)"'
+
+["grok-bot:pkgbuild:_commit"]
+source = "regex"
+url = "https://api2.cursor.sh/updates/api/update/linux-x64/sand/0.0.0/00000000-0000-0000-0000-000000000000/stable"
+regex = 'https://downloads\.cursor\.com/grokbot/stable/([0-9a-f]{40})/'

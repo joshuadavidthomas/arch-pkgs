@@ -107,12 +107,55 @@ def test_ignore_patterns_are_alphabetized() -> None:
     assert ignore_patterns == sorted(ignore_patterns)
 
 
-def test_updates_version_and_resets_release() -> None:
-    text = "pkgname=example\npkgver=1.0.0\npkgrel=4\n"
+def test_updates_version_release_and_source_variables() -> None:
+    text = "pkgname=example\npkgver=1.0.0\npkgrel=4\n_commit=old\n"
 
-    result = update.render_updated_pkgbuild(text, "2.0.0_1+build")
+    result = update.render_updated_pkgbuild(
+        text, "2.0.0_1+build", {"_commit": "0123456789abcdef"}
+    )
 
-    assert result == "pkgname=example\npkgver=2.0.0_1+build\npkgrel=1\n"
+    assert result == (
+        "pkgname=example\npkgver=2.0.0_1+build\npkgrel=1\n"
+        "_commit=0123456789abcdef\n"
+    )
+
+
+def test_same_version_source_change_increments_release() -> None:
+    text = "pkgver=2.0.0\npkgrel=3\n_commit=old\n"
+    variables = {"_commit": "0123456789abcdef"}
+
+    assert not update.pkgbuild_matches(text, "2.0.0", variables)
+    assert update.render_updated_pkgbuild(text, "2.0.0", variables) == (
+        "pkgver=2.0.0\npkgrel=4\n_commit=0123456789abcdef\n"
+    )
+
+
+def test_pkgbuild_matches_version_and_source_variables() -> None:
+    text = "pkgver=2.0.0\npkgrel=3\n_commit=0123456789abcdef\n"
+
+    assert update.pkgbuild_matches(
+        text, "2.0.0", {"_commit": "0123456789abcdef"}
+    )
+
+
+def test_maps_explicit_nvchecker_entries_to_pkgbuild_variables() -> None:
+    entries = {"example", "example:release", "example:pkgbuild:_commit"}
+    results = {
+        "example": "2.0.0",
+        "example:release": "2.0.0",
+        "example:pkgbuild:_commit": "0123456789abcdef",
+    }
+
+    assert update.pkgbuild_variables("example", entries, results) == {
+        "_commit": "0123456789abcdef"
+    }
+
+
+def test_requires_results_for_pkgbuild_variables() -> None:
+    entries = {"example", "example:pkgbuild:_commit"}
+
+    with pytest.raises(ValueError, match="no version from nvchecker"):
+        update.pkgbuild_variables("example", entries, {"example": "2.0.0"})
 
 
 @pytest.mark.parametrize(
@@ -131,13 +174,17 @@ def test_rejects_shell_syntax(version: str) -> None:
         update.render_updated_pkgbuild("pkgver=1.0.0\npkgrel=1\n", version)
 
 
-def test_requires_one_version_and_release_assignment() -> None:
-    with pytest.raises(ValueError, match="one pkgver and one pkgrel"):
+def test_requires_one_of_each_updated_assignment() -> None:
+    with pytest.raises(ValueError, match="one pkgrel assignment"):
         update.render_updated_pkgbuild("pkgver=1.0\n", "2.0")
 
     duplicate = "pkgver=1.0\npkgver=1.1\npkgrel=1\n"
-    with pytest.raises(ValueError, match="one pkgver and one pkgrel"):
+    with pytest.raises(ValueError, match="one pkgver assignment"):
         update.render_updated_pkgbuild(duplicate, "2.0")
+
+    text = "pkgver=1.0\npkgrel=1\n"
+    with pytest.raises(ValueError, match="one _commit assignment"):
+        update.render_updated_pkgbuild(text, "2.0", {"_commit": "abc"})
 
 
 def test_restores_metadata_when_checksum_refresh_fails(

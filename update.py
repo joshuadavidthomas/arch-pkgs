@@ -6,8 +6,9 @@
 """Check upstream versions with nvchecker and update PKGBUILDs in place.
 
 Each directory under packages/ must contain a .nvchecker.toml whose primary
-entry matches the package's pkgbase. New versions get pkgver bumped, pkgrel
-reset to 1, checksums refreshed via updpkgsums, and .SRCINFO regenerated.
+entry matches the package's pkgbase. Entries named
+<pkgbase>:pkgbuild:<variable> update source selector variables such as _commit.
+New versions reset pkgrel to 1, refresh checksums, and regenerate .SRCINFO.
 """
 
 from __future__ import annotations
@@ -25,6 +26,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 PACKAGES = ROOT / "packages"
 VALID_PKGVER = re.compile(r"^[A-Za-z0-9._+]+$")
+VALID_PKGBUILD_VARIABLE = re.compile(r"^_[A-Za-z][A-Za-z0-9_]*$")
+PKGBUILD_ENTRY_SEGMENT = ":pkgbuild:"
 
 
 def pkg_dirs() -> list[Path]:
@@ -99,22 +102,61 @@ def run_nvchecker() -> dict[str, str]:
     return results
 
 
-def render_updated_pkgbuild(text: str, newver: str) -> str:
-    if not VALID_PKGVER.fullmatch(newver):
-        raise ValueError(f"unsafe pkgver: {newver!r}")
+def pkgbuild_variables(
+    base: str, entries: set[str], results: dict[str, str]
+) -> dict[str, str]:
+    prefix = f"{base}{PKGBUILD_ENTRY_SEGMENT}"
+    variables = {}
+    for entry in sorted(name for name in entries if name.startswith(prefix)):
+        variable = entry.removeprefix(prefix)
+        if not VALID_PKGBUILD_VARIABLE.fullmatch(variable):
+            raise ValueError(f"unsafe PKGBUILD variable: {variable!r}")
+        if entry not in results:
+            raise ValueError(f"no version from nvchecker for {entry}")
+        variables[variable] = results[entry]
+    return variables
 
-    pkgver_pattern = r"^pkgver=.*$"
-    pkgrel_pattern = r"^pkgrel=.*$"
-    if len(re.findall(pkgver_pattern, text, re.M)) != 1 or len(
-        re.findall(pkgrel_pattern, text, re.M)
-    ) != 1:
-        raise ValueError("PKGBUILD must contain one pkgver and one pkgrel assignment")
 
-    text = re.sub(pkgver_pattern, lambda _: f"pkgver={newver}", text, flags=re.M)
-    return re.sub(pkgrel_pattern, lambda _: "pkgrel=1", text, flags=re.M)
+def assignment_value(text: str, name: str) -> str:
+    pattern = rf"^{re.escape(name)}=(.*)$"
+    matches = re.findall(pattern, text, re.M)
+    if len(matches) != 1:
+        raise ValueError(f"PKGBUILD must contain one {name} assignment")
+    return matches[0]
 
 
-def update_package(d: Path, newver: str) -> None:
+def pkgbuild_matches(
+    text: str, newver: str, variables: dict[str, str] | None = None
+) -> bool:
+    expected = {"pkgver": newver, **(variables or {})}
+    return all(assignment_value(text, name) == value for name, value in expected.items())
+
+
+def render_updated_pkgbuild(
+    text: str, newver: str, variables: dict[str, str] | None = None
+) -> str:
+    current_version = assignment_value(text, "pkgver")
+    current_release = assignment_value(text, "pkgrel")
+    if newver == current_version:
+        if not current_release.isdigit():
+            raise ValueError(f"cannot increment pkgrel: {current_release!r}")
+        newrel = str(int(current_release) + 1)
+    else:
+        newrel = "1"
+
+    assignments = {"pkgver": newver, "pkgrel": newrel, **(variables or {})}
+    for name, value in assignments.items():
+        if not VALID_PKGVER.fullmatch(value):
+            raise ValueError(f"unsafe {name}: {value!r}")
+        assignment_value(text, name)
+        pattern = rf"^{re.escape(name)}=.*$"
+        text = re.sub(pattern, f"{name}={value}", text, flags=re.M)
+    return text
+
+
+def update_package(
+    d: Path, newver: str, variables: dict[str, str] | None = None
+) -> None:
     pkgbuild = d / "PKGBUILD"
     srcinfo_path = d / ".SRCINFO"
     original_pkgbuild = pkgbuild.read_text()
@@ -122,7 +164,9 @@ def update_package(d: Path, newver: str) -> None:
     clean_env = {k: v for k, v in os.environ.items() if k != "GITHUB_TOKEN"}
 
     try:
-        pkgbuild.write_text(render_updated_pkgbuild(original_pkgbuild, newver))
+        pkgbuild.write_text(
+            render_updated_pkgbuild(original_pkgbuild, newver, variables)
+        )
         subprocess.run(["updpkgsums"], cwd=d, check=True, env=clean_env)
         srcinfo = subprocess.run(
             ["makepkg", "--printsrcinfo"],
@@ -162,18 +206,22 @@ def main() -> None:
     failures = []
     for d in pkg_dirs():
         name = d.name
-        newver = results.get(pkgbase(d))
+        base = pkgbase(d)
+        newver = results.get(base)
         if newver is None:
             print(f":: {name}: no version from nvchecker", file=sys.stderr)
             failures.append(name)
             continue
-        cur = current_pkgver(d / "PKGBUILD")
-        if newver == cur and not args.force:
-            print(f"   {name}: up to date ({cur})")
-            continue
-        print(f"=> {name}: {cur} -> {newver}")
+        pkgbuild = d / "PKGBUILD"
+        cur = current_pkgver(pkgbuild)
         try:
-            update_package(d, newver)
+            entries = set(tomllib.loads((d / ".nvchecker.toml").read_text()))
+            variables = pkgbuild_variables(base, entries, results)
+            if pkgbuild_matches(pkgbuild.read_text(), newver, variables) and not args.force:
+                print(f"   {name}: up to date ({cur})")
+                continue
+            print(f"=> {name}: {cur} -> {newver}")
+            update_package(d, newver, variables)
         except (OSError, subprocess.CalledProcessError, ValueError) as exc:
             print(f":: {name}: update failed: {exc}", file=sys.stderr)
             failures.append(name)
