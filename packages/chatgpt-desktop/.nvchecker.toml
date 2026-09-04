@@ -1,0 +1,5 @@
+[chatgpt-desktop]
+source = "apt"
+mirror = "https://persistent.oaistatic.com/codex-app-prod/linux/deb"
+suite = "stable"
+pkg = "chatgpt"
