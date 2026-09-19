@@ -1,6 +1,6 @@
 pkgbase = handy
 	pkgdesc = Free, open source, cross-platform speech-to-text application
-	pkgver = 0.9.6
+	pkgver = 0.9.7
 	pkgrel = 1
 	url = https://handy.computer
 	arch = x86_64
@@ -24,9 +24,9 @@ pkgbase = handy
 	replaces = handy-bin
 	options = !strip
 	options = !debug
-	source_x86_64 = handy-0.9.6.deb::https://github.com/cjpais/Handy/releases/download/v0.9.6/Handy_0.9.6_amd64.deb
-	source_x86_64 = handy-LICENSE-0.9.6::https://raw.githubusercontent.com/cjpais/Handy/refs/tags/v0.9.6/LICENSE
-	sha256sums_x86_64 = 427eb225b37c49a40591c96f1d851ac58f328cddd28c18493dbd52ed5dd92a21
+	source_x86_64 = handy-0.9.7.deb::https://github.com/cjpais/Handy/releases/download/v0.9.7/Handy_0.9.7_amd64.deb
+	source_x86_64 = handy-LICENSE-0.9.7::https://raw.githubusercontent.com/cjpais/Handy/refs/tags/v0.9.7/LICENSE
+	sha256sums_x86_64 = 1f10585c478622c611abc120858ed7caf635a2c54b122fe2905018e71f25f123
 	sha256sums_x86_64 = 3564e8ec14055ed54f896e8660a62627ea4fc3a1b64f72b798593df00e1f4edc
 
 pkgname = handy
