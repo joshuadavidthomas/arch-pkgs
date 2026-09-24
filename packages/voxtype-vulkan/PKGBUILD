@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=voxtype-vulkan
-pkgver=1.0.1
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Push-to-talk voice-to-text for Linux (Vulkan GPU acceleration)"
 arch=(x86_64)
@@ -48,18 +48,18 @@ source=("voxtype-$pkgver-vulkan::$_github/voxtype-$pkgver-linux-x86_64-vulkan"
         "quickshell-voxtype-shared-StateReader-$pkgver.qml::$_raw/quickshell/voxtype-shared/StateReader.qml"
         "quickshell-voxtype-shared-AudioBridge-$pkgver.qml::$_raw/quickshell/voxtype-shared/AudioBridge.qml"
         "quickshell-voxtype-shared-qmldir-$pkgver::$_raw/quickshell/voxtype-shared/qmldir")
-sha256sums=('c569d038057464aa60290296794bcbd79b928ee0efd038e33062a4c015558ed8'
-            '7250027b1672507a6d584f795731c87e1d3b5c1de891438bd55e34b136a2d5cc'
-            '74fb0f6ad87feb0c1c9e06a8b28a7f7ecee101caef4248f77dcf613b5271238e'
-            'b809c5140e844a6add801d7e592775cd89af8cce73fa399b6a3aec15dfd09533'
-            '45776290e364194d83a8b89445166406c278e890507bf07ec52a5f0e8fa57720'
+sha256sums=('db2c7938392ff08ec8b50b8afb90f8bd3d0111eccf5943df2f51c40a0368fec2'
+            '0c9ac447bc236728f355d25b7c500afd464186a4591ccc18f482fcc98b16a928'
+            '19535f63c69748408199f3fbfe2bb2f786f5bf4faa54d5390895eecae4603dc7'
+            'b9dc8eca049f21e2507511700108d57ce5704350e5828418753ef9989f86eb08'
+            '36333a15e27d13d9988045179582f0daecadc630e3ec01bb0996ab798cb77487'
             'f4b2bccd56b31a6a50e1c0a8b6b72383dc1e636f9ccb8cb070442d58b7314579'
             '531c3658e229619e56bb01659fb81f401767b85e1d6e2acd1ac67ee3414a168c'
             '65c95805d9b03ccc2fadb9d63a03ab79974b00091df8457ee8ef290ec6bd5b12'
             'e5e63b3c7f48238cf719e4f2ef90c1f9c5c7e8cd25eaebc9f78bdd34b24b6605'
             'f720ddd24ee97c105b448323899c36bca7c63d00c2d42c4a3da70c3d157dccbb'
             '31123c45b4ff9cb5fd9e01083350fea6ccaf14969013fd48e4c95fdf89e6eb4b'
-            'e5b2ec5da5eafe2ce8f7b84b81a889f2ff496ad6488d56b6b9b32b73d025ed53'
+            'b06ee68e1305174a4f66876750f62d4048d0ebee48e15ee525961a54115ff80d'
             '32144a4a5210092b0aa909f6de7a43ebe8bbf82fa3dfb1f3519787512fdf8e4b'
             '044b1f7b52cc610ce57ba624111d882029b0ce4bc3e2c2c360f96d07f69e0e85'
             'd3d0b0b24a3fc3e252623a6fad898c7d1d147fb8c2e49de90fbf452e95de63ab'
