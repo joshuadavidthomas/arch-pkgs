@@ -1,6 +1,6 @@
 pkgbase = github-copilot-app
 	pkgdesc = GitHub Copilot desktop application
-	pkgver = 1.1.24
+	pkgver = 1.1.25
 	pkgrel = 1
 	url = https://github.com/github/app
 	arch = x86_64
@@ -14,9 +14,9 @@ pkgbase = github-copilot-app
 	options = !strip
 	options = !debug
 	options = !emptydirs
-	source = github-copilot-app-LICENSE-1.1.24::https://raw.githubusercontent.com/github/app/v1.1.24/License.md
+	source = github-copilot-app-LICENSE-1.1.25::https://raw.githubusercontent.com/github/app/v1.1.25/License.md
 	sha256sums = eabc2f07ec11338d4c6bd732b5975798ca98b3dd50abf6c520f2dc54215bc7d7
-	source_x86_64 = github-copilot-app-1.1.24.deb::https://github.com/github/app/releases/download/v1.1.24/GitHub-Copilot-linux-x64.deb
-	sha256sums_x86_64 = 16e95f55e7f288d2d4f3065d1cb2d06deaf5d2a757bbc1752e1fd37eecd32e6e
+	source_x86_64 = github-copilot-app-1.1.25.deb::https://github.com/github/app/releases/download/v1.1.25/GitHub-Copilot-linux-x64.deb
+	sha256sums_x86_64 = f51db7c175ee7fcecdfe2248c6f43ff5c492384a67c909d77f187b12a33b90da
 
 pkgname = github-copilot-app
