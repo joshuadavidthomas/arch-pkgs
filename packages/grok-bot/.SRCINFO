@@ -1,6 +1,6 @@
 pkgbase = grok-bot
 	pkgdesc = Grok Bot desktop coding agent
-	pkgver = 0.63.0
+	pkgver = 0.66.0
 	pkgrel = 1
 	url = https://x.ai/bot
 	arch = x86_64
@@ -42,7 +42,7 @@ pkgbase = grok-bot
 	replaces = sand
 	options = !strip
 	options = !debug
-	source_x86_64 = grok-bot-0.63.0-amd64.deb::https://downloads.cursor.com/grokbot/stable/76ea13a663a8e41e1664246c174c22291f9a9301/linux/x64/grok-bot_0.63.0_amd64.deb
-	sha256sums_x86_64 = 68d89c4118633cffd45c1960e274bd15e7763c3378b11b7c7a433e2441bbca9a
+	source_x86_64 = grok-bot-0.66.0-amd64.deb::https://downloads.cursor.com/grokbot/stable/12fb477da4023dc110998df181ec150d29c355f2/linux/x64/grok-bot_0.66.0_amd64.deb
+	sha256sums_x86_64 = 7d560a30a1e46a795cef70491d8b2e2e8b9178e7a5a074ffd76dc6184fd03709
 
 pkgname = grok-bot
