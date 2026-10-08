@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=pandoc
-pkgver=3.12
+pkgver=3.12.1
 pkgrel=1
 pkgdesc="Universal markup converter (prebuilt upstream binary)"
 arch=(x86_64)
@@ -12,7 +12,7 @@ conflicts=(pandoc-cli pandoc-bin)
 replaces=(pandoc-bin)
 options=(!strip !debug)
 source_x86_64=("https://github.com/jgm/pandoc/releases/download/${pkgver}/pandoc-${pkgver}-linux-amd64.tar.gz")
-sha256sums_x86_64=('67d7d011fed8c8543306022b985b9b2499ab9b74818df91d8727c7e9ebc5ba06')
+sha256sums_x86_64=('d0c90410e90204c9ca83b8539fac5c7aed01fd537207e4585849f8abc5df20b8')
 
 package() {
   cd "$srcdir/pandoc-$pkgver"
