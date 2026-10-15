@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=voxtype-vulkan
-pkgver=1.1.0
+pkgver=1.1.1
 pkgrel=1
 pkgdesc="Push-to-talk voice-to-text for Linux (Vulkan GPU acceleration)"
 arch=(x86_64)
@@ -48,12 +48,12 @@ source=("voxtype-$pkgver-vulkan::$_github/voxtype-$pkgver-linux-x86_64-vulkan"
         "quickshell-voxtype-shared-StateReader-$pkgver.qml::$_raw/quickshell/voxtype-shared/StateReader.qml"
         "quickshell-voxtype-shared-AudioBridge-$pkgver.qml::$_raw/quickshell/voxtype-shared/AudioBridge.qml"
         "quickshell-voxtype-shared-qmldir-$pkgver::$_raw/quickshell/voxtype-shared/qmldir")
-sha256sums=('db2c7938392ff08ec8b50b8afb90f8bd3d0111eccf5943df2f51c40a0368fec2'
-            '0c9ac447bc236728f355d25b7c500afd464186a4591ccc18f482fcc98b16a928'
-            '19535f63c69748408199f3fbfe2bb2f786f5bf4faa54d5390895eecae4603dc7'
-            'b9dc8eca049f21e2507511700108d57ce5704350e5828418753ef9989f86eb08'
-            '36333a15e27d13d9988045179582f0daecadc630e3ec01bb0996ab798cb77487'
-            'f4b2bccd56b31a6a50e1c0a8b6b72383dc1e636f9ccb8cb070442d58b7314579'
+sha256sums=('102a7caa22facc5c257c526ae4a9e63c04c027297fec4ca370209a1f94ae9863'
+            'e490fa797f39fd4f518149be851909f1d76059bf57949510ec4c24eb54d3a998'
+            'e16f96dcf046b9cfa895541bacb73053708f3edefa8d245a2b423b288cd5a0f0'
+            '8947b7ea576096f327e97a488bb6245ba34a71d93ced46fb3b7800e97cca6905'
+            '5418b8ac60a1f4293b0221918d1e7b5f275b1f5f4f42addee4af8371244f440d'
+            '723366abc62488a25514dc9677e53ef0d2de2be7a42aa425707458b4117647ca'
             '531c3658e229619e56bb01659fb81f401767b85e1d6e2acd1ac67ee3414a168c'
             '65c95805d9b03ccc2fadb9d63a03ab79974b00091df8457ee8ef290ec6bd5b12'
             'e5e63b3c7f48238cf719e4f2ef90c1f9c5c7e8cd25eaebc9f78bdd34b24b6605'
