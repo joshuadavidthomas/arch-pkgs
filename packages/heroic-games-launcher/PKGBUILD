@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=heroic-games-launcher
-pkgver=2.22.3
+pkgver=2.22.4
 pkgrel=1
 pkgdesc="Native GOG, Amazon and Epic Games Launcher"
 arch=(x86_64)
@@ -13,7 +13,7 @@ replaces=(heroic-games-launcher-bin)
 options=(!strip !debug)
 noextract=("Heroic-${pkgver}-linux-x64.pacman")
 source_x86_64=("https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v${pkgver}/Heroic-${pkgver}-linux-x64.pacman")
-sha256sums_x86_64=('ed17ce083a71dd7e49a89218052ab475edd5a654cedf443853f6baacbb0a00e9')
+sha256sums_x86_64=('a5a798ee49bb4a20d3d163f46f39382389974cf4f818b49aa715e1b74d2a0eb0')
 
 package() {
   bsdtar -xf "$srcdir/Heroic-${pkgver}-linux-x64.pacman" -C "$pkgdir" usr opt
