@@ -1,6 +1,6 @@
 pkgbase = chatgpt-desktop
 	pkgdesc = Official ChatGPT desktop application with Codex
-	pkgver = 26.1016.51333
+	pkgver = 26.1016.61520
 	pkgrel = 1
 	url = https://developers.openai.com/codex/app
 	arch = x86_64
@@ -43,13 +43,13 @@ pkgbase = chatgpt-desktop
 	optdepends = kde-cli-tools: Plasma trash support
 	optdepends = org.freedesktop.secrets: secure credential storage
 	optdepends = pipewire: WebRTC screen sharing under Wayland
-	provides = chatgpt=26.1016.51333
+	provides = chatgpt=26.1016.61520
 	conflicts = chatgpt
-	noextract = chatgpt-26.1016.51333.deb
+	noextract = chatgpt-26.1016.61520.deb
 	options = !strip
 	options = !debug
 	backup = etc/apparmor.d/chatgpt
-	source_x86_64 = chatgpt-26.1016.51333.deb::https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1016.51333_amd64.deb
-	sha256sums_x86_64 = c79f7fd24fd7d8b6439942a97306c5613d8e049903d893f136a05bfed551dc8a
+	source_x86_64 = chatgpt-26.1016.61520.deb::https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1016.61520_amd64.deb
+	sha256sums_x86_64 = 9add622916c5fa3861afd95081af77e25488c108ca9c543e1f67560b390d28d4
 
 pkgname = chatgpt-desktop

@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=chatgpt-desktop
-pkgver=26.1016.51333
+pkgver=26.1016.61520
 pkgrel=1
 pkgdesc="Official ChatGPT desktop application with Codex"
 arch=(x86_64)
@@ -55,7 +55,7 @@ options=(!strip !debug)
 backup=(etc/apparmor.d/chatgpt)
 source_x86_64=("chatgpt-${pkgver}.deb::https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${pkgver}_amd64.deb")
 noextract=("chatgpt-${pkgver}.deb")
-sha256sums_x86_64=('c79f7fd24fd7d8b6439942a97306c5613d8e049903d893f136a05bfed551dc8a')
+sha256sums_x86_64=('9add622916c5fa3861afd95081af77e25488c108ca9c543e1f67560b390d28d4')
 
 package() {
   bsdtar -xOf "$srcdir/chatgpt-${pkgver}.deb" data.tar.xz |
