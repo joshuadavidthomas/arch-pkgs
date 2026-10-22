@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=claude-desktop
-pkgver=3.1623.0
+pkgver=3.1623.4
 pkgrel=1
 pkgdesc="Desktop application for Claude.ai"
 arch=(x86_64)
@@ -40,7 +40,7 @@ options=(!strip !debug)
 install=claude-desktop.install
 _deb_arch=amd64
 source=("${pkgname}-${pkgver}-${_deb_arch}.deb::https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_${pkgver}_${_deb_arch}.deb")
-sha256sums=('d39e1d9a570f1e517f158479f5a1d903b9a74d1ef3f279362002dcad375e33cf')
+sha256sums=('671c9fdfe0b02b50d4b907c3bdf136dcfec29051ab8cffcfa29ebe3026a72c3d')
 
 package() {
   cd "$srcdir"
