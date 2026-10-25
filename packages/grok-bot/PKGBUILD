@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=grok-bot
-pkgver=0.75.5
+pkgver=0.75.8
 pkgrel=1
 pkgdesc="Grok Bot desktop coding agent"
 arch=(x86_64)
@@ -15,9 +15,9 @@ provides=(sand)
 conflicts=(grok-bot-bin sand)
 replaces=(grok-bot-bin sand)
 options=(!strip !debug)
-_commit=e4789bbe423912faa668dc29e013436280428fe6
+_commit=039d88c52f45f8af72fbe7379bc426c171edf62b
 source_x86_64=("grok-bot-${pkgver}-amd64.deb::https://downloads.cursor.com/grokbot/stable/${_commit}/linux/x64/grok-bot_${pkgver}_amd64.deb")
-sha256sums_x86_64=('4806dd0d2a7ca343883ca4bbd8c09c308f6a97903273500ebf99edde9eb8ddb5')
+sha256sums_x86_64=('43465db158a1d9d618a9ef9c68aaea063de3423446faf762abe7ee48ff7d26bb')
 
 package() {
   bsdtar -xf "$srcdir"/data.tar.* -C "$pkgdir"
