@@ -1,6 +1,6 @@
 pkgbase = teams-for-linux
 	pkgdesc = Unofficial Microsoft Teams client built with Electron
-	pkgver = 2.26.0
+	pkgver = 2.27.0
 	pkgrel = 1
 	url = https://github.com/IsmaelMartinez/teams-for-linux
 	arch = x86_64
@@ -12,7 +12,7 @@ pkgbase = teams-for-linux
 	replaces = teams-for-linux-bin
 	options = !strip
 	options = !debug
-	source_x86_64 = https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v2.26.0/teams-for-linux_2.26.0_amd64.deb
-	sha256sums_x86_64 = 3a6614071b53e98a67b8629fc8dfdb790e7c48930e675fedcb5c1fd1c7da9910
+	source_x86_64 = https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v2.27.0/teams-for-linux_2.27.0_amd64.deb
+	sha256sums_x86_64 = 3d22b506364584b68fc4b5f17491d4b87be88c897cc6fb513e478ad65f264ba2
 
 pkgname = teams-for-linux
