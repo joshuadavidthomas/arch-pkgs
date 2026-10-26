@@ -2,7 +2,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=codiff
-pkgver=1.18.2
+pkgver=1.18.3
 pkgrel=1
 pkgdesc="A beautiful, minimal, local diff viewer for reviewing staged and unstaged Git changes before committing"
 arch=(x86_64)
@@ -26,7 +26,7 @@ options=(!strip !debug)
 source=("codiff-LICENSE-${pkgver}::https://raw.githubusercontent.com/nkzw-tech/codiff/v${pkgver}/LICENSE")
 source_x86_64=("codiff_${pkgver}_amd64.deb::https://github.com/nkzw-tech/codiff/releases/download/v${pkgver}/codiff_${pkgver}_amd64.deb")
 sha256sums=('abfd51541fe9d678a59d39a26dc132b1a5a2432b072bf17e17769289873ea5aa')
-sha256sums_x86_64=('d5d322ae7382790a6b43f00b5e816125893ba5b6786c9584c01e253767e88e0f')
+sha256sums_x86_64=('6630fef2902d8747ac7ddfe59b8a1f3ce944c926ead6bc22ef5f3f268b4b7891')
 
 package() {
   cd "$srcdir"
