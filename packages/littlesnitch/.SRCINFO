@@ -1,7 +1,7 @@
 pkgbase = littlesnitch
 	pkgdesc = Monitors and controls outgoing network connections using eBPF
-	pkgver = 1.1.0_1
-	pkgrel = 3
+	pkgver = 1.1.1_1
+	pkgrel = 1
 	url = https://obdev.at/products/littlesnitch-linux/
 	install = littlesnitch.install
 	arch = x86_64
@@ -10,7 +10,7 @@ pkgbase = littlesnitch
 	conflicts = littlesnitch-bin
 	options = !strip
 	options = !debug
-	source = obdev-littlesnitch-1.1.0-1-x86_64.pkg.tar.zst::https://obdev.at/downloads/littlesnitch-linux/littlesnitch-1.1.0-1-x86_64.pkg.tar.zst
-	sha256sums = 618f41e8ab7f7a3ff5b50d53240bd4eed3c16aff3fdab4ebc0a308cdf17b2088
+	source = obdev-littlesnitch-1.1.1-1-x86_64.pkg.tar.zst::https://obdev.at/downloads/littlesnitch-linux/littlesnitch-1.1.1-1-x86_64.pkg.tar.zst
+	sha256sums = 3d0ba11bc7dfce7f8536994b80e688d486e9c0c4e1a95fec68e4f6f6361296d9
 
 pkgname = littlesnitch

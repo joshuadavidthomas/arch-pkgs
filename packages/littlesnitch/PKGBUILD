@@ -1,8 +1,8 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=littlesnitch
-pkgver=1.1.0_1
-pkgrel=3
+pkgver=1.1.1_1
+pkgrel=1
 pkgdesc="Monitors and controls outgoing network connections using eBPF"
 arch=(x86_64)
 url="https://obdev.at/products/littlesnitch-linux/"
@@ -13,7 +13,7 @@ install=littlesnitch.install
 options=(!strip !debug)
 _upstream_pkgver=${pkgver/_/-}
 source=("obdev-littlesnitch-${_upstream_pkgver}-x86_64.pkg.tar.zst::https://obdev.at/downloads/littlesnitch-linux/littlesnitch-${_upstream_pkgver}-x86_64.pkg.tar.zst")
-sha256sums=('618f41e8ab7f7a3ff5b50d53240bd4eed3c16aff3fdab4ebc0a308cdf17b2088')
+sha256sums=('3d0ba11bc7dfce7f8536994b80e688d486e9c0c4e1a95fec68e4f6f6361296d9')
 
 package() {
   cp -a "$srcdir/usr" "$pkgdir/usr"
