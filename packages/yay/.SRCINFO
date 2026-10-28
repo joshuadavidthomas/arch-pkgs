@@ -1,6 +1,6 @@
 pkgbase = yay
 	pkgdesc = Pacman wrapper and AUR helper written in Go
-	pkgver = 13.0.1
+	pkgver = 13.1.0
 	pkgrel = 1
 	url = https://github.com/Jguer/yay
 	arch = x86_64
@@ -13,7 +13,7 @@ pkgbase = yay
 	replaces = yay-bin
 	options = !strip
 	options = !debug
-	source_x86_64 = yay_13.0.1_x86_64.tar.gz::https://github.com/Jguer/yay/releases/download/v13.0.1/yay_13.0.1_x86_64.tar.gz
-	sha256sums_x86_64 = 1fdfcb5f7f387bc858d3a5754bdf4e4575bfbddac9560535a716d0ed7189c057
+	source_x86_64 = yay_13.1.0_x86_64.tar.gz::https://github.com/Jguer/yay/releases/download/v13.1.0/yay_13.1.0_x86_64.tar.gz
+	sha256sums_x86_64 = 18acab0ff3aa3927eba21cd774bac52cfd6dd366dc68b0d1a12b10120190cd3c
 
 pkgname = yay

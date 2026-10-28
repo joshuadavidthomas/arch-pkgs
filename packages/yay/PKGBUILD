@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=yay
-pkgver=13.0.1
+pkgver=13.1.0
 pkgrel=1
 pkgdesc="Pacman wrapper and AUR helper written in Go"
 arch=(x86_64)
@@ -14,7 +14,7 @@ conflicts=(yay-bin)
 replaces=(yay-bin)
 options=(!strip !debug)
 source_x86_64=("yay_${pkgver}_x86_64.tar.gz::https://github.com/Jguer/yay/releases/download/v${pkgver}/yay_${pkgver}_x86_64.tar.gz")
-sha256sums_x86_64=('1fdfcb5f7f387bc858d3a5754bdf4e4575bfbddac9560535a716d0ed7189c057')
+sha256sums_x86_64=('18acab0ff3aa3927eba21cd774bac52cfd6dd366dc68b0d1a12b10120190cd3c')
 
 package() {
   local output="$srcdir/yay_${pkgver}_x86_64"
