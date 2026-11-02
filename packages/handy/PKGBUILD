@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=handy
-pkgver=0.9.8
+pkgver=0.10.0
 pkgrel=1
 pkgdesc="Free, open source, cross-platform speech-to-text application"
 arch=(x86_64)
@@ -15,7 +15,7 @@ replaces=(handy-bin)
 options=(!strip !debug)
 source_x86_64=("handy-${pkgver}.deb::https://github.com/cjpais/Handy/releases/download/v${pkgver}/Handy_${pkgver}_amd64.deb"
                "handy-LICENSE-${pkgver}::https://raw.githubusercontent.com/cjpais/Handy/refs/tags/v${pkgver}/LICENSE")
-sha256sums_x86_64=('4efe1fdcc2b68e95612e866810ccb23e06bbdf004a4e857de0862b0c6927caa8'
+sha256sums_x86_64=('cd91f0eb445a1b20a0ed7391a77cb1174d1e5c83d1696491e1228d13e2364684'
                    '3564e8ec14055ed54f896e8660a62627ea4fc3a1b64f72b798593df00e1f4edc')
 
 package() {
