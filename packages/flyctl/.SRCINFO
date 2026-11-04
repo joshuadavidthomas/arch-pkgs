@@ -1,6 +1,6 @@
 pkgbase = flyctl
 	pkgdesc = Command line tools for fly.io services
-	pkgver = 0.5.2
+	pkgver = 0.5.3
 	pkgrel = 1
 	url = https://fly.io
 	arch = x86_64
@@ -9,7 +9,7 @@ pkgbase = flyctl
 	replaces = flyctl-bin
 	options = !strip
 	options = !debug
-	source_x86_64 = flyctl_0.5.2_Linux_x86_64.tar.gz::https://github.com/superfly/flyctl/releases/download/v0.5.2/flyctl_0.5.2_Linux_x86_64.tar.gz
-	sha256sums_x86_64 = e5c928a3cd49daf086395e30b5e0334f8c36d2adbfe3219d664deba1c1d56d0a
+	source_x86_64 = flyctl_0.5.3_Linux_x86_64.tar.gz::https://github.com/superfly/flyctl/releases/download/v0.5.3/flyctl_0.5.3_Linux_x86_64.tar.gz
+	sha256sums_x86_64 = 706ed88c1185831aab86ced828d42638f29e73cb6e09f8cae0371d77a97c814f
 
 pkgname = flyctl
