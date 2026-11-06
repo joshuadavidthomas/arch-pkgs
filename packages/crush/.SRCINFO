@@ -1,6 +1,6 @@
 pkgbase = crush
 	pkgdesc = Glamourous AI coding agent for your favourite terminal
-	pkgver = 0.99.0
+	pkgver = 0.100.0
 	pkgrel = 1
 	url = https://github.com/charmbracelet/crush
 	arch = x86_64
@@ -9,7 +9,7 @@ pkgbase = crush
 	replaces = crush-bin
 	options = !strip
 	options = !debug
-	source_x86_64 = crush_0.99.0_Linux_x86_64.tar.gz::https://github.com/charmbracelet/crush/releases/download/v0.99.0/crush_0.99.0_Linux_x86_64.tar.gz
-	sha256sums_x86_64 = ec20f001028dfb7b6427225f0cf5215081275c8f09f45001a8535847cc4fd6ea
+	source_x86_64 = crush_0.100.0_Linux_x86_64.tar.gz::https://github.com/charmbracelet/crush/releases/download/v0.100.0/crush_0.100.0_Linux_x86_64.tar.gz
+	sha256sums_x86_64 = 122d4afe0e3bb0fc4c571f58b0c08d485c8733f272e962a02064c2150cd7a152
 
 pkgname = crush
