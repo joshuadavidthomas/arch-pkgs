@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=voxtype-vulkan
-pkgver=1.1.1
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Push-to-talk voice-to-text for Linux (Vulkan GPU acceleration)"
 arch=(x86_64)
@@ -48,12 +48,12 @@ source=("voxtype-$pkgver-vulkan::$_github/voxtype-$pkgver-linux-x86_64-vulkan"
         "quickshell-voxtype-shared-StateReader-$pkgver.qml::$_raw/quickshell/voxtype-shared/StateReader.qml"
         "quickshell-voxtype-shared-AudioBridge-$pkgver.qml::$_raw/quickshell/voxtype-shared/AudioBridge.qml"
         "quickshell-voxtype-shared-qmldir-$pkgver::$_raw/quickshell/voxtype-shared/qmldir")
-sha256sums=('102a7caa22facc5c257c526ae4a9e63c04c027297fec4ca370209a1f94ae9863'
-            'e490fa797f39fd4f518149be851909f1d76059bf57949510ec4c24eb54d3a998'
-            'e16f96dcf046b9cfa895541bacb73053708f3edefa8d245a2b423b288cd5a0f0'
-            '8947b7ea576096f327e97a488bb6245ba34a71d93ced46fb3b7800e97cca6905'
-            '5418b8ac60a1f4293b0221918d1e7b5f275b1f5f4f42addee4af8371244f440d'
-            '723366abc62488a25514dc9677e53ef0d2de2be7a42aa425707458b4117647ca'
+sha256sums=('f7a1b16a9629c4c78067c2d399e2220dc6ea0c1fdb09cae44fc1fdbd21ba5033'
+            '8ce9358e1fce9b1fef7d99f0dd0204da94a79ec5e0bb93013e97093debd052f4'
+            '2f8eb05f758406ea111b6dd402aa9a69e23ac041674471b628686c871f9ab94b'
+            '4d39e40bb81df5b204037d78ee8b263a7531adba9b843b8e196546c919b6b7a1'
+            '2b2c54f3ed2795c8f2f22b13ab1ce1a675c0b42b84f1ea668bee55e1dc799835'
+            '68a517b48ddac568be7a294739c2e31b78cb720cfe290c357fe4a18dd5c36a37'
             '531c3658e229619e56bb01659fb81f401767b85e1d6e2acd1ac67ee3414a168c'
             '65c95805d9b03ccc2fadb9d63a03ab79974b00091df8457ee8ef290ec6bd5b12'
             'e5e63b3c7f48238cf719e4f2ef90c1f9c5c7e8cd25eaebc9f78bdd34b24b6605'
@@ -61,15 +61,15 @@ sha256sums=('102a7caa22facc5c257c526ae4a9e63c04c027297fec4ca370209a1f94ae9863'
             '31123c45b4ff9cb5fd9e01083350fea6ccaf14969013fd48e4c95fdf89e6eb4b'
             'b06ee68e1305174a4f66876750f62d4048d0ebee48e15ee525961a54115ff80d'
             '32144a4a5210092b0aa909f6de7a43ebe8bbf82fa3dfb1f3519787512fdf8e4b'
-            '044b1f7b52cc610ce57ba624111d882029b0ce4bc3e2c2c360f96d07f69e0e85'
-            'd3d0b0b24a3fc3e252623a6fad898c7d1d147fb8c2e49de90fbf452e95de63ab'
-            '70a611fd4eabde43189aee0619899827de21e36695191648dc36470d4c333de6'
-            '4d6eef505ec161080ca92ae6a355ca00dcc7bb05d5b190534a1851fcbb726e55'
-            '54271a8f0e4b52f40505f32801f4c78399ac356ed1e80906ca8a068ecb7ee734'
+            'f8a626280b26b7f34b2221c7a16dc9d98f18085b7373cc60afc5c514e5ce18e4'
+            '097a3d2ac499a70b596937dcab5a2fbb1bace39c53229d2b020842f00e41ee4a'
+            'dabb10fe976ee4f2b89713af0eaf1dc7fc4af6f82e86302388db9d2df8815d5e'
+            '066ba09d4cee9ead6e39e8d02a029379318a9e9446f2bd7cef4eab74c760eb4a'
+            'e1bdbb2d25f121a13e4ac5ea77dace145536da3cb4972f1b17f9163480839e0f'
             'aaa011682b92d8e25863a9ea34a469b897bac15ad939292d8144b012fa05b209'
-            '74345f9d8b77de3f1d6d08a759e52506c606e8af3d04a97a5bfe7954d0f64604'
-            '2ad530f92f13fc7f1100e6f6c9910878c35d911e91dc60feb902c2542b619230'
-            '41b894baa1487e47db5f9ec4baeea9c02b6a76d3c8198b4700a88e2cb7ec0b62')
+            '8c4087a7bb57fe136190525900e48ae96af0540740313d3706ebef624d222004'
+            '245d4762d034f62b8c7ca7e8f82f63fcf77e6292a1f794750e11bb4fed128370'
+            '896258058d76a88ca654195305812a4fa5ac971dbc0212e38b62b064bf24f87b')
 
 package() {
   install -Dm755 "$srcdir/voxtype-$pkgver-vulkan" "$pkgdir/usr/lib/voxtype/voxtype-vulkan"
