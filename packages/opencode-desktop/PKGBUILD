@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=opencode-desktop
-pkgver=1.19.6
+pkgver=2.3.2
 pkgrel=1
 pkgdesc="OpenCode desktop client"
 arch=(x86_64)
@@ -16,7 +16,7 @@ options=(!strip !debug)
 source=("opencode-desktop-LICENSE-${pkgver}::https://raw.githubusercontent.com/anomalyco/opencode/v${pkgver}/LICENSE")
 source_x86_64=("opencode-desktop-${pkgver}-linux-amd64.deb::https://github.com/anomalyco/opencode/releases/download/v${pkgver}/opencode-desktop-linux-amd64.deb")
 sha256sums=('625f0f619133f89bbbb2abe37369613dfa1885eba1e50d02170deb62bb42cb6b')
-sha256sums_x86_64=('05c31f1f33ca01d839437cbb72b2a74abd512a405627ac171945f0c4a4641891')
+sha256sums_x86_64=('ed7000e2e1fd9b98f4367118e6d1eebef3baa9a4b02d6c6090f397dfaa787b17')
 
 package() {
   bsdtar -xf "$srcdir"/data.tar.* -C "$pkgdir"
