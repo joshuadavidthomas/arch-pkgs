@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=teams-for-linux
-pkgver=2.32.0
+pkgver=2.32.1
 pkgrel=1
 pkgdesc="Unofficial Microsoft Teams client built with Electron"
 arch=(x86_64)
@@ -12,7 +12,7 @@ conflicts=(teams-for-linux-bin)
 replaces=(teams-for-linux-bin)
 options=(!strip !debug)
 source_x86_64=("https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v${pkgver}/teams-for-linux_${pkgver}_amd64.deb")
-sha256sums_x86_64=('7f996071b363d964148e066cf9fe68dd03443f1841376e35cd4a39c35f7c4ff4')
+sha256sums_x86_64=('93b2cc3aae4fc8f5ecc521a4cd6c59409a8aff17ae7ab0d9289c9a6fb08a9aaf')
 
 package() {
   bsdtar -xf "$srcdir"/data.tar.* -C "$pkgdir"
