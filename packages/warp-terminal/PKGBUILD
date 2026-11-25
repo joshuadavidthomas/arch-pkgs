@@ -1,7 +1,7 @@
 # Maintainer: Josh Thomas <josh@joshthomas.dev>
 
 pkgname=warp-terminal
-pkgver=0.2026.11.18.08.17.stable_05
+pkgver=0.2026.11.18.08.17.stable_06
 pkgrel=1
 pkgdesc="Intelligent terminal with AI and team knowledge built in"
 arch=(x86_64)
@@ -18,7 +18,7 @@ source_x86_64=("warp-terminal-${pkgver}-x86_64.pkg.tar.zst::https://releases.war
 noextract=("warp-terminal-${pkgver}-x86_64.pkg.tar.zst")
 sha256sums=('16f8dac5fd5755d74ba05cb377c23f49e794252d200548fb3b227e1c5dcbfaec'
             '0cb5f8a282734dd41844fc3bdc28bda274cc71db8de289a9959263b61210daa9')
-sha256sums_x86_64=('57e9a59d80f04a91e51bc1b4d8583876d30807b86947d3fae534d841bf10c1cc')
+sha256sums_x86_64=('c1c3302a99ddf45df0eb240dba58741e1f5ac133b96a94399577e77e892984ad')
 
 package() {
   bsdtar -xf "$srcdir/warp-terminal-${pkgver}-x86_64.pkg.tar.zst" -C "$pkgdir"
