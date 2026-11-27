@@ -1,6 +1,6 @@
 pkgbase = jjui
 	pkgdesc = Terminal user interface for the Jujutsu version control system
-	pkgver = 0.10.13
+	pkgver = 0.10.14
 	pkgrel = 1
 	url = https://github.com/idursun/jjui
 	arch = x86_64
@@ -10,9 +10,9 @@ pkgbase = jjui
 	replaces = jjui-bin
 	options = !strip
 	options = !debug
-	source = jjui-LICENSE-0.10.13::https://raw.githubusercontent.com/idursun/jjui/v0.10.13/LICENSE
+	source = jjui-LICENSE-0.10.14::https://raw.githubusercontent.com/idursun/jjui/v0.10.14/LICENSE
 	sha256sums = 287dc795228e18d40fe378a70b577d9fd019b638841af5f3d26c1170cb1ed4df
-	source_x86_64 = jjui-0.10.13-linux-amd64.zip::https://github.com/idursun/jjui/releases/download/v0.10.13/jjui-0.10.13-linux-amd64.zip
-	sha256sums_x86_64 = ae1bc8ba71134a5a280dcf78bb40a840de96e0deebe17856910ea92f617647ba
+	source_x86_64 = jjui-0.10.14-linux-amd64.zip::https://github.com/idursun/jjui/releases/download/v0.10.14/jjui-0.10.14-linux-amd64.zip
+	sha256sums_x86_64 = 9ba18912b31792387ea1b7cd71689d5f2bd69c9dd3010fd83907d4dfa3bf0654
 
 pkgname = jjui
